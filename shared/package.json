@@ -1,0 +1,12 @@
+{
+  "name": "bloq-shared",
+  "version": "0.0.2",
+  "description": "Shared for Bloq",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "serve": "nodemon dist/server/src/main.js"
+  },
+  "author": "Olav Andreas Lindekleiv",
+  "license": "UNLICENSED"
+}
