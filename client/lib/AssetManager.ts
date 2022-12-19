@@ -1,5 +1,7 @@
-import {TextureLoader, JSONLoader, NearestFilter, Texture, MeshBasicMaterial, SkinnedMesh, Mesh} from 'three';
+import { TextureLoader, NearestFilter, Texture, MeshBasicMaterial, SkinnedMesh, Mesh, AnimationLoader } from 'three';
+import { BufferGeometryLoader } from 'three/src/loaders/BufferGeometryLoader';
 import AnimatedMesh from "./AnimatedMesh";
+import { Geometry } from './Geometry';
 import Sound from "./Sound";
 
 
@@ -10,7 +12,7 @@ export default class AssetManager {
 
     // Type specific loaders
     private textureLoader: TextureLoader = new TextureLoader();
-    private meshLoader: JSONLoader = new JSONLoader();
+    private meshLoader: BufferGeometryLoader = new BufferGeometryLoader();
 
     // Where and how to direct sounds to
     private audioContext: AudioContext;
@@ -114,13 +116,11 @@ export default class AssetManager {
 
         this.queue.meshes.forEach(pair => {
             let [name, url] = pair;
-            this.meshLoader.load(url, (geometry, materials) => {
+            this.meshLoader.load(url, (geometry: Geometry) => {
                 let material = new MeshBasicMaterial({
                     map: this.getTexture(name)
                 });
                 if (geometry.animations) {
-                    material.skinning = true;
-                    material.morphTargets = true;
                     this.assets.meshes.set(name, new AnimatedMesh(geometry, material));
                 } else {
                     this.assets.meshes.set(name, new Mesh(geometry, material));
@@ -145,7 +145,7 @@ export default class AssetManager {
             el.setAttribute('src', url);
             el.load();
 
-            let canPlayThrough = (evt) => {
+            let canPlayThrough = () => {
                 this.assets.music.set(name, el);
 
                 filesDone++;
@@ -185,19 +185,19 @@ export default class AssetManager {
         });
     }
 
-    getTexture(name): Texture {
+    getTexture(name: string): Texture {
         return this.assets.textures.get(name);
     }
 
-    getMesh(name): Mesh | SkinnedMesh {
+    getMesh(name: string): Mesh | SkinnedMesh {
         return this.assets.meshes.get(name);
     }
 
-    getMusic(name): HTMLAudioElement {
+    getMusic(name: string): HTMLAudioElement {
         return this.assets.music.get(name);
     }
 
-    getSound(name): Sound {
+    getSound(name: string): Sound {
         return this.assets.sounds.get(name);
     }
 }

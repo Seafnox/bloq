@@ -12,7 +12,7 @@ export class Server {
     game: PlayState;
     eventEmitter: ComponentEventEmitter = new ComponentEventEmitter();
 
-    constructor(game: PlayState, server: string, connCallback: Function) {
+    constructor(game: PlayState, server: string, connCallback: ((this: WebSocket, ev: Event) => any)) {
         this.game = game;
 
         this.url = `ws://${server}`;

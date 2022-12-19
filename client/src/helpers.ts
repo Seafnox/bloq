@@ -1,6 +1,5 @@
 import {TextDecoder} from 'text-encoding';
-
-import EntityManager from "../../shared/EntityManager";
+import EntityManager from '../../shared/EntityManager';
 import {globalToChunk, chunkKey, mod} from "../../shared/helpers";
 import {TerrainChunkComponent} from "../../shared/components";
 import {TERRAIN_CHUNK_SIZE, ComponentId} from "../../shared/constants";

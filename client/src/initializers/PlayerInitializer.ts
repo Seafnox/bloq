@@ -1,9 +1,9 @@
 import {
-    BoxBufferGeometry,
     Object3D,
     Mesh,
     PerspectiveCamera,
-    ShaderMaterial
+    ShaderMaterial,
+    BoxGeometry,
 } from 'three';
 
 import Initializer from "../../../shared/Initializer";
@@ -31,7 +31,7 @@ export default class PlayerInitializer extends Initializer {
         this.selectionMaterial = selectionMaterial;
     }
 
-    initialize(entity: string, components: Object) {
+    initialize(entity: string, components: any[]) {
         // New player just joined. Set and send username.
         if (!components[ComponentId.Player]['name']) {
             let playerComponent = new PlayerComponent();
@@ -72,7 +72,7 @@ export default class PlayerInitializer extends Initializer {
             // Need an underlying box for the Box helper to work.
             // Could also render this BoxGeometry in wireframe mode, but then we get diagonal lines,
             // as it renders triangles.
-            let selectionGeom = new BoxBufferGeometry(1.0, 1.0, 1.0);
+            let selectionGeom = new BoxGeometry(1.0, 1.0, 1.0);
 
             // Update and add component.
             selectionComponent.mesh = new Mesh(selectionGeom, this.selectionMaterial);

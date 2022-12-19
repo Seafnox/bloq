@@ -2,7 +2,7 @@ import HTMLParser from "../../lib/HTMLParser";
 import {State} from "./State";
 import PlayState from "./PlayState";
 import SettingsState from "./SettingsState";
-let Modernizr = require('../.modernizrrc');
+import * as Modernizr from 'modernizr';
 
 import '../../assets/stylesheets/menu.scss';
 

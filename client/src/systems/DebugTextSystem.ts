@@ -10,7 +10,7 @@ import EntityManager from "../../../shared/EntityManager";
 
 // This is ugly, but it changes a lot, and is only for debugging.
 export default class DebugTextSystem extends System {
-    domEl = null;
+    domEl: HTMLElement = null;
     renderer: WebGLRenderer;
 
     constructor(em: EntityManager, renderer: WebGLRenderer) {
@@ -58,7 +58,12 @@ Target: x: ${selectionComponent.target[0]} | y: ${selectionComponent.target[1]} 
 Rotation: x: ${rotationComponent.x.toFixed(2)} | y: ${rotationComponent.y.toFixed(2)} | z: ${rotationComponent.z.toFixed(2)}
 
 Renderer: ${JSON.stringify(this.renderer.info.memory, null, '  ')}
-${this.renderer.info.render.calls} render calls / ${this.renderer.info.render.vertices} vertices
+rendered 
+${this.renderer.info.render.calls} calls / 
+${this.renderer.info.render.frame} frame / 
+${this.renderer.info.render.lines} lines / 
+${this.renderer.info.render.points} points / 
+${this.renderer.info.render.triangles} triangles 
 `;
     }
 }

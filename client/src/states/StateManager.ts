@@ -3,8 +3,8 @@ import {State} from "./State";
 import AssetManager from "../../lib/AssetManager";
 
 
-let settingsProxyHandler = {
-    set: (obj, prop, value) => {
+let settingsProxyHandler: ProxyHandler<any> = {
+    set: (obj: any, prop: string | symbol, value: any) => {
         if (obj[prop] !== value) {
             obj[prop] = value;
             localStorage.setItem('settings', JSON.stringify(obj));

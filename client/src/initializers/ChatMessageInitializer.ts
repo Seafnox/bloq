@@ -10,7 +10,7 @@ export default class ChatMessageInitializer extends Initializer {
         super(em);
     }
 
-    initialize(entity: string, components: Object) {
+    initialize(entity: string, components: any[]) {
         let msgData = components[ComponentId.ChatMessage];
 
         let playerNameEl = document.createElement('strong');

@@ -42,7 +42,6 @@ export default class PlayState extends State {
     private serverAddress: string;
     server: Server;
 
-    renderer: WebGLRenderer;
     private isRunning: boolean = false;
 
     constructor(server: string) {

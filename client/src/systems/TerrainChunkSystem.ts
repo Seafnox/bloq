@@ -1,14 +1,12 @@
 import {Scene, ShaderMaterial, Mesh, Vector3} from 'three';
 
 import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
 import {ComponentId, TERRAIN_CHUNK_SIZE, ViewDistance} from "../../../shared/constants";
 import {TerrainChunkComponent, PositionComponent} from "../../../shared/components";
 import {chunkKey} from "../../../shared/helpers";
+import EntityManager from '../../../shared/EntityManager';
 import {geometryFromArrays} from "../geometry/terrain";
 import {MeshComponent, PlayerChunkComponent} from "../components";
-let TerrainWorker = require('worker?inline!../workers/terrain');
-
 
 export default class TerrainChunkSystem extends System {
     scene: Scene;
@@ -22,7 +20,7 @@ export default class TerrainChunkSystem extends System {
         super(em);
         this.scene = scene;
         this.material = material;
-        this.worker = new TerrainWorker();
+        this.worker = new Worker(new URL('../workers/terrain.worker.ts', import.meta.url));
 
         // Receive generated geometry arrays from worker:
         this.worker.onmessage = (e) => {

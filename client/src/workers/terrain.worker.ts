@@ -80,7 +80,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
 
     // Yes, it's massive. Could probably use hard coded indices like 1 and 15, as we will be doing 17-16 etc
     // a lot here. But I'm not sure if I'll need more flexibility later, so for now I'll keep it.
-    let getPoint = (x, y, z) => {
+    let getPoint = (x: number, y: number, z: number) => {
         if (x < 0) {
             if (y < 0) {
                 if (z < 0) {
@@ -321,11 +321,11 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
     }
 }
 
-onmessage = (e: MessageEvent) => {
+self.onmessage = (e: MessageEvent) => {
     let chunkArrays = buildChunkArrays(e.data.data, e.data.neighborData);
     if (!chunkArrays) return;
 
-    postMessage({
+    self.postMessage({
         entity: e.data.entity,
         arrays: chunkArrays
     });

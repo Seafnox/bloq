@@ -16,7 +16,7 @@ export default class BlockInitializer extends Initializer {
         this.material = material;
     }
 
-    initialize(entity: string, components: Object) {
+    initialize(entity: string, components: any[]) {
         let blockComponent = this.entityManager.addComponentFromObject(
             entity,
             ComponentId.Block,

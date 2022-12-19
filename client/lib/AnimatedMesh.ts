@@ -1,9 +1,11 @@
-import {SkinnedMesh, Geometry, MeshBasicMaterial, AnimationMixer} from 'three';
+import {SkinnedMesh, MeshBasicMaterial, AnimationMixer} from 'three';
+import { AnimationClip } from 'three/src/Three';
+import { Geometry } from './Geometry';
 
-export default class AnimatedMesh extends SkinnedMesh {
+export default class AnimatedMesh extends SkinnedMesh<Geometry, MeshBasicMaterial> {
     mixer: AnimationMixer;
-    private animations: {} = {};
-    private animation: string;
+    private animationMap: Record<string, AnimationClip> = {};
+    private currentAnimName: string;
 
     constructor(geometry: Geometry, material: MeshBasicMaterial) {
         super(geometry, material);
@@ -11,26 +13,26 @@ export default class AnimatedMesh extends SkinnedMesh {
         this.mixer = new AnimationMixer(this);
 
         (this.geometry as Geometry).animations.forEach(anim => {
-            this.animations[anim.name] = anim;
+            this.animationMap[anim.name] = anim;
         });
 
         this.playAnimation('walk');
     }
 
     playAnimation(name: string) {
-        this.mixer.stopAllAction(this.animations[this.animation]);
-        let anim = this.animations[name];
+        this.mixer.stopAllAction();
+        let anim = this.animationMap[name];
         if (anim) {
             let action = this.mixer.clipAction(anim, this);
             action.play();
-            this.animation = name;
+            this.currentAnimName = name;
         } else {
             console.warn(`Animation ${name} does not exist.`);
         }
     }
 
     getCurrentAnimation():string {
-        return this.animation;
+        return this.currentAnimName;
     }
 
 

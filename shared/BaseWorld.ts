@@ -17,7 +17,7 @@ export default class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    constructor(uuid: () => string, ) {
+    constructor(uuid: () => string) {
         let em = new EntityManager(uuid);
         registerSharedComponents(em);
 
@@ -47,7 +47,7 @@ export default class BaseWorld {
         this.systemTimings.push(0);
     }
 
-    tick(dt) {
+    tick(dt: number) {
         let i = 0;
         let sumTime = 0;
         let frameTimes = new Float32Array(this.systems.length);

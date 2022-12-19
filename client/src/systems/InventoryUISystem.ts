@@ -4,20 +4,29 @@ import {InventoryComponent, BlockComponent} from "../../../shared/components";
 import EntityManager from "../../../shared/EntityManager";
 import HTMLParser from "../../lib/HTMLParser";
 import '../../assets/stylesheets/inventory.scss';
-
+import block1 from '../../assets/blocks/1.png';
+import block2 from '../../assets/blocks/2.png';
+import block3 from '../../assets/blocks/3.png';
+import block4 from '../../assets/blocks/4.png';
+import block5 from '../../assets/blocks/5.png';
+import block6 from '../../assets/blocks/6.png';
+import block7 from '../../assets/blocks/7.png';
+import block8 from '../../assets/blocks/8.png';
+import block9 from '../../assets/blocks/9.png';
+import block10 from '../../assets/blocks/10.png';
 
 const textureImages = [
     null,
-    require('../../assets/blocks/1.png'),
-    require('../../assets/blocks/2.png'),
-    require('../../assets/blocks/3.png'),
-    require('../../assets/blocks/4.png'),
-    require('../../assets/blocks/5.png'),
-    require('../../assets/blocks/6.png'),
-    require('../../assets/blocks/7.png'),
-    require('../../assets/blocks/8.png'),
-    require('../../assets/blocks/9.png'),
-    require('../../assets/blocks/10.png')
+    block1,
+    block2,
+    block3,
+    block4,
+    block5,
+    block6,
+    block7,
+    block8,
+    block9,
+    block10,
 ];
 
 const html = `
@@ -41,7 +50,7 @@ export default class InventoryUISystem extends System {
     private domNode: Element;
     private inventoryElements: NodeListOf<Element>;
 
-    constructor(em: EntityManager, guiNode) {
+    constructor(em: EntityManager, guiNode: Element) {
         super(em);
 
         // Parse and show in GUI.

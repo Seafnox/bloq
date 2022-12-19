@@ -18,9 +18,9 @@ export default class MouseManager {
             this.buttonsPressed[(evt as MouseEvent).button] = false;
         }, false);
 
-        target.addEventListener('wheel', evt => {
-            if(evt.deltaY < 0) this.scroll = -1;
-            else if(evt.deltaY > 0) this.scroll = 1;
+        target.addEventListener('wheel', (event: WheelEvent) => {
+            if(event.deltaY < 0) this.scroll = -1;
+            else if(event.deltaY > 0) this.scroll = 1;
         }, false);
     }
 

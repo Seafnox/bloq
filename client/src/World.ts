@@ -2,15 +2,12 @@ import {
     Scene,
     PerspectiveCamera,
     ShaderMaterial,
-    VertexColors,
     Vector3
 } from 'three';
-
 import BaseWorld from "../../shared/BaseWorld";
 import PlayState from "./states/PlayState";
 import {registerClientComponents} from "./components";
 import {ClientActionManager} from "./actions";
-
 import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
 import TerrainChunkSystem from "./systems/TerrainChunkSystem";
 import PlayerInputSystem from "./systems/PlayerInputSystem";
@@ -18,7 +15,6 @@ import PlayerInputSyncSystem from "./systems/PlayerInputSyncSystem";
 import MeshSystem from "./systems/MeshSystem";
 import PlayerMeshSystem from "./systems/PlayerMeshSystem";
 import PlayerSelectionSystem from "./systems/PlayerSelectionSystem";
-import DebugTextSystem from "./systems/DebugTextSystem";
 import MouseManager from "../lib/MouseManager";
 import KeyboardManager from "../lib/KeyboardManager";
 import InventoryUISystem from "./systems/InventoryUISystem";
@@ -34,7 +30,13 @@ import ChatMessageInitializer from "./initializers/ChatMessageInitializer";
 import InitializerSystem from "../../shared/systems/InitializerSystem";
 import ChunkSystem from "./systems/ChunkSystem";
 import SoundSystem from "./systems/SoundSystem";
-
+import {v4} from 'uuid';
+import blockFragShader from '../assets/shaders/block_frag.glsl';
+import blockVertShader from '../assets/shaders/block_vert.glsl';
+import selectionFragShader from '../assets/shaders/selection_frag.glsl';
+import selectionVertShader from '../assets/shaders/selection_vert.glsl';
+import terrainFragShader from '../assets/shaders/terrain_frag.glsl';
+import terrainVertShader from '../assets/shaders/terrain_vert.glsl';
 
 export default class World extends BaseWorld {
     scene: Scene;
@@ -46,7 +48,7 @@ export default class World extends BaseWorld {
     game: PlayState;
 
     constructor(game: PlayState, guiNode: Element) {
-        super();
+        super(v4);
         this.actionManager = new ClientActionManager();
         this.game = game;
 
@@ -64,20 +66,19 @@ export default class World extends BaseWorld {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
-            vertexShader: require('../shaders/terrain_vert.glsl'),
-            fragmentShader: require('../shaders/terrain_frag.glsl'),
-            vertexColors: VertexColors
+            vertexShader: terrainVertShader,
+            fragmentShader: terrainFragShader,
+            vertexColors: true
         });
 
         this.selectionMaterial = new ShaderMaterial({
             uniforms: {
                 globalPosition: {
-                    type: 'v3v',
                     value: new Vector3(0, 0, 0)
                 }
             },
-            vertexShader: require('../shaders/selection_vert.glsl'),
-            fragmentShader: require('../shaders/selection_frag.glsl')
+            vertexShader: selectionVertShader,
+            fragmentShader: selectionFragShader
         });
 
         this.blockMaterial = new ShaderMaterial({
@@ -86,9 +87,9 @@ export default class World extends BaseWorld {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
-            vertexShader: require('../shaders/block_vert.glsl'),
-            fragmentShader: require('../shaders/block_frag.glsl'),
-            vertexColors: VertexColors
+            vertexShader: blockVertShader,
+            fragmentShader: blockFragShader,
+            vertexColors: true
         });
 
         this.addSystems(guiNode);
