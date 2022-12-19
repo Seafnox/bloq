@@ -1,5 +1,6 @@
 import EntityManager from "./EntityManager";
 import {registerSharedComponents} from "./components";
+import { Logger } from './Logger';
 import {System} from "./System";
 import {ActionManager} from "./actions";
 import PhysicsSystem from "./systems/PhysicsSystem";
@@ -21,8 +22,8 @@ export default class BaseWorld {
 
     private performanceNow: PerformanceNow;
 
-    constructor(uuid: UuidGenerator, performanceNow: PerformanceNow) {
-        let em = new EntityManager(uuid);
+    constructor(uuid: UuidGenerator, logger: Logger, performanceNow: PerformanceNow) {
+        let em = new EntityManager(uuid, logger);
         registerSharedComponents(em);
 
         this.entityManager = em;

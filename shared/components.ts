@@ -3,12 +3,12 @@ import {TERRAIN_CHUNK_SIZE, ComponentId, Side, BlockId} from "./constants";
 import {globalToChunk} from "./helpers";
 
 // Used when serializing component to avoid "dirty" flag being serialized. It is only needed locally at runtime.
-let componentReplacer = (key, value) => {
+let componentReplacer = (key: string, value: any) => {
     if (key === 'dirtyFields') return undefined;
     return value;
 };
 
-export class Component {
+export class Component implements Record<string, any> {
     static ID = 0;
     dirtyFields: Set<string> = new Set<string>();
 
@@ -25,7 +25,7 @@ export class Component {
         return this.ID;
     }
 
-    update(data: {}) {
+    update(data: Record<string, any>) {
         for (let key in data) {
             if (!data.hasOwnProperty(key)) continue;
 

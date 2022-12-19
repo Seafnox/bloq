@@ -29,7 +29,7 @@ export default class TerrainCollisionSystem extends System {
             }
 
             // Helper function for collision checks below.
-            let checkCollisionAt = (nx, ny, nz) => {
+            let checkCollisionAt = (nx: number, ny: number, nz: number) => {
                 let [gx, gy, gz] = [posComponent.x + nx, posComponent.y + ny, posComponent.z + nz].map(c => Math.round(Math.abs(c)) * Math.sign(c));
                 let [lx, ly, lz] = [
                     mod(gx, TERRAIN_CHUNK_SIZE),
