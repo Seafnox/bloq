@@ -17,7 +17,7 @@ export default class TerrainCollisionSystem extends System {
             let [cx, cy, cz] = posComponent.toChunk();
 
             // Build a list of all neighbor chunks. These are the only ones we can possibly collide with.
-            let chunks = {};
+            let chunks: Record<string, TerrainChunkComponent> = {};
             for (let nz = -1; nz <= 1; nz++) {
                 for (let ny = -1; ny <= 1; ny++) {
                     for (let nx = -1; nx <= 1; nx++) {

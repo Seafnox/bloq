@@ -13,7 +13,7 @@ export class Component implements Record<string, any> {
     dirtyFields: Set<string> = new Set<string>();
 
     get ID(): number {
-        return this.constructor['ID'];
+        return (this.constructor as typeof Component).ID;
     }
 
     isDirty(field?: string): boolean {
@@ -26,11 +26,7 @@ export class Component implements Record<string, any> {
     }
 
     update(data: Record<string, any>) {
-        for (let key in data) {
-            if (!data.hasOwnProperty(key)) continue;
-
-            this[key] = data[key];
-        }
+        Object.assign(this, data);
     }
 
     dispose(entityManager: EntityManager): void {
