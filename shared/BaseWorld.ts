@@ -7,6 +7,8 @@ import TerrainCollisionSystem from "./systems/TerrainCollisionSystem";
 import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
 import {SystemOrder} from "./constants";
+import { PerformanceNow } from './performanceNow';
+import { UuidGenerator } from './uuidGenerator';
 
 export default class BaseWorld {
     entityManager: EntityManager;
@@ -17,11 +19,14 @@ export default class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    constructor(uuid: () => string) {
+    private performanceNow: PerformanceNow;
+
+    constructor(uuid: UuidGenerator, performanceNow: PerformanceNow) {
         let em = new EntityManager(uuid);
         registerSharedComponents(em);
 
         this.entityManager = em;
+        this.performanceNow = performanceNow;
 
         this.addSystem(new PhysicsSystem(em), SystemOrder.Physics);
         this.addSystem(new TerrainCollisionSystem(em), SystemOrder.TerrainCollision);
@@ -52,9 +57,9 @@ export default class BaseWorld {
         let sumTime = 0;
         let frameTimes = new Float32Array(this.systems.length);
         this.systems.forEach(system => {
-            let start = performance.now();
+            let start = this.performanceNow();
             system.update(dt);
-            let time = performance.now() - start;
+            let time = this.performanceNow() - start;
             frameTimes[i] = time;
             this.systemTimings[i] += time;
             sumTime += time;

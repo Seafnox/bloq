@@ -1,5 +1,6 @@
 import {Component, SerializableComponent} from "./components";
 import {ComponentId} from "./constants";
+import { UuidGenerator } from './uuidGenerator';
 
 let componentProxyHandler = {
     set: (obj, prop, value) => {
@@ -29,7 +30,7 @@ export default class EntityManager {
 
     private eventHandlers: Array<Array<Function>> = [];
 
-    constructor(uuid: () => string) {
+    constructor(uuid: UuidGenerator) {
         this.components = new Map<ComponentId, Map<string, Component>>();
         this.componentConstructors = new Map<ComponentId, Function>();
         this.uuid = uuid;

@@ -28,7 +28,7 @@ import PlayerInitializer from "./initializers/PlayerInitializer";
 
 export default class World extends BaseWorld {
     constructor(server: Server) {
-        super(v4);
+        super(v4, performance.now);
         this.actionManager = new ServerActionManager();
 
         registerServerComponents(this.entityManager);

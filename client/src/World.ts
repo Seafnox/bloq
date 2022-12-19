@@ -48,7 +48,7 @@ export default class World extends BaseWorld {
     game: PlayState;
 
     constructor(game: PlayState, guiNode: Element) {
-        super(v4);
+        super(v4, performance.now);
         this.actionManager = new ClientActionManager();
         this.game = game;
 
@@ -139,7 +139,7 @@ export default class World extends BaseWorld {
         this.addSystem(netSystem, SystemOrder.Network);
     }
 
-    tick(dt) {
+    tick(dt: number) {
         super.tick(dt);
     }
 }
