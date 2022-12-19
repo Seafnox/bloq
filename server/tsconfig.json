@@ -9,7 +9,6 @@
     "emitDecoratorMetadata": true,
     "types": [
       "node",
-      "node-uuid",
       "fast-simplex-noise",
       "text-encoding",
       "ws"

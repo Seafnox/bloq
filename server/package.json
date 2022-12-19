@@ -11,20 +11,19 @@
   "author": "Olav Andreas Lindekleiv",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@types/fast-simplex-noise": "^2.1.4",
-    "@types/node": "^6.0.42",
-    "@types/node-uuid": "0.0.28",
-    "@types/sqlite3": "^2.2.31",
-    "@types/text-encoding": "0.0.30",
-    "@types/ws": "0.0.33",
-    "fast-simplex-noise": "^2.2.0",
-    "node-uuid": "^1.4.7",
-    "performance-now": "^0.2.0",
-    "text-encoding": "^0.6.1",
-    "tiny-worker": "^1.1.7"
+    "@types/fast-simplex-noise": "3.0.0",
+    "@types/node": "18.11.17",
+    "@types/sqlite3": "3.1.8",
+    "@types/text-encoding": "0.0.36",
+    "@types/ws": "8.5.3",
+    "fast-simplex-noise": "4.0.0",
+    "uuid": "9.0.0",
+    "performance-now": "2.1.0",
+    "text-encoding": "0.7.0",
+    "tiny-worker": "2.3.0"
   },
   "dependencies": {
-    "sqlite3": "^3.1.5",
-    "uws": "^0.10.2"
+    "sqlite3": "5.1.4",
+    "uws": "200.0.0"
   }
 }
