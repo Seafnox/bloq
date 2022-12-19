@@ -18,7 +18,7 @@ export default class InformNewPlayersSystem extends System {
         this.entityManager.getEntities(ComponentId.NewPlayer).forEach((component, newEntity) => {
             let newPlayerData = this.entityManager.serializeEntity(newEntity, syncComponents);
             console.log(newPlayerData);
-            let existingPlayerDatas = [];
+            let existingPlayerDatas: string[] = [];
 
             // Send info about new player to existing players.
             this.entityManager.getEntities(ComponentId.Player).forEach((component, existingEntity) => {

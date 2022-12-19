@@ -50,7 +50,7 @@ export default class Server {
         }, 1);
     }
 
-    tick(dt) {
+    tick(dt: number) {
         this.world.tick(dt);
     }
 
@@ -96,7 +96,7 @@ export default class Server {
         this.world.entityManager.addComponent(playerEntity, new PlayerComponent());
         Server.sendEntity(netComponent, this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
-        ws.on('message', (data: ArrayBuffer, flags) => this.onMessage(playerEntity, data));
+        ws.on('message', (data: ArrayBuffer) => this.onMessage(playerEntity, data));
         ws.on('close', () => this.onClose(playerEntity));
     }
 

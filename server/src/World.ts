@@ -3,6 +3,7 @@ import {registerServerComponents} from "./components";
 import {ServerActionManager} from "./actions";
 import {ComponentId, SystemOrder} from "../../shared/constants";
 import Server from "./Server";
+import {v4} from 'uuid';
 
 import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
 import InformNewPlayersSystem from "./systems/InformNewPlayersSystem";
@@ -27,7 +28,7 @@ import PlayerInitializer from "./initializers/PlayerInitializer";
 
 export default class World extends BaseWorld {
     constructor(server: Server) {
-        super();
+        super(v4);
         this.actionManager = new ServerActionManager();
 
         registerServerComponents(this.entityManager);
@@ -67,7 +68,7 @@ export default class World extends BaseWorld {
     }
 
 
-    tick(dt) {
+    tick(dt: number) {
         super.tick(dt);
     }
 }

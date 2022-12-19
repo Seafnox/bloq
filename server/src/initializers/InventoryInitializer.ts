@@ -4,7 +4,7 @@ import {InventoryComponent} from "../../../shared/components";
 
 
 export default class InventoryInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
+    initialize(entity: string, components: any[]): void {
         let inventoryData = components[ComponentId.Inventory];
         let inventory = this.entityManager.getComponent<InventoryComponent>(entity, ComponentId.Inventory);
 

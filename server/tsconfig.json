@@ -1,21 +1,12 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "outDir": "dist/",
-    "sourceMap": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "types": [
       "node",
       "fast-simplex-noise",
       "text-encoding",
       "ws"
     ],
-    "lib": ["es2015", "webworker"]
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "lib": ["es2015", "es2016", "webworker"]
+  }
 }

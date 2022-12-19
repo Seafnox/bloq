@@ -9,7 +9,7 @@ import {NewPlayerComponent, NetworkComponent} from "../components";
 
 
 export default class PlayerInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
+    initialize(entity: string, components: any[]): void {
         // Only process further if name is set. We don't want players without names.
         let playerComponentData = components[ComponentId.Player];
         if(!playerComponentData['name']) return;

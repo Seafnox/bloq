@@ -24,7 +24,7 @@ export default class PlayerActionSystem extends System {
         this.entityManager.getEntities(ComponentId.Input).forEach((component, entity) => {
             let inputComponent = component as InputComponent;
 
-            let modifiedBlocks = [];
+            let modifiedBlocks: [number, number, number, number][] = [];
             if (inputComponent.isDirty('primaryAction') && inputComponent.primaryAction) {
                 let target = inputComponent.target;
                 modifiedBlocks.push([target[0], target[1], target[2], 0]);

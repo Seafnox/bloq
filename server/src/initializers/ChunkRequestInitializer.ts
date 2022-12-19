@@ -4,7 +4,7 @@ import {ChunkRequestComponent} from "../../../shared/components";
 
 
 export default class ChunkRequestInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
+    initialize(entity: string, components: any[]): void {
         let requestData = components[ComponentId.ChunkRequest];
         let existingRequest = this.entityManager.getComponent<ChunkRequestComponent>(entity, ComponentId.ChunkRequest);
 

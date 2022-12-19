@@ -4,7 +4,7 @@ import {InputComponent} from "../../../shared/components";
 
 
 export default class PlayerInputInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
+    initialize(entity: string, components: any[]): void {
         let input = components[ComponentId.Input];
         let existingInput = this.entityManager.getComponent<InputComponent>(entity, ComponentId.Input);
         existingInput.update(input);

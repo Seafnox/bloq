@@ -30,7 +30,7 @@ export default class DatabaseSystem extends System {
     }
 
     restore(complete: Function) {
-        this.db.each(`SELECT type, entity, data FROM components`, (err, row) => {
+        this.db.each(`SELECT type, entity, data FROM components`, (err: Error | null, row: any) => {
             if (typeof row.data === 'string') {
                 this.entityManager.addComponentFromObject(row.entity, row.type, JSON.parse(row.data));
             } else {
