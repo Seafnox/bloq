@@ -68,8 +68,9 @@ export default class Server {
     }
 
     static sendAction(netComponent: NetworkComponent, actionId: ActionId, action: Action) {
-        let buffer = action.serialize();
-        let bytes = new Uint8Array(buffer);
+        const encoder = new TextEncoder();
+        let actionString = action.serialize();
+        let bytes = encoder.encode(actionString);
 
         // Give room for message type and action ID.
         const extraSpace = Uint16Array.BYTES_PER_ELEMENT;

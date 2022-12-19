@@ -9,9 +9,10 @@ import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
 import {SystemOrder} from "./constants";
 import { PerformanceNow } from './performanceNow';
+import { UtilsManager } from './UtilsManager';
 import { UuidGenerator } from './uuidGenerator';
 
-export default class BaseWorld {
+export class BaseWorld {
     entityManager: EntityManager;
     actionManager: ActionManager;
 
@@ -20,14 +21,14 @@ export default class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    private performanceNow: PerformanceNow;
+    private utilsManager: UtilsManager;
 
-    constructor(uuid: UuidGenerator, logger: Logger, performanceNow: PerformanceNow) {
-        let em = new EntityManager(uuid, logger);
+    constructor(utilsManager: UtilsManager) {
+        let em = new EntityManager(utilsManager);
         registerSharedComponents(em);
 
         this.entityManager = em;
-        this.performanceNow = performanceNow;
+        this.utilsManager = utilsManager;
 
         this.addSystem(new PhysicsSystem(em), SystemOrder.Physics);
         this.addSystem(new TerrainCollisionSystem(em), SystemOrder.TerrainCollision);
@@ -35,6 +36,10 @@ export default class BaseWorld {
 
         // Cleaning is the last thing we do in each tick.
         this.addSystem(new CleanComponentsSystem(em), SystemOrder.CleanComponents);
+    }
+
+    get utils(): UtilsManager {
+        return this.utilsManager;
     }
 
     addSystem(system: System, order: number = 0.0) {
@@ -54,13 +59,14 @@ export default class BaseWorld {
     }
 
     tick(dt: number) {
+        const performanceNow = this.utils.performanceNow;
         let i = 0;
         let sumTime = 0;
         let frameTimes = new Float32Array(this.systems.length);
         this.systems.forEach(system => {
-            let start = this.performanceNow();
+            let start = performanceNow();
             system.update(dt);
-            let time = this.performanceNow() - start;
+            let time = performanceNow() - start;
             frameTimes[i] = time;
             this.systemTimings[i] += time;
             sumTime += time;

@@ -4,7 +4,8 @@ import {
     ShaderMaterial,
     Vector3
 } from 'three';
-import BaseWorld from "../../shared/BaseWorld";
+import { BaseWorld } from "../../shared/BaseWorld";
+import { UtilsManager } from "../../shared/UtilsManager";
 import PlayState from "./states/PlayState";
 import {registerClientComponents} from "./components";
 import {ClientActionManager} from "./actions";
@@ -48,7 +49,7 @@ export default class World extends BaseWorld {
     game: PlayState;
 
     constructor(game: PlayState, guiNode: Element) {
-        super(v4, console, performance.now);
+        super(new UtilsManager(v4, performance.now, console));
         this.actionManager = new ClientActionManager();
         this.game = game;
 

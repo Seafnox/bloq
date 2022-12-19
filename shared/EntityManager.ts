@@ -1,6 +1,7 @@
 import {Component, SerializableComponent} from "./components";
 import {ComponentId} from "./constants";
 import { Logger } from './Logger';
+import { UtilsManager } from './UtilsManager';
 import { UuidGenerator } from './uuidGenerator';
 
 let componentProxyHandler: ProxyHandler<Component> = {
@@ -27,30 +28,32 @@ export default class EntityManager {
     private components: Map<ComponentId, Map<string, Component>>;
     private componentConstructors: Map<ComponentId, Function>;
     private removedEntities: Set<string> = new Set<string>();
-    private uuid: UuidGenerator;
-    private _logger: Logger;
+    private utilsManager: UtilsManager;
 
     private eventHandlers: Array<Array<Function>> = [];
 
-    constructor(uuid: UuidGenerator, logger: Logger) {
+    constructor(utilsManager: UtilsManager) {
         this.components = new Map<ComponentId, Map<string, Component>>();
         this.componentConstructors = new Map<ComponentId, Function>();
-        this.uuid = uuid;
-        this._logger = logger;
+        this.utilsManager = utilsManager;
 
         for (let i = 0; i < EntityManagerEvent.NumEvents; i++) {
             this.eventHandlers.push([]);
         }
     }
 
-    logger(): Logger {
-        return this._logger;
+    get utils(): UtilsManager {
+        return this.utilsManager;
+    }
+
+    get logger(): Logger {
+        return this.utils.logger;
     }
 
     registerComponentType(instance: Component) {
         let type = instance.typeName();
         if (this.componentConstructors.has(type)) {
-            this._logger.warn(`Component type "${type} already registered.`);
+            this.logger.warn(`Component type "${type} already registered.`);
             return;
         }
         this.componentConstructors.set(type, instance.constructor);
@@ -62,7 +65,7 @@ export default class EntityManager {
     }
 
     createEntity() {
-        let entity = this.uuid();
+        let entity = this.utils.uuid();
         this.emit(EntityManagerEvent.EntityCreated, entity);
         return entity;
     }
@@ -79,7 +82,7 @@ export default class EntityManager {
             if (component instanceof SerializableComponent) {
                 components.push(`"${typeName}":${component.serialize()}`);
             } else if (component) {
-                this._logger.warn(`Tried to serialize non-serializeable component: "${component.typeName()}"`)
+                this.logger.warn(`Tried to serialize non-serializeable component: "${component.typeName()}"`)
             }
         });
 
@@ -125,7 +128,7 @@ export default class EntityManager {
     addComponentFromObject(entity: string, componentType: ComponentId, componentData: Object): Component {
         let componentConstructor = this.componentConstructors.get(componentType);
         if (!componentConstructor) {
-            this._logger.warn('Tried to add non-registered component type from object:', componentType);
+            this.logger.warn('Tried to add non-registered component type from object:', componentType);
             return;
         }
 

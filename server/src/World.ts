@@ -1,4 +1,5 @@
-import BaseWorld from "../../shared/BaseWorld";
+import { BaseWorld } from "../../shared/BaseWorld";
+import { UtilsManager } from "../../shared/UtilsManager";
 import {registerServerComponents} from "./components";
 import {ServerActionManager} from "./actions";
 import {ComponentId, SystemOrder} from "../../shared/constants";
@@ -28,7 +29,7 @@ import PlayerInitializer from "./initializers/PlayerInitializer";
 
 export default class World extends BaseWorld {
     constructor(server: Server) {
-        super(v4, console, performance.now);
+        super(new UtilsManager(v4, performance.now, console));
         this.actionManager = new ServerActionManager();
 
         registerServerComponents(this.entityManager);

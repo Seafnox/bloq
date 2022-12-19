@@ -1,9 +1,7 @@
-import {TextEncoder} from 'text-encoding';
 import EntityManager from "./EntityManager";
 import {globalToChunk, mod, chunkKey} from "./helpers";
 import {TERRAIN_CHUNK_SIZE, ComponentId} from "./constants";
 import {TerrainChunkComponent, PositionComponent} from "./components";
-
 
 export class ActionManager {
     queue: Array<Action> = [];
@@ -27,10 +25,8 @@ export class ActionManager {
 }
 
 export class Action {
-    serialize(): ArrayBuffer {
-        let str = JSON.stringify(this);
-        let encoder = new TextEncoder();
-        return encoder.encode(str).buffer;
+    serialize(): string {
+        return JSON.stringify(this);
     }
 
     execute(entityManager: EntityManager) {
