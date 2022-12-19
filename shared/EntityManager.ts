@@ -1,5 +1,3 @@
-import uuid = require('node-uuid');
-
 import {Component, SerializableComponent} from "./components";
 import {ComponentId} from "./constants";
 
@@ -27,12 +25,14 @@ export default class EntityManager {
     private components: Map<ComponentId, Map<string, Component>>;
     private componentConstructors: Map<ComponentId, Function>;
     private removedEntities: Set<string> = new Set<string>();
+    private uuid: () => string
 
     private eventHandlers: Array<Array<Function>> = [];
 
-    constructor() {
+    constructor(uuid: () => string) {
         this.components = new Map<ComponentId, Map<string, Component>>();
         this.componentConstructors = new Map<ComponentId, Function>();
+        this.uuid = uuid;
 
         for (let i = 0; i < EntityManagerEvent.NumEvents; i++) {
             this.eventHandlers.push([]);
@@ -54,7 +54,7 @@ export default class EntityManager {
     }
 
     createEntity() {
-        let entity = uuid.v4();
+        let entity = this.uuid();
         this.emit(EntityManagerEvent.EntityCreated, entity);
         return entity;
     }

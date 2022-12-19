@@ -1,16 +1,12 @@
-import now = require('performance-now');
-
 import EntityManager from "./EntityManager";
 import {registerSharedComponents} from "./components";
 import {System} from "./System";
 import {ActionManager} from "./actions";
-
 import PhysicsSystem from "./systems/PhysicsSystem";
 import TerrainCollisionSystem from "./systems/TerrainCollisionSystem";
 import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
 import {SystemOrder} from "./constants";
-
 
 export default class BaseWorld {
     entityManager: EntityManager;
@@ -21,8 +17,8 @@ export default class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    constructor() {
-        let em = new EntityManager();
+    constructor(uuid: () => string, ) {
+        let em = new EntityManager(uuid);
         registerSharedComponents(em);
 
         this.entityManager = em;
@@ -56,9 +52,9 @@ export default class BaseWorld {
         let sumTime = 0;
         let frameTimes = new Float32Array(this.systems.length);
         this.systems.forEach(system => {
-            let start = now();
+            let start = performance.now();
             system.update(dt);
-            let time = now() - start;
+            let time = performance.now() - start;
             frameTimes[i] = time;
             this.systemTimings[i] += time;
             sumTime += time;
