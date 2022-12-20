@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, ChatLogSize, ChatMaxLength} from "../../../shared/constants";
+import Initializer from "@block/shared/Initializer";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, ChatLogSize, ChatMaxLength} from "@block/shared/constants";
 
 
 // ChatMessageInitializer doesn't initialize entity in EntityManager, but uses entity data to update DOM.

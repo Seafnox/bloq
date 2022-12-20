@@ -1,8 +1,8 @@
-import {System} from "../../../shared/System";
+import {System} from "@block/shared/System";
 import KeyboardManager from "../../lib/KeyboardManager";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, ChatMaxLength} from "../../../shared/constants";
-import {ChatMessageComponent} from "../../../shared/components";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, ChatMaxLength} from "@block/shared/constants";
+import {ChatMessageComponent} from "@block/shared/components";
 import NetworkSystem from "./NetworkSystem";
 import HTMLParser from "../../lib/HTMLParser";
 import '../../assets/stylesheets/chat.scss';

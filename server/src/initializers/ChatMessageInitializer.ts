@@ -1,5 +1,5 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
 
 
 export default class ChatMessageInitializer extends Initializer {

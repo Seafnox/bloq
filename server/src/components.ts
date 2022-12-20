@@ -1,8 +1,7 @@
-import {TextEncoder} from 'text-encoding';
-
-import {Component, SerializableComponent} from "../../shared/components";
-import EntityManager from "../../shared/EntityManager";
-import {ComponentId, MessageType, TERRAIN_CHUNK_SIZE} from "../../shared/constants";
+import { WebSocket } from 'ws';
+import {Component, SerializableComponent} from "@block/shared/components";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, MessageType, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
 
 export class NetworkComponent extends Component {
     static ID = ComponentId.Network;

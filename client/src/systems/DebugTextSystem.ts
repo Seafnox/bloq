@@ -1,11 +1,11 @@
 import {WebGLRenderer} from 'three';
 
-import {System} from "../../../shared/System";
-import {PositionComponent, RotationComponent, OnGroundComponent} from "../../../shared/components";
-import {ComponentId, TERRAIN_CHUNK_SIZE} from "../../../shared/constants";
-import {mod} from "../../../shared/helpers";
+import {System} from "@block/shared/System";
+import {PositionComponent, RotationComponent, OnGroundComponent} from "@block/shared/components";
+import {ComponentId, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
+import {mod} from "@block/shared/helpers";
 import {PlayerSelectionComponent} from "../components";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 
 
 // This is ugly, but it changes a lot, and is only for debugging.

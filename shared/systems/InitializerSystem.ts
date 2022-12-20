@@ -11,13 +11,13 @@ export default class InitializerSystem extends System {
     private initializers: Map<ComponentId, Initializer> = new Map<ComponentId, Initializer>();
     private eventEmitter: ComponentEventEmitter;
 
-    constructor(em: EntityManager, eventManager: ComponentEventEmitter) {
+    constructor(em: EntityManager, eventEmitter: ComponentEventEmitter) {
         super(em);
-        this.eventEmitter = eventManager;
+        this.eventEmitter = eventEmitter;
     }
 
     update(dt: number) {
-        this.componentQueue.forEach((messages: Array<EntityMessage>, componentType: ComponentId) => {
+        this.componentQueue.forEach((messages: EntityMessage[], componentType: ComponentId) => {
             let initializer = this.initializers.get(componentType);
             messages.forEach(entityMessage => {
                 initializer.initialize(entityMessage.entity, entityMessage.components);

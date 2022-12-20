@@ -1,8 +1,8 @@
 import {Mesh} from 'three';
 
-import {Component} from '../../shared/components';
-import EntityManager from "../../shared/EntityManager";
-import {ComponentId, Side} from "../../shared/constants";
+import {Component} from '@block/shared/components';
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, Side} from "@block/shared/constants";
 import AnimatedMesh from "../lib/AnimatedMesh";
 
 export class MeshComponent extends Component {

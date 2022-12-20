@@ -1,11 +1,11 @@
 import {ShaderMaterial, Mesh} from 'three';
 
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
 import {MeshComponent} from "../components";
-import {RotationComponent, BlockComponent} from "../../../shared/components";
+import {RotationComponent, BlockComponent} from "@block/shared/components";
 import {buildBlockGeometry} from "../geometry/block";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 
 
 export default class BlockInitializer extends Initializer {

@@ -1,7 +1,7 @@
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId} from "../../../shared/constants";
-import {RotationComponent, InputComponent, InventoryComponent} from "../../../shared/components";
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId} from "@block/shared/constants";
+import {RotationComponent, InputComponent, InventoryComponent} from "@block/shared/components";
 import NetworkSystem from "./NetworkSystem";
 
 

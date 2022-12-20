@@ -1,10 +1,10 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId, MessageType} from "../../../shared/constants";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId, MessageType} from "@block/shared/constants";
 import {
     PositionComponent, PhysicsComponent, RotationComponent, InventoryComponent,
     BlockComponent, CurrentPlayerComponent, WallCollisionComponent, ChunkRequestComponent, InputComponent,
     PlayerComponent
-} from "../../../shared/components";
+} from "@block/shared/components";
 import {NewPlayerComponent, NetworkComponent} from "../components";
 
 

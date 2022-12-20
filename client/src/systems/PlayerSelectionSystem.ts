@@ -1,11 +1,11 @@
 import {Scene, Vector3, Raycaster, ShaderMaterial} from 'three';
 
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, Side} from "../../../shared/constants";
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, Side} from "@block/shared/constants";
 import {PlayerSelectionComponent, MeshComponent} from "../components";
-import {PositionComponent, RotationComponent} from "../../../shared/components";
-import {globalToChunk, chunkKey} from "../../../shared/helpers";
+import {PositionComponent, RotationComponent} from "@block/shared/components";
+import {globalToChunk, chunkKey} from "@block/shared/helpers";
 import {findBlockMaterial} from "../helpers";
 
 

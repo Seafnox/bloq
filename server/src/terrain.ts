@@ -1,8 +1,8 @@
 import FastSimplexNoise = require('fast-simplex-noise');
-import {TerrainChunkComponent} from "../../shared/components";
-import {TERRAIN_CHUNK_SIZE, ComponentId} from "../../shared/constants";
-import EntityManager from "../../shared/EntityManager";
-import {globalToChunk, chunkKey, mod} from "../../shared/helpers";
+import {TerrainChunkComponent} from "@block/shared/components";
+import {TERRAIN_CHUNK_SIZE, ComponentId} from "@block/shared/constants";
+import EntityManager from "@block/shared/EntityManager";
+import {globalToChunk, chunkKey, mod} from "@block/shared/helpers";
 
 
 export function getValueGlobal(em: EntityManager, x: number, y: number, z: number) {

@@ -1,8 +1,7 @@
-import {TextDecoder} from 'text-encoding';
-import EntityManager from '../../shared/EntityManager';
-import {globalToChunk, chunkKey, mod} from "../../shared/helpers";
-import {TerrainChunkComponent} from "../../shared/components";
-import {TERRAIN_CHUNK_SIZE, ComponentId} from "../../shared/constants";
+import EntityManager from '@block/shared/EntityManager';
+import {globalToChunk, chunkKey, mod} from "@block/shared/helpers";
+import {TerrainChunkComponent} from "@block/shared/components";
+import {TERRAIN_CHUNK_SIZE, ComponentId} from "@block/shared/constants";
 
 
 export function findBlockMaterial(em: EntityManager, x: number, y: number, z: number): number {
@@ -17,7 +16,7 @@ export function findBlockMaterial(em: EntityManager, x: number, y: number, z: nu
     return chunkComponent.getValue(lx, ly, lz);
 }
 
-export function bufferToObject(data: ArrayBufferView): Object {
+export function bufferToObject<T extends Object>(data: ArrayBuffer): T {
     // Bytes -> JSON string -> Object.
     let decoder = new TextDecoder();
     let jsonStr = decoder.decode(data);

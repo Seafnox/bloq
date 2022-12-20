@@ -1,10 +1,10 @@
-import {System} from "../../../shared/System";
-import {ComponentId, ViewDistance} from "../../../shared/constants";
-import {PositionComponent, ChunkRequestComponent} from "../../../shared/components";
-import {chunkKey} from "../../../shared/helpers";
+import {System} from "@block/shared/System";
+import {ComponentId, ViewDistance} from "@block/shared/constants";
+import {PositionComponent, ChunkRequestComponent} from "@block/shared/components";
+import {chunkKey} from "@block/shared/helpers";
 import {PlayerChunkComponent} from "../components";
 import NetworkSystem from "./NetworkSystem";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 
 
 export default class ChunkSystem extends System {

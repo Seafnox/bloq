@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {TerrainChunkComponent} from "../../../shared/components";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
+import {TerrainChunkComponent} from "@block/shared/components";
 
 
 export default class TerrainChunkInitializer extends Initializer {

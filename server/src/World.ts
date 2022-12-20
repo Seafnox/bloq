@@ -1,12 +1,12 @@
-import { BaseWorld } from "../../shared/BaseWorld";
-import { UtilsManager } from "../../shared/UtilsManager";
+import { BaseWorld } from "@block/shared/BaseWorld";
+import { UtilsManager } from "@block/shared/UtilsManager";
 import {registerServerComponents} from "./components";
 import {ServerActionManager} from "./actions";
-import {ComponentId, SystemOrder} from "../../shared/constants";
+import {ComponentId, SystemOrder} from "@block/shared/constants";
 import Server from "./Server";
 import {v4} from 'uuid';
 
-import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
+import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import InformNewPlayersSystem from "./systems/InformNewPlayersSystem";
 import BroadcastPlayerInputSystem from "./systems/BroadcastPlayerInputSystem";
 import PlayerActionSystem from "./systems/PlayerActionSystem";
@@ -15,7 +15,7 @@ import BroadcastEntitySystem from "./systems/BroadcastEntitySystem";
 import DatabaseSystem from "./systems/DatabaseSystem";
 import NetworkSystem from "./systems/NetworkSystem";
 import ChatSystem from "./systems/ChatSystem";
-import InitializerSystem from "../../shared/systems/InitializerSystem";
+import InitializerSystem from "@block/shared/systems/InitializerSystem";
 
 import PlayerInputInitializer from "./initializers/PlayerInputInitializer";
 import PositionInitializer from "./initializers/PositionInitializer";

@@ -3,10 +3,15 @@
   "compilerOptions": {
     "types": [
       "three",
-      "stats",
-      "text-encoding"
+      "stats"
     ],
-    "lib": ["es2015", "es2016", "dom"]
+    "lib": ["es2015", "es2016", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@block/shared/*": [
+        "../shared/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

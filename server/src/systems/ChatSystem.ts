@@ -1,6 +1,6 @@
-import {System} from "../../../shared/System";
-import {ComponentId, ChatMaxLength} from "../../../shared/constants";
-import {ChatMessageComponent, PositionComponent, PlayerComponent} from "../../../shared/components";
+import {System} from "@block/shared/System";
+import {ComponentId, ChatMaxLength} from "@block/shared/constants";
+import {ChatMessageComponent, PositionComponent, PlayerComponent} from "@block/shared/components";
 import {broadcastEntity} from "../helpers";
 
 

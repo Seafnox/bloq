@@ -4,12 +4,12 @@ import {
     ShaderMaterial,
     Vector3
 } from 'three';
-import { BaseWorld } from "../../shared/BaseWorld";
-import { UtilsManager } from "../../shared/UtilsManager";
+import { BaseWorld } from "@block/shared/BaseWorld";
+import { UtilsManager } from "@block/shared/UtilsManager";
 import PlayState from "./states/PlayState";
 import {registerClientComponents} from "./components";
 import {ClientActionManager} from "./actions";
-import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
+import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import TerrainChunkSystem from "./systems/TerrainChunkSystem";
 import PlayerInputSystem from "./systems/PlayerInputSystem";
 import PlayerInputSyncSystem from "./systems/PlayerInputSyncSystem";
@@ -20,7 +20,7 @@ import MouseManager from "../lib/MouseManager";
 import KeyboardManager from "../lib/KeyboardManager";
 import InventoryUISystem from "./systems/InventoryUISystem";
 import BlockSystem from "./systems/BlockSystem";
-import {ComponentId, SystemOrder} from "../../shared/constants";
+import {ComponentId, SystemOrder} from "@block/shared/constants";
 import BlockInitializer from "./initializers/BlockInitializer";
 import TerrainChunkInitializer from "./initializers/TerrainChunkInitializer";
 import PlayerInitializer from "./initializers/PlayerInitializer";
@@ -28,7 +28,7 @@ import InputInitializer from "./initializers/InputInitializer";
 import NetworkSystem from "./systems/NetworkSystem";
 import ChatSystem from "./systems/ChatSystem";
 import ChatMessageInitializer from "./initializers/ChatMessageInitializer";
-import InitializerSystem from "../../shared/systems/InitializerSystem";
+import InitializerSystem from "@block/shared/systems/InitializerSystem";
 import ChunkSystem from "./systems/ChunkSystem";
 import SoundSystem from "./systems/SoundSystem";
 import {v4} from 'uuid';

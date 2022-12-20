@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {InputComponent} from "../../../shared/components";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
+import {InputComponent} from "@block/shared/components";
 
 
 export default class PlayerInputInitializer extends Initializer {

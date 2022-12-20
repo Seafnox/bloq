@@ -1,13 +1,11 @@
 import {ComponentId} from "./constants";
 
-export interface ComponentListenerFunc {
-    (entity: string, components: Object): void;
-}
+export type ComponentHandler = (entity: string, components: Object) => void;
 
 export class ComponentEventEmitter {
-    private componentHandlers: Map<ComponentId, Array<Function>> = new Map<ComponentId, Array<Function>>();
+    private componentHandlers: Map<ComponentId, ComponentHandler[]> = new Map<ComponentId, ComponentHandler[]>();
 
-    addEventListener(componentId: ComponentId, listener: ComponentListenerFunc) {
+    addEventListener(componentId: ComponentId, listener: ComponentHandler) {
         let handlers = this.componentHandlers.get(componentId);
         if (!handlers) {
             handlers = [];

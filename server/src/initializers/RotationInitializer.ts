@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {RotationComponent} from "../../../shared/components";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
+import {RotationComponent} from "@block/shared/components";
 
 
 export default class RotationInitializer extends Initializer {

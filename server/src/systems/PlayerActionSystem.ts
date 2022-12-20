@@ -1,10 +1,10 @@
-import {System} from "../../../shared/System";
+import {System} from "@block/shared/System";
 import {ServerActionManager} from "../actions";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, Side, ActionId, MessageType} from "../../../shared/constants";
-import {InputComponent, InventoryComponent, BlockComponent} from "../../../shared/components";
-import {SetBlocksAction, RemoveEntitiesAction} from "../../../shared/actions";
-import {globalToChunk} from "../../../shared/helpers";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, Side, ActionId, MessageType} from "@block/shared/constants";
+import {InputComponent, InventoryComponent, BlockComponent} from "@block/shared/components";
+import {SetBlocksAction, RemoveEntitiesAction} from "@block/shared/actions";
+import {globalToChunk} from "@block/shared/helpers";
 import {broadcastAction} from "../helpers";
 import {initBlockEntity} from "../entities";
 import {getValueGlobal} from "../terrain";

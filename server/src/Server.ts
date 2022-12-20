@@ -1,12 +1,11 @@
-import {Server as WebSocketServer} from 'uws';
-import {TextEncoder, TextDecoder} from 'text-encoding';
-
+import { EntityMessage } from '@block/shared/interfaces';
+import { WebSocketServer, WebSocket } from 'ws';
 import World from "./World";
 import {NetworkComponent} from "./components";
-import {ComponentId, ActionId, MessageType} from "../../shared/constants";
-import {Action} from "../../shared/actions";
-import {ComponentEventEmitter} from "../../shared/EventEmitter";
-import {PlayerComponent} from "../../shared/components";
+import {ComponentId, ActionId, MessageType} from "@block/shared/constants";
+import {Action} from "@block/shared/actions";
+import {ComponentEventEmitter} from "@block/shared/EventEmitter";
+import {PlayerComponent} from "@block/shared/components";
 
 // TODO: Use performance.now, like in the client.
 let hrtimeToSeconds = (hrtime: number[]) => hrtime[0] + hrtime[1] / 1000000000;
@@ -88,7 +87,7 @@ export default class Server {
         netComponent.pushBuffer(MessageType.Action, packet);
     }
 
-    private onConnect(ws) {
+    private onConnect(ws: WebSocket) {
         let playerEntity = this.world.entityManager.createEntity();
 
         let netComponent = new NetworkComponent();
@@ -117,17 +116,17 @@ export default class Server {
             let msg = new Uint8Array(buffer.slice(pos, pos + msgLength));
             pos += msgLength;
             let text = textDecoder.decode(msg);
-            let obj = JSON.parse(text);
+            let entityMessage: EntityMessage = JSON.parse(text);
 
             // No one should be able to send data on behalf of others.
             // Really "obj" doesn't need an "entity" property, but might need it in the future.
             // Also, keeps interface between server and client in line.
-            if (obj.entity != playerEntity) continue;
+            if (entityMessage.entity != playerEntity) continue;
 
             // Loop over all components received in packet, and emit events for them.
             // These events are used by the initializers to be processed further.
-            for (let componentType in obj.components) {
-                this.eventEmitter.emit(parseInt(componentType) as ComponentId, playerEntity, obj.components);
+            for (let componentType in entityMessage.components) {
+                this.eventEmitter.emit(parseInt(componentType) as ComponentId, playerEntity, entityMessage.components);
             }
         }
     }

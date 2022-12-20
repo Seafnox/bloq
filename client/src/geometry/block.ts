@@ -1,5 +1,5 @@
 import {BoxGeometry, BufferAttribute} from 'three';
-import {BlockId} from "../../../shared/constants";
+import {BlockId} from "@block/shared/constants";
 
 export function buildBlockGeometry(material: BlockId) {
     var geometry = new BoxGeometry(1, 1, 1);

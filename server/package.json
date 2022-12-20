@@ -15,16 +15,14 @@
     "@types/node": "18.11.17",
     "@types/uuid": "9.0.0",
     "@types/sqlite3": "3.1.8",
-    "@types/text-encoding": "0.0.36",
     "@types/ws": "8.5.3",
     "fast-simplex-noise": "4.0.0",
     "uuid": "9.0.0",
     "performance-now": "2.1.0",
-    "text-encoding": "0.7.0",
     "tiny-worker": "2.3.0"
   },
   "dependencies": {
     "sqlite3": "5.1.4",
-    "uws": "200.0.0"
+    "ws": "8.11.0"
   }
 }

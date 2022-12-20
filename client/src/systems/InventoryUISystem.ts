@@ -1,7 +1,7 @@
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {InventoryComponent, BlockComponent} from "../../../shared/components";
-import EntityManager from "../../../shared/EntityManager";
+import {System} from "@block/shared/System";
+import {ComponentId} from "@block/shared/constants";
+import {InventoryComponent, BlockComponent} from "@block/shared/components";
+import EntityManager from "@block/shared/EntityManager";
 import HTMLParser from "../../lib/HTMLParser";
 import '../../assets/stylesheets/inventory.scss';
 import block1 from '../../assets/blocks/1.png';

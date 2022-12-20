@@ -6,15 +6,15 @@ import {
     BoxGeometry,
 } from 'three';
 
-import Initializer from "../../../shared/Initializer";
+import Initializer from "@block/shared/Initializer";
 import {
     PlayerSelectionComponent, PlayerChunkComponent, AnimatedMeshComponent
 } from "../components";
-import {ComponentId} from "../../../shared/constants";
+import {ComponentId} from "@block/shared/constants";
 import AnimatedMesh from "../../lib/AnimatedMesh";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 import NetworkSystem from "../systems/NetworkSystem";
-import {PlayerComponent} from "../../../shared/components";
+import {PlayerComponent} from "@block/shared/components";
 import AssetManager from "../../lib/AssetManager";
 
 export default class PlayerInitializer extends Initializer {

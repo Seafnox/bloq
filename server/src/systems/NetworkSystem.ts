@@ -1,7 +1,7 @@
-import {System} from "../../../shared/System";
+import {System} from "@block/shared/System";
 import Server from "../Server";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId} from "../../../shared/constants";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId} from "@block/shared/constants";
 import {NetworkComponent} from "../components";
 
 

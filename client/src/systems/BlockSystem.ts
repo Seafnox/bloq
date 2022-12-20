@@ -1,6 +1,6 @@
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {RotationComponent} from "../../../shared/components";
+import {System} from "@block/shared/System";
+import {ComponentId} from "@block/shared/constants";
+import {RotationComponent} from "@block/shared/components";
 
 
 export default class BlockSystem extends System {

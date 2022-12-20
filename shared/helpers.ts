@@ -1,4 +1,4 @@
-import {TERRAIN_CHUNK_SIZE, ComponentId} from "./constants";
+import {TERRAIN_CHUNK_SIZE} from "./constants";
 import {TerrainChunkComponent} from "./components";
 
 export const mod = (a: number, b: number) => ((a % b) + b) % b;

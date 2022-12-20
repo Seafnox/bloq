@@ -4,9 +4,14 @@
     "types": [
       "node",
       "fast-simplex-noise",
-      "text-encoding",
       "ws"
     ],
-    "lib": ["es2015", "es2016", "webworker"]
+    "lib": ["es2015", "es2016", "webworker"],
+    "baseUrl": ".",
+    "paths": {
+      "@block/shared/*": [
+        "../shared/*"
+      ]
+    }
   }
 }

@@ -29,8 +29,7 @@ export class Action {
         return JSON.stringify(this);
     }
 
-    execute(entityManager: EntityManager) {
-    }
+    execute(entityManager: EntityManager) {}
 }
 
 

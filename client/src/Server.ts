@@ -1,9 +1,10 @@
+import { TerrainChunkComponent } from '@block/shared/components';
 import PlayState from "./states/PlayState";
-import {MessageType, ComponentId} from "../../shared/constants";
+import {MessageType, ComponentId} from "@block/shared/constants";
 import {bufferToObject} from "./helpers";
-import {deserializeTerrainChunk} from "../../shared/helpers"
-import {ComponentEventEmitter} from "../../shared/EventEmitter";
-import {EntityMessage} from "../../shared/interfaces";
+import {deserializeTerrainChunk} from "@block/shared/helpers"
+import {ComponentEventEmitter} from "@block/shared/EventEmitter";
+import {EntityMessage} from "@block/shared/interfaces";
 
 
 export class Server {
@@ -38,7 +39,7 @@ export class Server {
             console.error('Not array buffer!', evt.data);
         }
 
-        let buf = evt.data;
+        let buf: ArrayBuffer = evt.data;
         let bufView = new DataView(buf);
         let bufPos = 0;
 
@@ -52,39 +53,41 @@ export class Server {
             let msgData = buf.slice(bufPos, bufPos + msgLength);
             bufPos += msgLength;
 
-            let obj;
             switch (msgType) {
-                case MessageType.Entity:
-                    obj = bufferToObject(msgData) as EntityMessage;
-
-                    Object.keys(obj.components).forEach(componentId => {
-                        let key = parseInt(componentId);
-                        this.eventEmitter.emit(key as ComponentId, obj.entity, obj.components);
-                    });
-                    break;
-
-                case MessageType.Terrain:
-                    let [entity, component] = deserializeTerrainChunk(msgData);
-
-                    let componentsObj = {};
-                    componentsObj[ComponentId.TerrainChunk] = component;
-                    this.eventEmitter.emit(ComponentId.TerrainChunk, entity, componentsObj);
-                    break;
-
-                case MessageType.Action:
-                    let actionId = new DataView(msgData).getUint16(0);
-                    let data = msgData.slice(Uint16Array.BYTES_PER_ELEMENT);
-
-                    obj = bufferToObject(data);
-
-                    // Queue action directly. No "event" to be emitted.
-                    this.game.world.actionManager.queueRawAction(actionId, obj);
-                    break;
-
+                case MessageType.Entity: return this.handleEntityMessage(msgData);
+                case MessageType.Terrain: return this.handleTerrainMessage(msgData);
+                case MessageType.Action: return this.handleActionMessage(msgData);
                 default:
                     console.warn('Unknown message type: ', msgType, msgData.byteLength)
             }
         }
+    }
+
+    private handleEntityMessage(message: ArrayBuffer): void {
+        const entityMessage = bufferToObject<EntityMessage>(message);
+
+        Object.keys(entityMessage.components).forEach(componentId => {
+            let key = parseInt(componentId);
+            this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.components);
+        });
+    }
+
+    private handleTerrainMessage(message: ArrayBuffer): void {
+        let [entity, component] = deserializeTerrainChunk(message);
+
+        let componentsObj: Partial<Record<ComponentId, TerrainChunkComponent>> = {};
+        componentsObj[ComponentId.TerrainChunk] = component;
+        this.eventEmitter.emit(ComponentId.TerrainChunk, entity, componentsObj);
+    }
+
+    private handleActionMessage(message: ArrayBuffer): void {
+        let actionId = new DataView(message).getUint16(0);
+        let data = message.slice(Uint16Array.BYTES_PER_ELEMENT);
+
+        const obj = bufferToObject(data);
+
+        // Queue action directly. No "event" to be emitted.
+        this.game.world.actionManager.queueRawAction(actionId, obj);
     }
 
     private onError(evt: MessageEvent) {

@@ -1,11 +1,11 @@
 import {Database} from 'sqlite3';
 
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {EntityManagerEvent} from "../../../shared/EntityManager";
-import {ComponentId} from "../../../shared/constants";
-import {TerrainChunkComponent, SerializableComponent} from "../../../shared/components";
-import {deserializeTerrainChunk} from "../../../shared/helpers";
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {EntityManagerEvent} from "@block/shared/EntityManager";
+import {ComponentId} from "@block/shared/constants";
+import {TerrainChunkComponent, SerializableComponent} from "@block/shared/components";
+import {deserializeTerrainChunk} from "@block/shared/helpers";
 
 
 export default class DatabaseSystem extends System {

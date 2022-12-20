@@ -1,12 +1,12 @@
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
+import {System} from "@block/shared/System";
+import {ComponentId} from "@block/shared/constants";
 import AssetManager from "../../lib/AssetManager";
 import Sound from "../../lib/Sound";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 import {
     PhysicsComponent, OnGroundComponent, InputComponent, InventoryComponent,
     BlockComponent
-} from "../../../shared/components";
+} from "@block/shared/components";
 
 
 export default class SoundSystem extends System {

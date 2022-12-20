@@ -1,10 +1,10 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId, ActionId} from "../../../shared/constants";
-import {PositionComponent} from "../../../shared/components";
-import {MoveEntityAction} from "../../../shared/actions";
-import {globalToChunk} from "../../../shared/helpers";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId, ActionId} from "@block/shared/constants";
+import {PositionComponent} from "@block/shared/components";
+import {MoveEntityAction} from "@block/shared/actions";
+import {globalToChunk} from "@block/shared/helpers";
 import {broadcastAction} from "../helpers";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 import {ServerActionManager} from "../actions";
 
 

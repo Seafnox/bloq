@@ -1,11 +1,11 @@
 import {NetworkComponent} from "../components";
 var Worker = require("tiny-worker");
 var now = require('performance-now');
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, TERRAIN_CHUNK_SIZE} from "../../../shared/constants";
-import {TerrainChunkComponent, ChunkRequestComponent} from "../../../shared/components";
-import {chunkKey} from "../../../shared/helpers";
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {ComponentId, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
+import {TerrainChunkComponent, ChunkRequestComponent} from "@block/shared/components";
+import {chunkKey} from "@block/shared/helpers";
 import Server from "../Server";
 import TerrainWorker from "../workers/TerrainWorker";
 

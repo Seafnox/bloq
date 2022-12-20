@@ -1,8 +1,8 @@
-import EntityManager from "../../shared/EntityManager";
-import {Action, RemoveEntitiesAction} from "../../shared/actions";
+import EntityManager from "@block/shared/EntityManager";
+import {Action, RemoveEntitiesAction} from "@block/shared/actions";
 import Server from "./Server";
 import {NetworkComponent} from "./components";
-import {ComponentId, ActionId} from "../../shared/constants";
+import {ComponentId, ActionId} from "@block/shared/constants";
 
 
 export function broadcastAction(em: EntityManager, chunk: [number, number, number], actionId: ActionId, action: Action) {

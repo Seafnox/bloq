@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {ChunkRequestComponent} from "../../../shared/components";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
+import {ChunkRequestComponent} from "@block/shared/components";
 
 
 export default class ChunkRequestInitializer extends Initializer {

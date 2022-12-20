@@ -1,10 +1,10 @@
 import MouseManager from '../../lib/MouseManager';
 
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {InputComponent, RotationComponent, InventoryComponent} from "../../../shared/components";
+import {System} from "@block/shared/System";
+import {ComponentId} from "@block/shared/constants";
+import {InputComponent, RotationComponent, InventoryComponent} from "@block/shared/components";
 import {PlayerSelectionComponent} from "../components";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from "@block/shared/EntityManager";
 import KeyboardManager from "../../lib/KeyboardManager";
 
 

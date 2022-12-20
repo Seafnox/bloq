@@ -1,6 +1,6 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {InventoryComponent} from "../../../shared/components";
+import Initializer from "@block/shared/Initializer";
+import {ComponentId} from "@block/shared/constants";
+import {InventoryComponent} from "@block/shared/components";
 
 
 export default class InventoryInitializer extends Initializer {
