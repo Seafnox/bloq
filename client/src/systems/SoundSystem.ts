@@ -1,12 +1,13 @@
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { OnGroundComponent } from '@block/shared/components/onGroundComponent';
+import { PhysicsComponent } from '@block/shared/components/physicsComponent';
 import {System} from "@block/shared/System";
 import {ComponentId} from "@block/shared/constants";
 import AssetManager from "../../lib/AssetManager";
 import Sound from "../../lib/Sound";
 import EntityManager from "@block/shared/EntityManager";
-import {
-    PhysicsComponent, OnGroundComponent, InputComponent, InventoryComponent,
-    BlockComponent
-} from "@block/shared/components";
 
 
 export default class SoundSystem extends System {

@@ -1,8 +1,9 @@
+import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
 import {System} from "@block/shared/System";
 import {ComponentId, ViewDistance} from "@block/shared/constants";
-import {PositionComponent, ChunkRequestComponent} from "@block/shared/components";
 import {chunkKey} from "@block/shared/helpers";
-import {PlayerChunkComponent} from "../components";
+import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import NetworkSystem from "./NetworkSystem";
 import EntityManager from "@block/shared/EntityManager";
 

@@ -1,9 +1,10 @@
+import { OnGroundComponent } from '../components/onGroundComponent';
+import { PhysicsComponent } from '../components/physicsComponent';
+import { PositionComponent } from '../components/positionComponent';
+import { TerrainChunkComponent } from '../components/terrainChunkComponent';
+import { WallCollisionComponent } from '../components/wallCollisionComponent';
 import {System} from "../System";
 import {ComponentId, TERRAIN_CHUNK_SIZE, PlayerJumpVelocity} from "../constants";
-import {
-    PositionComponent, PhysicsComponent, TerrainChunkComponent, OnGroundComponent,
-    WallCollisionComponent
-} from "../components";
 import {chunkKey, mod, globalToChunk} from "../helpers";
 
 

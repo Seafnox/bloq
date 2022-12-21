@@ -1,11 +1,11 @@
+import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { EntityMessage } from '@block/shared/interfaces';
 import { WebSocketServer, WebSocket } from 'ws';
+import { NetworkComponent } from './components/networkComponent';
 import World from "./World";
-import {NetworkComponent} from "./components";
 import {ComponentId, ActionId, MessageType} from "@block/shared/constants";
 import {Action} from "@block/shared/actions";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
-import {PlayerComponent} from "@block/shared/components";
 
 // TODO: Use performance.now, like in the client.
 let hrtimeToSeconds = (hrtime: number[]) => hrtime[0] + hrtime[1] / 1000000000;
@@ -125,8 +125,8 @@ export default class Server {
 
             // Loop over all components received in packet, and emit events for them.
             // These events are used by the initializers to be processed further.
-            for (let componentType in entityMessage.components) {
-                this.eventEmitter.emit(parseInt(componentType) as ComponentId, playerEntity, entityMessage.components);
+            for (let componentId in entityMessage.componentMap) {
+                this.eventEmitter.emit(parseInt(componentId) as ComponentId, playerEntity, entityMessage.componentMap);
             }
         }
     }

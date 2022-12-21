@@ -1,7 +1,9 @@
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId} from "@block/shared/constants";
-import {RotationComponent, InputComponent, InventoryComponent} from "@block/shared/components";
 import NetworkSystem from "./NetworkSystem";
 
 

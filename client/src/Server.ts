@@ -1,4 +1,4 @@
-import { TerrainChunkComponent } from '@block/shared/components';
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import PlayState from "./states/PlayState";
 import {MessageType, ComponentId} from "@block/shared/constants";
 import {bufferToObject} from "./helpers";
@@ -66,9 +66,9 @@ export class Server {
     private handleEntityMessage(message: ArrayBuffer): void {
         const entityMessage = bufferToObject<EntityMessage>(message);
 
-        Object.keys(entityMessage.components).forEach(componentId => {
+        Object.keys(entityMessage.componentMap).forEach(componentId => {
             let key = parseInt(componentId);
-            this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.components);
+            this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.componentMap);
         });
     }
 

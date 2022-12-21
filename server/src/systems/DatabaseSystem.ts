@@ -1,10 +1,11 @@
+import { SerializableComponent } from '@block/shared/components/serializableComponent';
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import {Database} from 'sqlite3';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {EntityManagerEvent} from "@block/shared/EntityManager";
 import {ComponentId} from "@block/shared/constants";
-import {TerrainChunkComponent, SerializableComponent} from "@block/shared/components";
 import {deserializeTerrainChunk} from "@block/shared/helpers";
 
 

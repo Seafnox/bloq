@@ -1,7 +1,7 @@
 import EntityManager from "@block/shared/EntityManager";
 import {Action, RemoveEntitiesAction} from "@block/shared/actions";
+import { NetworkComponent } from './components/networkComponent';
 import Server from "./Server";
-import {NetworkComponent} from "./components";
 import {ComponentId, ActionId} from "@block/shared/constants";
 
 

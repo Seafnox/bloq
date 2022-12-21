@@ -1,6 +1,6 @@
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import EntityManager from '@block/shared/EntityManager';
 import {globalToChunk, chunkKey, mod} from "@block/shared/helpers";
-import {TerrainChunkComponent} from "@block/shared/components";
 import {TERRAIN_CHUNK_SIZE, ComponentId} from "@block/shared/constants";
 
 

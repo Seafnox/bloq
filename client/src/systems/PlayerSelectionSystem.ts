@@ -1,11 +1,13 @@
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
 import {Scene, Vector3, Raycaster, ShaderMaterial} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId, Side} from "@block/shared/constants";
-import {PlayerSelectionComponent, MeshComponent} from "../components";
-import {PositionComponent, RotationComponent} from "@block/shared/components";
 import {globalToChunk, chunkKey} from "@block/shared/helpers";
+import { MeshComponent } from '../components/meshComponent';
+import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
 import {findBlockMaterial} from "../helpers";
 
 

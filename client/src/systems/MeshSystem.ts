@@ -1,10 +1,11 @@
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
 import {Scene} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId} from "@block/shared/constants";
-import {MeshComponent} from "../components";
-import {PositionComponent, RotationComponent} from "@block/shared/components";
+import { MeshComponent } from '../components/meshComponent';
 
 
 export default class MeshSystem extends System {

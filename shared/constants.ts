@@ -9,7 +9,8 @@ export const enum MessageType {
 
 export const enum ComponentId {
     // Shared
-    Position = 1,
+    None,
+    Position,
     Rotation,
     Physics,
     OnGround,

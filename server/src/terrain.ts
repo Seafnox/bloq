@@ -1,5 +1,5 @@
 import FastSimplexNoise = require('fast-simplex-noise');
-import {TerrainChunkComponent} from "@block/shared/components";
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import {TERRAIN_CHUNK_SIZE, ComponentId} from "@block/shared/constants";
 import EntityManager from "@block/shared/EntityManager";
 import {globalToChunk, chunkKey, mod} from "@block/shared/helpers";

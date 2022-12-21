@@ -1,6 +1,5 @@
+import { registerSharedComponents } from './components/registerSharedComponents';
 import EntityManager from "./EntityManager";
-import {registerSharedComponents} from "./components";
-import { Logger } from './Logger';
 import {System} from "./System";
 import {ActionManager} from "./actions";
 import PhysicsSystem from "./systems/PhysicsSystem";
@@ -8,9 +7,7 @@ import TerrainCollisionSystem from "./systems/TerrainCollisionSystem";
 import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
 import {SystemOrder} from "./constants";
-import { PerformanceNow } from './performanceNow';
 import { UtilsManager } from './UtilsManager';
-import { UuidGenerator } from './uuidGenerator';
 
 export class BaseWorld {
     entityManager: EntityManager;

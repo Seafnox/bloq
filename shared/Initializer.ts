@@ -1,4 +1,5 @@
 import EntityManager from "./EntityManager";
+import { ComponentMap } from './interfaces';
 
 
 export default class Initializer {
@@ -7,5 +8,5 @@ export default class Initializer {
         this.entityManager = em;
     }
 
-    initialize(entity: string, components: Object): void {}
+    initialize(entity: string, componentMap: ComponentMap): void {}
 }

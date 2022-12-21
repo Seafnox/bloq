@@ -1,4 +1,8 @@
+import { ComponentId } from './constants';
+
 export interface EntityMessage {
     entity: string,
-    components: Record<number, Object>
+    componentMap: ComponentMap
 }
+
+export interface ComponentMap extends Record<ComponentId, Object> {}

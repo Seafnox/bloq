@@ -6,8 +6,8 @@ import {
 } from 'three';
 import { BaseWorld } from "@block/shared/BaseWorld";
 import { UtilsManager } from "@block/shared/UtilsManager";
+import { registerClientComponents } from './components/registerClientComponents';
 import PlayState from "./states/PlayState";
-import {registerClientComponents} from "./components";
 import {ClientActionManager} from "./actions";
 import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import TerrainChunkSystem from "./systems/TerrainChunkSystem";

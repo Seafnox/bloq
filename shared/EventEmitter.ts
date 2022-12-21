@@ -1,6 +1,7 @@
-import {ComponentId} from "./constants";
+import { ComponentId } from "./constants";
+import { ComponentMap } from './interfaces';
 
-export type ComponentHandler = (entity: string, components: Object) => void;
+export type ComponentHandler = (entity: string, componentMap: ComponentMap) => void;
 
 export class ComponentEventEmitter {
     private componentHandlers: Map<ComponentId, ComponentHandler[]> = new Map<ComponentId, ComponentHandler[]>();
@@ -14,12 +15,12 @@ export class ComponentEventEmitter {
         handlers.push(listener);
     }
 
-    emit(componentId: ComponentId, entity: string, components: Object) {
+    emit(componentId: ComponentId, entity: string, componentMap: ComponentMap) {
         let handlers = this.componentHandlers.get(componentId);
         if (!handlers) return;
 
         handlers.forEach((callback) => {
-            callback(entity, components);
+            callback(entity, componentMap);
         })
     }
 }

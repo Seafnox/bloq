@@ -1,6 +1,6 @@
 import {System} from "@block/shared/System";
 import {ComponentId, MessageType} from "@block/shared/constants";
-import {NetworkComponent} from "../components";
+import { NetworkComponent } from '../components/networkComponent';
 
 
 export default class InformNewPlayersSystem extends System {

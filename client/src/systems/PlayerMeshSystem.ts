@@ -1,13 +1,13 @@
+import { CurrentPlayerComponent } from '@block/shared/components/currentPlayerComponent';
+import { PhysicsComponent } from '@block/shared/components/physicsComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
 import {Scene} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId} from "@block/shared/constants";
-import {AnimatedMeshComponent} from "../components";
-import {
-    PositionComponent, RotationComponent, PhysicsComponent,
-    CurrentPlayerComponent
-} from "@block/shared/components";
+import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
 
 
 export default class PlayerMeshSystem extends System {

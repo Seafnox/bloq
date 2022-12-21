@@ -1,17 +1,24 @@
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
+import { CurrentPlayerComponent } from '@block/shared/components/currentPlayerComponent';
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { PhysicsComponent } from '@block/shared/components/physicsComponent';
+import { PlayerComponent } from '@block/shared/components/playerComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { WallCollisionComponent } from '@block/shared/components/wallCollisionComponent';
 import Initializer from "@block/shared/Initializer";
 import {ComponentId, MessageType} from "@block/shared/constants";
-import {
-    PositionComponent, PhysicsComponent, RotationComponent, InventoryComponent,
-    BlockComponent, CurrentPlayerComponent, WallCollisionComponent, ChunkRequestComponent, InputComponent,
-    PlayerComponent
-} from "@block/shared/components";
-import {NewPlayerComponent, NetworkComponent} from "../components";
+import { ComponentMap } from '@block/shared/interfaces';
+import { NetworkComponent } from '../components/networkComponent';
+import { NewPlayerComponent } from '../components/newPlayerComponent';
 
 
 export default class PlayerInitializer extends Initializer {
-    initialize(entity: string, components: any[]): void {
+    initialize(entity: string, componentMap: ComponentMap): void {
         // Only process further if name is set. We don't want players without names.
-        let playerComponentData = components[ComponentId.Player];
+        let playerComponentData = componentMap[ComponentId.Player];
         if(!playerComponentData['name']) return;
 
         // Initialize the rest of the player (until now, there's been just a PlayerComponent waiting for a name to be set).

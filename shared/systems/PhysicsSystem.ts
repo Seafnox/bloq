@@ -1,9 +1,10 @@
+import { InputComponent } from '../components/inputComponent';
+import { OnGroundComponent } from '../components/onGroundComponent';
+import { PhysicsComponent } from '../components/physicsComponent';
+import { RotationComponent } from '../components/rotationComponent';
+import { WallCollisionComponent } from '../components/wallCollisionComponent';
 import {System} from "../System";
 import {ComponentId, PlayerJumpVelocity, PlayerSpeed, Gravity, TerminalVelocity} from "../constants";
-import {
-    PhysicsComponent, RotationComponent, InputComponent, OnGroundComponent,
-    WallCollisionComponent
-} from "../components";
 
 
 export default class PhysicsSystem extends System {

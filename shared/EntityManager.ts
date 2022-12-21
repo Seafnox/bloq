@@ -1,13 +1,14 @@
-import {Component, SerializableComponent} from "./components";
+import {AbstractComponent} from "./components/abstractComponent";
+import { SerializableComponent } from './components/serializableComponent';
 import {ComponentId} from "./constants";
 import { Logger } from './Logger';
 import { UtilsManager } from './UtilsManager';
 import { UuidGenerator } from './uuidGenerator';
 
-let componentProxyHandler: ProxyHandler<Component> = {
+let componentProxyHandler: ProxyHandler<AbstractComponent> = {
     set: (obj: any, prop: string, value: any) => {
         if (prop !== 'dirtyFields' && obj[prop] !== value) {
-            (obj as Component).dirtyFields.add(prop);
+            (obj as AbstractComponent).dirtyFields.add(prop);
             obj[prop] = value;
         }
         return true;
@@ -25,16 +26,14 @@ export const enum EntityManagerEvent {
 }
 
 export default class EntityManager {
-    private components: Map<ComponentId, Map<string, Component>>;
-    private componentConstructors: Map<ComponentId, Function>;
+    private components: Map<ComponentId, Map<string, AbstractComponent>> = new Map<ComponentId, Map<string, AbstractComponent>>();
+    private componentConstructors: Map<ComponentId, Function> = new Map<ComponentId, Function>();
     private removedEntities: Set<string> = new Set<string>();
     private utilsManager: UtilsManager;
 
-    private eventHandlers: Array<Array<Function>> = [];
+    private eventHandlers: Function[][] = [];
 
     constructor(utilsManager: UtilsManager) {
-        this.components = new Map<ComponentId, Map<string, Component>>();
-        this.componentConstructors = new Map<ComponentId, Function>();
         this.utilsManager = utilsManager;
 
         for (let i = 0; i < EntityManagerEvent.NumEvents; i++) {
@@ -50,14 +49,14 @@ export default class EntityManager {
         return this.utils.logger;
     }
 
-    registerComponentType(instance: Component) {
+    registerComponentType(instance: AbstractComponent) {
         let type = instance.typeName();
         if (this.componentConstructors.has(type)) {
             this.logger.warn(`Component type "${type} already registered.`);
             return;
         }
         this.componentConstructors.set(type, instance.constructor);
-        this.components.set(type, new Map<string, Component>());
+        this.components.set(type, new Map<string, AbstractComponent>());
     }
 
     getRegisteredComponentTypes(): Iterator<ComponentId> {
@@ -70,17 +69,17 @@ export default class EntityManager {
         return entity;
     }
 
-    serializeEntity(entity: string, withComponents: Array<ComponentId> = null) {
+    serializeEntity(entity: string, componentIds: ComponentId[] = null) {
         // Each component needs to be serialized individually, then a JSON string is manually created.
         // Just using JSON.stringify would cause each component's serialized string to be escaped.
 
-        if (!withComponents) withComponents = Array.from(this.componentConstructors.keys());
+        if (!componentIds) componentIds = Array.from(this.componentConstructors.keys());
 
         let components: string[] = [];
-        withComponents.forEach(typeName => {
-            let component = this.components.get(typeName).get(entity);
+        componentIds.forEach(componentId => {
+            let component = this.components.get(componentId).get(entity);
             if (component instanceof SerializableComponent) {
-                components.push(`"${typeName}":${component.serialize()}`);
+                components.push(`"${componentId}":${component.serialize()}`);
             } else if (component) {
                 this.logger.warn(`Tried to serialize non-serializeable component: "${component.typeName()}"`)
             }
@@ -96,7 +95,7 @@ export default class EntityManager {
         this.emit(EntityManagerEvent.EntityRemoved, entity);
     }
 
-    getEntities(componentType: ComponentId): Map<string, Component> {
+    getEntities(componentType: ComponentId): Map<string, AbstractComponent> {
         return this.components.get(componentType);
     }
 
@@ -114,7 +113,7 @@ export default class EntityManager {
         return (this.components.get(componentType).get(entity) as any) as T; // Have to double cast to force it to be T.
     }
 
-    addComponent(entity: string, component: Component): Component {
+    addComponent(entity: string, component: AbstractComponent): AbstractComponent {
         let event;
         if (this.components.get(component.ID).has(entity)) event = EntityManagerEvent.ComponentReplaced;
         else event = EntityManagerEvent.ComponentAdded;
@@ -125,7 +124,7 @@ export default class EntityManager {
         return component;
     }
 
-    addComponentFromObject(entity: string, componentType: ComponentId, componentData: Object): Component {
+    addComponentFromObject(entity: string, componentType: ComponentId, componentData: Object): AbstractComponent {
         let componentConstructor = this.componentConstructors.get(componentType);
         if (!componentConstructor) {
             this.logger.warn('Tried to add non-registered component type from object:', componentType);
@@ -148,7 +147,7 @@ export default class EntityManager {
         }
     }
 
-    removeComponent(entity: string, component: Component) {
+    removeComponent(entity: string, component: AbstractComponent) {
         this.removeComponentType(entity, component.typeName());
     }
 

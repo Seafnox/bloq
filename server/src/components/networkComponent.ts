@@ -1,9 +1,13 @@
+import { AbstractComponent, AbstractComponentData } from '@block/shared/components/abstractComponent';
+import { ComponentId, TERRAIN_CHUNK_SIZE, MessageType } from '@block/shared/constants';
 import { WebSocket } from 'ws';
-import {Component, SerializableComponent} from "@block/shared/components";
-import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, MessageType, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
 
-export class NetworkComponent extends Component {
+export interface NetworkComponentData extends AbstractComponentData {
+    websocket: WebSocket;
+    bufferPos: number;
+    buffer: ArrayBuffer;
+}
+export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     static ID = ComponentId.Network;
 
     websocket: WebSocket;
@@ -44,20 +48,4 @@ export class NetworkComponent extends Component {
             view.setUint8(this.bufferPos++, bufferArray[i]);
         }
     }
-}
-
-
-export class NewPlayerComponent extends Component {
-    static ID = ComponentId.NewPlayer;
-}
-
-
-export class PickableComponent extends SerializableComponent {
-    static ID = ComponentId.Pickable;
-}
-
-export function registerServerComponents(manager: EntityManager) {
-    manager.registerComponentType(new NetworkComponent());
-    manager.registerComponentType(new NewPlayerComponent());
-    manager.registerComponentType(new PickableComponent());
 }

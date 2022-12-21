@@ -1,7 +1,8 @@
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
 import {System} from "@block/shared/System";
 import {ComponentId} from "@block/shared/constants";
-import {InputComponent, RotationComponent} from "@block/shared/components";
-import {NetworkComponent} from "../components";
+import { NetworkComponent } from '../components/networkComponent';
 import Server from "../Server";
 
 

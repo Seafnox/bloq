@@ -1,6 +1,7 @@
 import Initializer from "@block/shared/Initializer";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId, ChatLogSize, ChatMaxLength} from "@block/shared/constants";
+import { ComponentMap } from '@block/shared/interfaces';
 
 
 // ChatMessageInitializer doesn't initialize entity in EntityManager, but uses entity data to update DOM.
@@ -10,8 +11,8 @@ export default class ChatMessageInitializer extends Initializer {
         super(em);
     }
 
-    initialize(entity: string, components: any[]) {
-        let msgData = components[ComponentId.ChatMessage];
+    initialize(entity: string, componentMap: ComponentMap) {
+        let msgData = componentMap[ComponentId.ChatMessage];
 
         let playerNameEl = document.createElement('strong');
         let playerName = msgData['from'];

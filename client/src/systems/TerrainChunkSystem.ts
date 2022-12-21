@@ -1,12 +1,14 @@
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import {Scene, ShaderMaterial, Mesh, Vector3} from 'three';
 
 import {System} from "@block/shared/System";
 import {ComponentId, TERRAIN_CHUNK_SIZE, ViewDistance} from "@block/shared/constants";
-import {TerrainChunkComponent, PositionComponent} from "@block/shared/components";
 import {chunkKey} from "@block/shared/helpers";
 import EntityManager from '@block/shared/EntityManager';
+import { MeshComponent } from '../components/meshComponent';
+import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import {geometryFromArrays} from "../geometry/terrain";
-import {MeshComponent, PlayerChunkComponent} from "../components";
 
 export default class TerrainChunkSystem extends System {
     scene: Scene;

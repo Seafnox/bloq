@@ -1,9 +1,11 @@
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentMap } from '@block/shared/interfaces';
 import {ShaderMaterial, Mesh} from 'three';
 
 import Initializer from "@block/shared/Initializer";
 import {ComponentId} from "@block/shared/constants";
-import {MeshComponent} from "../components";
-import {RotationComponent, BlockComponent} from "@block/shared/components";
+import { MeshComponent } from '../components/meshComponent';
 import {buildBlockGeometry} from "../geometry/block";
 import EntityManager from "@block/shared/EntityManager";
 
@@ -16,11 +18,11 @@ export default class BlockInitializer extends Initializer {
         this.material = material;
     }
 
-    initialize(entity: string, components: any[]) {
+    initialize(entity: string, componentMap: ComponentMap) {
         let blockComponent = this.entityManager.addComponentFromObject(
             entity,
             ComponentId.Block,
-            components[ComponentId.Block]
+            componentMap[ComponentId.Block]
         ) as BlockComponent;
 
         if(blockComponent.count === 0) {
@@ -28,12 +30,12 @@ export default class BlockInitializer extends Initializer {
         }
 
         // If block has position, it will be shown in the world.
-        // Otherwise it's in a player's inventory.
-        if (components[ComponentId.Position]) {
+        // Otherwise, it's in a player's inventory.
+        if (componentMap[ComponentId.Position]) {
             this.entityManager.addComponentFromObject(
                 entity,
                 ComponentId.Position,
-                components[ComponentId.Position]
+                componentMap[ComponentId.Position]
             );
 
             let geom = buildBlockGeometry(blockComponent.kind);

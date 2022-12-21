@@ -1,8 +1,8 @@
+import { PositionComponent } from '@block/shared/components/positionComponent';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {EntityManagerEvent} from "@block/shared/EntityManager";
 import {ComponentId, ActionId} from "@block/shared/constants";
-import {PositionComponent} from "@block/shared/components";
 import {broadcastEntity, broadcastAction} from "../helpers";
 import {RemoveEntitiesAction} from "@block/shared/actions";
 

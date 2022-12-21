@@ -1,7 +1,8 @@
 import * as shared from "@block/shared/actions";
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import {ActionId, ComponentId} from "@block/shared/constants";
 import EntityManager from "@block/shared/EntityManager";
-import {InventoryComponent, BlockComponent} from "@block/shared/components";
 
 
 export class ClientActionManager extends shared.ActionManager {

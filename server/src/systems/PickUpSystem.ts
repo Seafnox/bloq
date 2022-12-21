@@ -1,6 +1,8 @@
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
 import {System} from "@block/shared/System";
 import {ComponentId, ActionId} from "@block/shared/constants";
-import {PositionComponent, InventoryComponent, BlockComponent} from "@block/shared/components";
 import {broadcastAction} from "../helpers";
 import {PickUpEntityAction} from "@block/shared/actions";
 
