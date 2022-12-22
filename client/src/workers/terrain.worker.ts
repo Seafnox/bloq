@@ -1,4 +1,6 @@
-import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
+import { TerrainWorkerRequest } from './TerrainWorkerRequest';
+import { TerrainWorkerResponse } from './TerrainWorkerResponse';
 
 // Relative offsets for cube faces. See more details further down.
 const faces = [
@@ -321,12 +323,12 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
     }
 }
 
-self.onmessage = (e: MessageEvent) => {
+self.onmessage = (e: TerrainWorkerRequest) => {
     let chunkArrays = buildChunkArrays(e.data.data, e.data.neighborData);
     if (!chunkArrays) return;
 
     self.postMessage({
         entity: e.data.entity,
-        arrays: chunkArrays
-    });
+        ...chunkArrays
+    } as TerrainWorkerResponse['data']);
 };

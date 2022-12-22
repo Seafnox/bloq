@@ -1,7 +1,7 @@
 import { AbstractComponent, AbstractComponentData } from '@block/shared/components/abstractComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import { MessageType } from '@block/shared/constants/messageType';
-import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { WebSocket } from 'ws';
 
 export interface NetworkComponentData extends AbstractComponentData {

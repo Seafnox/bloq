@@ -1,7 +1,7 @@
 import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 var Worker = require("tiny-worker");
 var now = require('performance-now');

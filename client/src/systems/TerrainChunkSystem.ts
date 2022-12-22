@@ -1,24 +1,28 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
+import { getPosition } from '@block/shared/helpers/getPosition';
+import { Position } from '@block/shared/Position';
 import {Scene, ShaderMaterial, Mesh, Vector3} from 'three';
 
 import {System} from "@block/shared/System";
-import {ViewDistance} from "@block/shared/constants/visual";
+import {ViewDistance} from "@block/shared/constants/visual.constants";
 import EntityManager from '@block/shared/EntityManager';
 import { MeshComponent } from '../components/meshComponent';
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import {geometryFromArrays} from "../geometry/terrain";
+import { TerrainWorkerRequest } from '../workers/TerrainWorkerRequest';
+import { TerrainWorkerResponse } from '../workers/TerrainWorkerResponse';
 
 export default class TerrainChunkSystem extends System {
     scene: Scene;
     material: ShaderMaterial;
     worker: Worker;
 
-    renderQueue = []; // Pseudo queue. Gets reordered.
-    readyQueue = [];
+    renderQueue: Position[] = []; // Pseudo queue. Gets reordered.
+    readyQueue: TerrainWorkerResponse['data'][] = [];
 
     constructor(em: EntityManager, scene: Scene, material: ShaderMaterial) {
         super(em);
@@ -27,7 +31,7 @@ export default class TerrainChunkSystem extends System {
         this.worker = new Worker(new URL('../workers/terrain.worker.ts'));
 
         // Receive generated geometry arrays from worker:
-        this.worker.onmessage = (e) => {
+        this.worker.onmessage = (e: TerrainWorkerResponse) => {
             this.readyQueue.push(e.data);
         }
     }
@@ -45,7 +49,7 @@ export default class TerrainChunkSystem extends System {
             if (Math.sqrt(Math.pow(playerChunk.x - chunkComponent.x, 2) + Math.pow(playerChunk.y - chunkComponent.y, 2) + Math.pow(playerChunk.z - chunkComponent.z, 2)) >= ViewDistance) {
                 this.entityManager.removeEntity(entity);
             } else if (chunkComponent.isDirty()) {
-                this.renderQueue.push([chunkComponent.x, chunkComponent.y, chunkComponent.z]);
+                this.renderQueue.push(getPosition(chunkComponent));
             }
         });
 
@@ -57,21 +61,21 @@ export default class TerrainChunkSystem extends System {
             let positionComponent = this.entityManager.getComponent<PositionComponent>(playerEntity, ComponentId.Position);
             let [cx, cy, cz] = positionComponent.toChunk();
             let vec = new Vector3(cx, cy, cz);
-            this.renderQueue.sort((a, b) => vec.distanceTo(new Vector3(b[0], b[1], b[2])));
+            this.renderQueue.sort((a, b) => vec.distanceTo(new Vector3(b.x, b.y, b.z)));
         }
 
         // Shift off queue until we have used 4 ms (half of available frame time) or no chunks are left in queue.
         let cumTime = 0.0;
         let startTime = performance.now();
         while (cumTime < 4 && this.readyQueue.length > 0) {
-            let {entity, arrays} = this.readyQueue.pop();
-            if (!arrays.vertices.length) continue;
+            let {entity, materials, vertices, shadows} = this.readyQueue.pop();
+            if (!vertices.length) continue;
 
             // Chunk may have been unsubscribed between when it was added to queue, and now.
             let chunkComponent = this.entityManager.getComponent<TerrainChunkComponent>(entity, ComponentId.TerrainChunk);
             if (!chunkComponent) continue;
 
-            let chunkGeom = geometryFromArrays(arrays);
+            let chunkGeom = geometryFromArrays(materials, vertices, shadows);
 
             let meshComponent = this.entityManager.getComponent<MeshComponent>(entity, ComponentId.Mesh);
             if (!meshComponent) meshComponent = this.entityManager.addComponent(entity, new MeshComponent()) as MeshComponent;
@@ -100,7 +104,7 @@ export default class TerrainChunkSystem extends System {
 
         startTime = performance.now();
         while (cumTime < 4 && this.renderQueue.length > 0) {
-            let [cx, cy, cz] = this.renderQueue.pop();
+            let { x: cx, y: cy, z: cz } = this.renderQueue.pop();
             let entity = chunkKey(cx, cy, cz);
             let chunkComponent = this.entityManager.getComponent<TerrainChunkComponent>(entity, ComponentId.TerrainChunk);
 
@@ -125,7 +129,7 @@ export default class TerrainChunkSystem extends System {
                 entity: entity,
                 data: chunkComponent.data,
                 neighborData: neighborData
-            });
+            } as TerrainWorkerRequest['data']);
 
             let endTime = performance.now();
             cumTime += (endTime - startTime);

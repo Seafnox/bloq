@@ -2,7 +2,7 @@ import { OnGroundComponent } from '@block/shared/components/onGroundComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { mod } from '@block/shared/helpers/mod';
 import {WebGLRenderer} from 'three';
 

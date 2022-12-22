@@ -3,7 +3,7 @@ import { PositionComponent } from '@block/shared/components/positionComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 import {System} from "@block/shared/System";
-import {ViewDistance} from "@block/shared/constants/visual";
+import {ViewDistance} from "@block/shared/constants/visual.constants";
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import NetworkSystem from "./NetworkSystem";
 import EntityManager from "@block/shared/EntityManager";

@@ -4,7 +4,7 @@ import { PhysicsComponent } from '../components/physicsComponent';
 import { RotationComponent } from '../components/rotationComponent';
 import { WallCollisionComponent } from '../components/wallCollisionComponent';
 import { ComponentId } from '../constants/componentId';
-import { TerminalVelocity, Gravity, PlayerJumpVelocity, PlayerSpeed } from '../constants/physics';
+import { TerminalVelocity, Gravity, PlayerJumpVelocity, PlayerSpeed } from '../constants/physics.constants';
 import {System} from "../System";
 
 

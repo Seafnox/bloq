@@ -1,7 +1,7 @@
 import { ChatMessageComponent } from '@block/shared/components/chatMessageComponent';
 import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
-import { ChatMaxLength } from '@block/shared/constants/chat';
+import { ChatMaxLength } from '@block/shared/constants/chat.constants';
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import { broadcastEntity } from '../helpers/broadcastEntity';

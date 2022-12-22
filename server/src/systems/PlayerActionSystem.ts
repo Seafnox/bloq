@@ -6,7 +6,7 @@ import { InventoryComponent } from '@block/shared/components/inventoryComponent'
 import { ActionId } from '@block/shared/constants/actionId';
 import { ComponentId } from '@block/shared/constants/componentId';
 import { MessageType } from '@block/shared/constants/messageType';
-import { Side } from '@block/shared/constants/side';
+import { Direction } from '@block/shared/constants/direction';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import {System} from "@block/shared/System";
 import {ServerActionManager} from "../actions/ServerActionManager";
@@ -45,22 +45,22 @@ export default class PlayerActionSystem extends System {
 
                 let add = [0, 0, 0];
                 switch (inputComponent.targetSide) {
-                    case Side.Top:
+                    case Direction.Top:
                         add[1] = 1;
                         break;
-                    case Side.North:
+                    case Direction.North:
                         add[2] = 1;
                         break;
-                    case Side.East:
+                    case Direction.East:
                         add[0] = 1;
                         break;
-                    case Side.South:
+                    case Direction.South:
                         add[2] = -1;
                         break;
-                    case Side.West:
+                    case Direction.West:
                         add[0] = -1;
                         break;
-                    case Side.Bottom:
+                    case Direction.Bottom:
                         add[1] = -1;
                         break;
                 }

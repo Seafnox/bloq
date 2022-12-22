@@ -1,7 +1,7 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { Side } from '@block/shared/constants/side';
+import { Direction } from '@block/shared/constants/direction';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import {Scene, Vector3, Raycaster, ShaderMaterial} from 'three';
@@ -64,7 +64,7 @@ export default class PlayerSelectionSystem extends System {
             for (let key of chunkKeys) {
                 let meshComponent = this.entityManager.getComponent<MeshComponent>(key, ComponentId.Mesh);
 
-                let hitSide: Side;
+                let hitSide: Direction;
                 let hitPoint: Vector3 = null;
                 if (meshComponent && meshComponent.mesh) {
                     let hits = ray.intersectObject(meshComponent.mesh);
@@ -83,12 +83,12 @@ export default class PlayerSelectionSystem extends System {
                         let normal = hit.face.normal;
 
                         // Find which side of the cube the player has in focus.
-                        if(normal.x === 0 && normal.y === 1 && normal.z === 0) hitSide = Side.Top;
-                        else if(normal.x === 0 && normal.y === 0 && normal.z === 1) hitSide = Side.North;
-                        else if(normal.x === 1 && normal.y === 0 && normal.z === 0) hitSide = Side.East;
-                        else if(normal.x === 0 && normal.y === 0 && normal.z === -1) hitSide = Side.South;
-                        else if(normal.x === -1 && normal.y === 0 && normal.z === 0) hitSide = Side.West;
-                        else if(normal.x === 0 && normal.y === -1 && normal.z === 0) hitSide = Side.Bottom;
+                        if(normal.x === 0 && normal.y === 1 && normal.z === 0) hitSide = Direction.Top;
+                        else if(normal.x === 0 && normal.y === 0 && normal.z === 1) hitSide = Direction.North;
+                        else if(normal.x === 1 && normal.y === 0 && normal.z === 0) hitSide = Direction.East;
+                        else if(normal.x === 0 && normal.y === 0 && normal.z === -1) hitSide = Direction.South;
+                        else if(normal.x === -1 && normal.y === 0 && normal.z === 0) hitSide = Direction.West;
+                        else if(normal.x === 0 && normal.y === -1 && normal.z === 0) hitSide = Direction.Bottom;
 
                         // Also subtract half of normal value to reach center of cube. Top face has normal
                         // of 1 pointing upwards, so subtracting half of that gets us precisely to the center of the

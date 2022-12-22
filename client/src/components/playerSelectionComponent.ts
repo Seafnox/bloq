@@ -1,10 +1,10 @@
 import { ComponentId } from '@block/shared/constants/componentId';
-import { Side } from '@block/shared/constants/side';
+import { Direction } from '@block/shared/constants/direction';
 import { MeshComponent, MeshComponentData } from './meshComponent';
 
 export interface PlayerSelectionComponentData extends MeshComponentData {
     target: [number, number, number];
-    targetSide: Side;
+    targetSide: Direction;
     targetValid: boolean;
 }
 
@@ -12,6 +12,6 @@ export class PlayerSelectionComponent extends MeshComponent<PlayerSelectionCompo
     static ID = ComponentId.PlayerSelection;
 
     target: [number, number, number] = [0, 0, 0];
-    targetSide: Side;
+    targetSide: Direction;
     targetValid: boolean = false;
 }

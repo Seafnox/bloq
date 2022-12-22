@@ -1,4 +1,4 @@
-import { ChatMaxLength, ChatLogSize } from '@block/shared/constants/chat';
+import { ChatMaxLength, ChatLogSize } from '@block/shared/constants/chat.constants';
 import { ComponentId } from '@block/shared/constants/componentId';
 import Initializer from "@block/shared/Initializer";
 import EntityManager from "@block/shared/EntityManager";

@@ -1,4 +1,4 @@
-export const enum Side {
+export const enum Direction {
     Top = 1,
     North,
     East,

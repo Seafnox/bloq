@@ -1,11 +1,8 @@
 import { ComponentId } from '../constants/componentId';
+import { Position } from '../Position';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
-export interface RotationComponentData extends SerializableComponentData {
-    x: number;
-    y: number;
-    z: number;
-}
+export interface RotationComponentData extends SerializableComponentData, Position {}
 
 export class RotationComponent extends SerializableComponent<RotationComponentData> implements RotationComponentData {
     static ID = ComponentId.Rotation;

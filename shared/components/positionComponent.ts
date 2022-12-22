@@ -1,12 +1,9 @@
 import { ComponentId } from '../constants/componentId';
 import { globalToChunk } from '../helpers/globalToChunk';
+import { Position } from '../Position';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
-export interface PositionComponentData extends SerializableComponentData {
-    x: number;
-    y: number;
-    z: number;
-}
+export interface PositionComponentData extends SerializableComponentData, Position {}
 
 export class PositionComponent extends SerializableComponent<PositionComponentData> implements PositionComponentData {
     static ID = ComponentId.Position;
