@@ -13,13 +13,14 @@
   "devDependencies": {
     "@types/fast-simplex-noise": "3.0.0",
     "@types/node": "18.11.17",
-    "@types/uuid": "9.0.0",
     "@types/sqlite3": "3.1.8",
+    "@types/uuid": "9.0.0",
     "@types/ws": "8.5.3",
     "fast-simplex-noise": "4.0.0",
-    "uuid": "9.0.0",
+    "nodemon": "^2.0.20",
     "performance-now": "2.1.0",
-    "tiny-worker": "2.3.0"
+    "tiny-worker": "2.3.0",
+    "uuid": "9.0.0"
   },
   "dependencies": {
     "sqlite3": "5.1.4",
