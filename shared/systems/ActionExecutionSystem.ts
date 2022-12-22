@@ -1,5 +1,5 @@
+import { ActionManager } from '../actions/ActionManager';
 import {System} from "../System";
-import {ActionManager} from "../actions";
 import EntityManager from "../EntityManager";
 
 

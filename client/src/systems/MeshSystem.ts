@@ -1,10 +1,10 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
 import {Scene} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId} from "@block/shared/constants";
 import { MeshComponent } from '../components/meshComponent';
 
 

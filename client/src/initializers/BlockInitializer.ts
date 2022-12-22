@@ -1,10 +1,10 @@
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
 import { ComponentMap } from '@block/shared/entityMessage';
 import {ShaderMaterial, Mesh} from 'three';
 
 import Initializer from "@block/shared/Initializer";
-import {ComponentId} from "@block/shared/constants";
 import { MeshComponent } from '../components/meshComponent';
 import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 import {buildBlockGeometry} from "../geometry/block";

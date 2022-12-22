@@ -1,10 +1,11 @@
+import { PickUpEntityAction } from '@block/shared/actions/pickUpEntityAction';
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
-import {ComponentId, ActionId} from "@block/shared/constants";
-import {broadcastAction} from "../helpers";
-import {PickUpEntityAction} from "@block/shared/actions";
+import { broadcastAction } from '../helpers/broadcastAction';
 
 
 export default class PickUpSystem extends System {

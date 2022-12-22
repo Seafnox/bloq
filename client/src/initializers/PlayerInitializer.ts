@@ -1,4 +1,5 @@
 import { PlayerComponent } from '@block/shared/components/playerComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
 import {
     Mesh,
     PerspectiveCamera,
@@ -8,7 +9,6 @@ import {
 import Initializer from "@block/shared/Initializer";
 import AnimatedMesh from '../../lib/AnimatedMesh';
 import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
-import {ComponentId} from "@block/shared/constants";
 import EntityManager from "@block/shared/EntityManager";
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';

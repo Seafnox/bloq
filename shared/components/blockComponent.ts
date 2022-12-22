@@ -1,4 +1,5 @@
-import { ComponentId, BlockId } from '../constants';
+import { BlockId } from '../constants/blockId';
+import { ComponentId } from '../constants/componentId';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
 export interface BlockComponentData extends SerializableComponentData {

@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants';
+import { ComponentId } from '../constants/componentId';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
 export interface PhysicsComponentData extends SerializableComponentData {

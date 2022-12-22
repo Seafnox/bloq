@@ -1,7 +1,7 @@
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
+import { BlockId } from '@block/shared/constants/blockId';
 import EntityManager from "@block/shared/EntityManager";
-import {BlockId} from "@block/shared/constants";
 import { PickableComponent } from './components/pickableComponent';
 
 

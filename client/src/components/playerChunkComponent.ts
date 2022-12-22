@@ -1,5 +1,5 @@
 import { AbstractComponent, AbstractComponentData } from '@block/shared/components/abstractComponent';
-import { ComponentId } from '@block/shared/constants';
+import { ComponentId } from '@block/shared/constants/componentId';
 export interface PlayerChunkComponentData extends AbstractComponentData {
     x: number;
     y: number;

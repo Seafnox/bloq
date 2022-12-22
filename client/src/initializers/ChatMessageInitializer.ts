@@ -1,6 +1,7 @@
+import { ChatMaxLength, ChatLogSize } from '@block/shared/constants/chat';
+import { ComponentId } from '@block/shared/constants/componentId';
 import Initializer from "@block/shared/Initializer";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, ChatLogSize, ChatMaxLength} from "@block/shared/constants";
 import { ComponentMap } from '@block/shared/entityMessage';
 import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 

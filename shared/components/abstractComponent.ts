@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants';
+import { ComponentId } from '../constants/componentId';
 import EntityManager from '../EntityManager';
 
 export interface AbstractComponentData {

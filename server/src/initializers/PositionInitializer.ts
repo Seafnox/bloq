@@ -1,12 +1,13 @@
+import { MoveEntityAction } from '@block/shared/actions/moveEntityAction';
 import { PositionComponent } from '@block/shared/components/positionComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import Initializer from "@block/shared/Initializer";
-import {ComponentId, ActionId} from "@block/shared/constants";
-import {MoveEntityAction} from "@block/shared/actions";
-import {globalToChunk} from "@block/shared/helpers";
 import { ServerComponentMap } from '../entityManager/serverEntityMessage';
-import {broadcastAction} from "../helpers";
+import { broadcastAction } from '../helpers/broadcastAction';
 import EntityManager from "@block/shared/EntityManager";
-import {ServerActionManager} from "../actions";
+import {ServerActionManager} from "../actions/ServerActionManager";
 
 
 export default class PositionInitializer extends Initializer<ServerComponentMap> {

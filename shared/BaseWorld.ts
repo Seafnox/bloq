@@ -1,12 +1,12 @@
+import { ActionManager } from './actions/ActionManager';
 import { registerSharedComponents } from './components/registerSharedComponents';
+import { SystemOrder } from './constants/systemOrder';
 import EntityManager from "./EntityManager";
 import {System} from "./System";
-import {ActionManager} from "./actions";
 import PhysicsSystem from "./systems/PhysicsSystem";
 import TerrainCollisionSystem from "./systems/TerrainCollisionSystem";
 import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
-import {SystemOrder} from "./constants";
 import { UtilsManager } from './UtilsManager';
 
 export class BaseWorld {

@@ -1,8 +1,9 @@
 import { ChatMessageComponent } from '@block/shared/components/chatMessageComponent';
+import { ChatMaxLength } from '@block/shared/constants/chat';
+import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import KeyboardManager from "../../lib/KeyboardManager";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, ChatMaxLength} from "@block/shared/constants";
 import NetworkSystem from "./NetworkSystem";
 import HTMLParser from "../../lib/HTMLParser";
 import '../../assets/stylesheets/chat.scss';

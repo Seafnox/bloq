@@ -1,16 +1,20 @@
+import { RemoveEntitiesAction } from '@block/shared/actions/removeEntitiesAction';
+import { SetBlocksAction } from '@block/shared/actions/setBlocksAction';
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { InputComponent } from '@block/shared/components/inputComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { MessageType } from '@block/shared/constants/messageType';
+import { Side } from '@block/shared/constants/side';
+import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import {System} from "@block/shared/System";
-import {ServerActionManager} from "../actions";
+import {ServerActionManager} from "../actions/ServerActionManager";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, Side, ActionId, MessageType} from "@block/shared/constants";
-import {SetBlocksAction, RemoveEntitiesAction} from "@block/shared/actions";
-import {globalToChunk} from "@block/shared/helpers";
 import { NetworkComponent } from '../components/networkComponent';
-import {broadcastAction} from "../helpers";
-import {initBlockEntity} from "../entities";
-import {getValueGlobal} from "../terrain";
+import { broadcastAction } from '../helpers/broadcastAction';
+import {initBlockEntity} from "../initBlockEntity";
+import {getValueGlobal} from "../getValueGlobal";
 import Server from "../Server";
 
 

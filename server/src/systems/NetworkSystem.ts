@@ -1,8 +1,8 @@
+import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import { NetworkComponent } from '../components/networkComponent';
 import Server from "../Server";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId} from "@block/shared/constants";
 
 
 export default class NetworkSystem extends System {

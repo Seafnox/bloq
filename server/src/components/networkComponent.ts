@@ -1,5 +1,7 @@
 import { AbstractComponent, AbstractComponentData } from '@block/shared/components/abstractComponent';
-import { ComponentId, TERRAIN_CHUNK_SIZE, MessageType } from '@block/shared/constants';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { MessageType } from '@block/shared/constants/messageType';
+import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
 import { WebSocket } from 'ws';
 
 export interface NetworkComponentData extends AbstractComponentData {
@@ -12,7 +14,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
 
     websocket: WebSocket;
     bufferPos: number = 0;
-    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(TERRAIN_CHUNK_SIZE, 3) * 3);
+    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 3);
 
     bytesLeft(): number {
         return this.buffer.byteLength - this.bufferPos;

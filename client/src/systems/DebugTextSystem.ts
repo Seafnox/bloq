@@ -1,11 +1,12 @@
 import { OnGroundComponent } from '@block/shared/components/onGroundComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { mod } from '@block/shared/helpers/mod';
 import {WebGLRenderer} from 'three';
 
 import {System} from "@block/shared/System";
-import {ComponentId, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
-import {mod} from "@block/shared/helpers";
 import EntityManager from "@block/shared/EntityManager";
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
 
@@ -51,7 +52,7 @@ export default class DebugTextSystem extends System {
 Chunk:    ${cx} x ${cy} x ${cz}
 
 Global: x: ${positionComponent.x.toFixed(2)} | y: ${positionComponent.y.toFixed(2)} | z: ${positionComponent.z.toFixed(2)}
-Local:  x: ${mod(positionComponent.x, TERRAIN_CHUNK_SIZE).toFixed(2)} | y: ${mod(positionComponent.y, TERRAIN_CHUNK_SIZE).toFixed(2)} | z: ${mod(positionComponent.z, TERRAIN_CHUNK_SIZE).toFixed(2)}
+Local:  x: ${mod(positionComponent.x, terrainChunkSize).toFixed(2)} | y: ${mod(positionComponent.y, terrainChunkSize).toFixed(2)} | z: ${mod(positionComponent.z, terrainChunkSize).toFixed(2)}
 
 On ground: ${!!onGroundComponent} | can jump: ${!!onGroundComponent && onGroundComponent.canJump}
 

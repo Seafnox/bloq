@@ -1,9 +1,9 @@
 import { AbstractComponent, AbstractComponentData } from './components/abstractComponent';
 import { SerializableComponent } from './components/serializableComponent';
-import {ComponentId} from "./constants";
+import { ComponentId } from './constants/componentId';
 import { Logger } from './Logger';
 import { UtilsManager } from './UtilsManager';
-import { UuidGenerator } from './uuidGenerator';
+import { UuidGenerator } from './UuidGenerator';
 
 let componentProxyHandler: ProxyHandler<AbstractComponent<any>> = {
     set: (obj: any, prop: keyof AbstractComponentData | 'dirtyFields', value: any) => {

@@ -1,4 +1,5 @@
-import { ComponentId, Side } from '@block/shared/constants';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { Side } from '@block/shared/constants/side';
 import { MeshComponent, MeshComponentData } from './meshComponent';
 
 export interface PlayerSelectionComponentData extends MeshComponentData {

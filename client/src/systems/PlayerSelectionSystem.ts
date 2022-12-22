@@ -1,14 +1,16 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { Side } from '@block/shared/constants/side';
+import { chunkKey } from '@block/shared/helpers/chunkKey';
+import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import {Scene, Vector3, Raycaster, ShaderMaterial} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, Side} from "@block/shared/constants";
-import {globalToChunk, chunkKey} from "@block/shared/helpers";
 import { MeshComponent } from '../components/meshComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
-import {findBlockMaterial} from "../helpers";
+import { findBlockMaterial } from '../helpers/findBlockMaterial';
 
 
 export default class PlayerSelectionSystem extends System {

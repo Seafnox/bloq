@@ -1,5 +1,5 @@
-import { ComponentId } from '../constants';
-import { globalToChunk } from '../helpers';
+import { ComponentId } from '../constants/componentId';
+import { globalToChunk } from '../helpers/globalToChunk';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
 export interface PositionComponentData extends SerializableComponentData {

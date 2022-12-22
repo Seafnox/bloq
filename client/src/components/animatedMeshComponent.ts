@@ -1,4 +1,4 @@
-import { ComponentId } from '@block/shared/constants';
+import { ComponentId } from '@block/shared/constants/componentId';
 import AnimatedMesh from '../../lib/AnimatedMesh';
 import { MeshComponent, MeshComponentData } from './meshComponent';
 

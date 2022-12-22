@@ -1,7 +1,8 @@
 import { BaseWorld } from "@block/shared/BaseWorld";
+import { ComponentId } from '@block/shared/constants/componentId';
+import { SystemOrder } from '@block/shared/constants/systemOrder';
 import { UtilsManager } from "@block/shared/UtilsManager";
-import {ServerActionManager} from "./actions";
-import {ComponentId, SystemOrder} from "@block/shared/constants";
+import {ServerActionManager} from "./actions/ServerActionManager";
 import { registerServerComponents } from './components/registerServerComponents';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import Server from "./Server";

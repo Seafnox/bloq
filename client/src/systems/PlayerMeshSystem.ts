@@ -2,11 +2,11 @@ import { CurrentPlayerComponent } from '@block/shared/components/currentPlayerCo
 import { PhysicsComponent } from '@block/shared/components/physicsComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
 import {Scene} from 'three';
 
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId} from "@block/shared/constants";
 import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
 
 

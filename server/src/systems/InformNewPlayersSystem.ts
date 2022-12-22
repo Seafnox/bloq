@@ -1,5 +1,6 @@
+import { ComponentId } from '@block/shared/constants/componentId';
+import { MessageType } from '@block/shared/constants/messageType';
 import {System} from "@block/shared/System";
-import {ComponentId, MessageType} from "@block/shared/constants";
 import { NetworkComponent } from '../components/networkComponent';
 
 

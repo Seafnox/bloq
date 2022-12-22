@@ -1,4 +1,4 @@
-import {TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
+import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
 
 // Relative offsets for cube faces. See more details further down.
 const faces = [
@@ -64,7 +64,7 @@ const faces = [
     ]
 ];
 
-const size = TERRAIN_CHUNK_SIZE; // Save some typing.
+const size = terrainChunkSize; // Save some typing.
 
 
 function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Array>>>) {

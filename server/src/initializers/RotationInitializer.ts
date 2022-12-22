@@ -1,6 +1,6 @@
 import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
 import Initializer from "@block/shared/Initializer";
-import {ComponentId} from "@block/shared/constants";
 import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 export default class RotationInitializer extends Initializer<ServerComponentMap> {

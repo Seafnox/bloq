@@ -1,4 +1,5 @@
-import { ComponentId, TERRAIN_CHUNK_SIZE } from '../constants';
+import { ComponentId } from '../constants/componentId';
+import { terrainChunkSize } from '../constants/TerrainChunkSize';
 import { AbstractComponent, AbstractComponentData } from './abstractComponent';
 
 export interface TerrainChunkComponentData extends AbstractComponentData {
@@ -14,7 +15,7 @@ export class TerrainChunkComponent extends AbstractComponent<TerrainChunkCompone
     x: number;
     y: number;
     z: number;
-    data: Uint8Array = new Uint8Array(TERRAIN_CHUNK_SIZE * TERRAIN_CHUNK_SIZE * TERRAIN_CHUNK_SIZE);
+    data: Uint8Array = new Uint8Array(terrainChunkSize * terrainChunkSize * terrainChunkSize);
 
     constructor(x?: number, y?: number, z?: number) {
         super();
@@ -31,13 +32,13 @@ export class TerrainChunkComponent extends AbstractComponent<TerrainChunkCompone
     }
 
     getValue(x: number, y: number, z: number) {
-        if (x < 0 || y < 0 || z < 0 || x >= TERRAIN_CHUNK_SIZE || y >= TERRAIN_CHUNK_SIZE || z >= TERRAIN_CHUNK_SIZE) return 0;
-        return this.data[(y | 0) * TERRAIN_CHUNK_SIZE * TERRAIN_CHUNK_SIZE + (z | 0) * TERRAIN_CHUNK_SIZE + (x | 0)];
+        if (x < 0 || y < 0 || z < 0 || x >= terrainChunkSize || y >= terrainChunkSize || z >= terrainChunkSize) return 0;
+        return this.data[(y | 0) * terrainChunkSize * terrainChunkSize + (z | 0) * terrainChunkSize + (x | 0)];
     }
 
     setValue(x: number, y: number, z: number, mat: number): boolean {
-        if (x < 0 || y < 0 || z < 0 || x >= TERRAIN_CHUNK_SIZE || y >= TERRAIN_CHUNK_SIZE || z >= TERRAIN_CHUNK_SIZE) return false;
-        this.data[(y | 0) * TERRAIN_CHUNK_SIZE * TERRAIN_CHUNK_SIZE + (z | 0) * TERRAIN_CHUNK_SIZE + (x | 0)] = mat;
+        if (x < 0 || y < 0 || z < 0 || x >= terrainChunkSize || y >= terrainChunkSize || z >= terrainChunkSize) return false;
+        this.data[(y | 0) * terrainChunkSize * terrainChunkSize + (z | 0) * terrainChunkSize + (x | 0)] = mat;
 
         // Implicit dirty detection only works when setting attributes, not mutating child structures like an array.
         this.dirtyFields.add('data');

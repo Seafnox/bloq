@@ -1,10 +1,12 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { chunkKey } from '@block/shared/helpers/chunkKey';
 import {Scene, ShaderMaterial, Mesh, Vector3} from 'three';
 
 import {System} from "@block/shared/System";
-import {ComponentId, TERRAIN_CHUNK_SIZE, ViewDistance} from "@block/shared/constants";
-import {chunkKey} from "@block/shared/helpers";
+import {ViewDistance} from "@block/shared/constants/visual";
 import EntityManager from '@block/shared/EntityManager';
 import { MeshComponent } from '../components/meshComponent';
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
@@ -87,9 +89,9 @@ export default class TerrainChunkSystem extends System {
 
             // Set chunk position. Add offsets so displayed mesh corresponds with collision detection and
             // lookups on the underlying data for the terrain chunk.
-            mesh.position.x = chunkComponent.x * TERRAIN_CHUNK_SIZE;
-            mesh.position.y = chunkComponent.y * TERRAIN_CHUNK_SIZE;
-            mesh.position.z = chunkComponent.z * TERRAIN_CHUNK_SIZE;
+            mesh.position.x = chunkComponent.x * terrainChunkSize;
+            mesh.position.y = chunkComponent.y * terrainChunkSize;
+            mesh.position.z = chunkComponent.z * terrainChunkSize;
 
             let endTime = performance.now();
             cumTime += (endTime - startTime);

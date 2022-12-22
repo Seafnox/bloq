@@ -1,11 +1,12 @@
 import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { terrainChunkSize } from '@block/shared/constants/TerrainChunkSize';
+import { chunkKey } from '@block/shared/helpers/chunkKey';
 var Worker = require("tiny-worker");
 var now = require('performance-now');
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
-import {ComponentId, TERRAIN_CHUNK_SIZE} from "@block/shared/constants";
-import {chunkKey} from "@block/shared/helpers";
 import { NetworkComponent } from '../components/networkComponent';
 import Server from "../Server";
 import TerrainWorker from "../workers/TerrainWorker";
@@ -43,7 +44,7 @@ export default class ChunkRequestSystem extends System {
                 if (chunkComponent) {
                     Server.sendTerrainChunk(netComponent, chunkComponent.serialize().buffer);
                     reqComponent.chunks.splice(reqComponent.chunks.indexOf(key), 1);
-                    return netComponent.bytesLeft() < Math.pow(TERRAIN_CHUNK_SIZE, 3) + 32
+                    return netComponent.bytesLeft() < Math.pow(terrainChunkSize, 3) + 32
                 }
 
                 if (!this.chunksRequested.has(key)) {

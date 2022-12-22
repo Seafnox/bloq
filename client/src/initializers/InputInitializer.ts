@@ -1,5 +1,5 @@
+import { ComponentId } from '@block/shared/constants/componentId';
 import Initializer from "@block/shared/Initializer";
-import {ComponentId} from "@block/shared/constants";
 import { ComponentMap } from '@block/shared/entityMessage';
 import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 

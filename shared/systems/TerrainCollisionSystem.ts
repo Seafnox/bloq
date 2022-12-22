@@ -3,9 +3,13 @@ import { PhysicsComponent } from '../components/physicsComponent';
 import { PositionComponent } from '../components/positionComponent';
 import { TerrainChunkComponent } from '../components/terrainChunkComponent';
 import { WallCollisionComponent } from '../components/wallCollisionComponent';
+import { ComponentId } from '../constants/componentId';
+import { PlayerJumpVelocity } from '../constants/physics';
+import { terrainChunkSize } from '../constants/TerrainChunkSize';
+import { chunkKey } from '../helpers/chunkKey';
+import { globalToChunk } from '../helpers/globalToChunk';
+import { mod } from '../helpers/mod';
 import {System} from "../System";
-import {ComponentId, TERRAIN_CHUNK_SIZE, PlayerJumpVelocity} from "../constants";
-import {chunkKey, mod, globalToChunk} from "../helpers";
 
 
 export default class TerrainCollisionSystem extends System {
@@ -33,9 +37,9 @@ export default class TerrainCollisionSystem extends System {
             let checkCollisionAt = (nx: number, ny: number, nz: number) => {
                 let [gx, gy, gz] = [posComponent.x + nx, posComponent.y + ny, posComponent.z + nz].map(c => Math.round(Math.abs(c)) * Math.sign(c));
                 let [lx, ly, lz] = [
-                    mod(gx, TERRAIN_CHUNK_SIZE),
-                    mod(gy, TERRAIN_CHUNK_SIZE),
-                    mod(gz, TERRAIN_CHUNK_SIZE)
+                    mod(gx, terrainChunkSize),
+                    mod(gy, terrainChunkSize),
+                    mod(gz, terrainChunkSize)
                 ];
 
                 let cx = globalToChunk(gx);

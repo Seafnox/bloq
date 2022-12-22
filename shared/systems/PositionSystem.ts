@@ -1,7 +1,7 @@
 import { PhysicsComponent } from '../components/physicsComponent';
 import { PositionComponent } from '../components/positionComponent';
+import { ComponentId } from '../constants/componentId';
 import {System} from "../System";
-import {ComponentId} from "../constants";
 
 
 export default class PositionSystem extends System {

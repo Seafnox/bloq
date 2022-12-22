@@ -1,3 +1,5 @@
+import { ComponentId } from '@block/shared/constants/componentId';
+import { SystemOrder } from '@block/shared/constants/systemOrder';
 import {
     Scene,
     PerspectiveCamera,
@@ -6,10 +8,10 @@ import {
 } from 'three';
 import { BaseWorld } from "@block/shared/BaseWorld";
 import { UtilsManager } from "@block/shared/UtilsManager";
+import { ClientActionManager } from './actions/clientActionManager';
 import { registerClientComponents } from './components/registerClientComponents';
 import { ClientComponentMap } from './emtityManager/clientEntityMessage';
 import PlayState from "./states/PlayState";
-import {ClientActionManager} from "./actions";
 import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import TerrainChunkSystem from "./systems/TerrainChunkSystem";
 import PlayerInputSystem from "./systems/PlayerInputSystem";
@@ -21,7 +23,6 @@ import MouseManager from "../lib/MouseManager";
 import KeyboardManager from "../lib/KeyboardManager";
 import InventoryUISystem from "./systems/InventoryUISystem";
 import BlockSystem from "./systems/BlockSystem";
-import {ComponentId, SystemOrder} from "@block/shared/constants";
 import BlockInitializer from "./initializers/BlockInitializer";
 import TerrainChunkInitializer from "./initializers/TerrainChunkInitializer";
 import PlayerInitializer from "./initializers/PlayerInitializer";

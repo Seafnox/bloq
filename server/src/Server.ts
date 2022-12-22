@@ -1,11 +1,13 @@
+import { AbstractAction } from '@block/shared/actions/abstractAction';
 import { PlayerComponent } from '@block/shared/components/playerComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { MessageType } from '@block/shared/constants/messageType';
 import { EntityMessage } from '@block/shared/entityMessage';
 import { WebSocketServer, WebSocket } from 'ws';
 import { NetworkComponent } from './components/networkComponent';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
-import {ComponentId, ActionId, MessageType} from "@block/shared/constants";
-import {Action} from "@block/shared/actions";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
 
 // TODO: Use performance.now, like in the client.
@@ -67,7 +69,7 @@ export default class Server {
         netComponent.pushBuffer(MessageType.Terrain, buf);
     }
 
-    static sendAction(netComponent: NetworkComponent, actionId: ActionId, action: Action) {
+    static sendAction(netComponent: NetworkComponent, actionId: ActionId, action: AbstractAction) {
         const encoder = new TextEncoder();
         let actionString = action.serialize();
         let bytes = encoder.encode(actionString);

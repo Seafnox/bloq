@@ -1,6 +1,6 @@
 import { Logger } from './Logger';
-import { PerformanceNow } from './performanceNow';
-import { UuidGenerator } from './uuidGenerator';
+import { PerformanceNow } from './PerformanceNow';
+import { UuidGenerator } from './UuidGenerator';
 
 export class UtilsManager {
     constructor(
