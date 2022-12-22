@@ -7,20 +7,20 @@ import { ActionId } from '@block/shared/constants/actionId';
 import { ClientPickUpEntityAction } from './clientPickUpEntityAction';
 
 export class ClientActionManager extends ActionManager {
-    queueRawAction(id: ActionId, data: Object) {
+    queueRawAction(id: ActionId, data: Record<string, any>) {
         switch (id) {
             case ActionId.UnsubscribeTerrainChunks:
                 this.queue.push(new UnsubscribeTerrainChunksAction(data['chunkKeys']));
                 break;
             case ActionId.SetBlocks:
-                let blocks = data['blocks'].map(block => [block[0], block[1], block[2], block[3]]);
+                let blocks = data['blocks'].map((block: number[]) => [block[0], block[1], block[2], block[3]]);
                 this.queue.push(new SetBlocksAction(blocks));
                 break;
             case ActionId.RemoveEntities:
                 this.queue.push(new RemoveEntitiesAction(data['entities']));
                 break;
             case ActionId.MoveEntity:
-                this.queue.push(new MoveEntityAction(data['entity'], data['position'].map(num => parseFloat(num))));
+                this.queue.push(new MoveEntityAction(data['entity'], data['position'].map((num: string) => parseFloat(num))));
                 break;
             case ActionId.PickUpEntity:
                 this.queue.push(new ClientPickUpEntityAction(data['player'], data['inventorySlot'], data['pickable']));

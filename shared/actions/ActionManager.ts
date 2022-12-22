@@ -1,3 +1,4 @@
+import { ActionId } from '../constants/actionId';
 import EntityManager from '../EntityManager';
 import { AbstractAction } from './abstractAction';
 
@@ -14,8 +15,7 @@ export class ActionManager {
         this.queue = [];
     }
 
-    queueRawAction(id: number, data: Object) {
-    }
+    queueRawAction(id: ActionId, actionData: Record<string, any>) {}
 
     queueAction(action: AbstractAction) {
         this.queue.push(action);

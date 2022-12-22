@@ -32,7 +32,7 @@ export class Server {
     }
 
     private onClose(evt: MessageEvent) {
-        console.log('close');
+        console.log('close', evt);
     }
 
     private onMessage(evt: MessageEvent) {
@@ -83,15 +83,15 @@ export class Server {
 
     private handleActionMessage(message: ArrayBuffer): void {
         let actionId = new DataView(message).getUint16(0);
-        let data = message.slice(Uint16Array.BYTES_PER_ELEMENT);
+        let actionBuffer = message.slice(Uint16Array.BYTES_PER_ELEMENT);
 
-        const obj = bufferToObject(data);
+        const actionData = bufferToObject(actionBuffer);
 
         // Queue action directly. No "event" to be emitted.
-        this.game.world.actionManager.queueRawAction(actionId, obj);
+        this.game.world.actionManager.queueRawAction(actionId, actionData);
     }
 
     private onError(evt: MessageEvent) {
-        console.log('error');
+        console.log('error', evt);
     }
 }

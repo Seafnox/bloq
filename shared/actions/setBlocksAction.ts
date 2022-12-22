@@ -8,9 +8,9 @@ import { mod } from '../helpers/mod';
 import { AbstractAction } from './abstractAction';
 
 export class SetBlocksAction extends AbstractAction {
-    blocks: Array<[number, number, number, number]>;
+    blocks: [number, number, number, number][];
 
-    constructor(blocks: Array<[number, number, number, number]>) {
+    constructor(blocks: [number, number, number, number][]) {
         super();
         this.blocks = blocks;
     }
