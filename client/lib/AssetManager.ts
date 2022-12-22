@@ -189,7 +189,7 @@ export default class AssetManager {
         return this.assets.textures.get(name);
     }
 
-    getMesh(name: string): Mesh | SkinnedMesh {
+    getMesh(name: string): Mesh | AnimatedMesh {
         return this.assets.meshes.get(name);
     }
 

@@ -1,10 +1,10 @@
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import Initializer from "@block/shared/Initializer";
 import {ComponentId} from "@block/shared/constants";
-import { ComponentMap } from '@block/shared/interfaces';
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
-export default class RotationInitializer extends Initializer {
-    initialize(entity: string, componentMap: ComponentMap): void {
+export default class RotationInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
         let rot = componentMap[ComponentId.Rotation];
         let existingRot = this.entityManager.getComponent<RotationComponent>(entity, ComponentId.Rotation);
         existingRot.update(rot);

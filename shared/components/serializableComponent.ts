@@ -8,7 +8,7 @@ const componentReplacer = (key: string, value: any) => {
 
 export interface SerializableComponentData extends AbstractComponentData {}
 
-export class SerializableComponent<T extends SerializableComponentData> extends AbstractComponent<T> {
+export class SerializableComponent<T extends SerializableComponentData = SerializableComponentData> extends AbstractComponent<T> {
     serialize(): string {
         return JSON.stringify(this, componentReplacer);
     }

@@ -7,6 +7,7 @@ import {
 import { BaseWorld } from "@block/shared/BaseWorld";
 import { UtilsManager } from "@block/shared/UtilsManager";
 import { registerClientComponents } from './components/registerClientComponents';
+import { ClientComponentMap } from './emtityManager/clientEntityMessage';
 import PlayState from "./states/PlayState";
 import {ClientActionManager} from "./actions";
 import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
@@ -101,7 +102,7 @@ export default class World extends BaseWorld {
         // TODO: Store system orders as constants in one place.
         this.addSystem(new ActionExecutionSystem(this.entityManager, this.actionManager), SystemOrder.ActionExecution); // Always process first
 
-        let initializerSystem = new InitializerSystem(this.entityManager, this.game.server.eventEmitter);
+        let initializerSystem = new InitializerSystem<ClientComponentMap>(this.entityManager, this.game.server.eventEmitter);
         initializerSystem.addInitializer(ComponentId.TerrainChunk, new TerrainChunkInitializer(this.entityManager));
         initializerSystem.addInitializer(
             ComponentId.Player,

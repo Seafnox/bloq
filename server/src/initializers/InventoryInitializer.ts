@@ -1,11 +1,11 @@
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import Initializer from "@block/shared/Initializer";
 import {ComponentId} from "@block/shared/constants";
-import { ComponentMap } from '@block/shared/interfaces';
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
-export default class InventoryInitializer extends Initializer {
-    initialize(entity: string, componentMap: ComponentMap): void {
+export default class InventoryInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
         let inventoryData = componentMap[ComponentId.Inventory];
         let inventory = this.entityManager.getComponent<InventoryComponent>(entity, ComponentId.Inventory);
 

@@ -6,7 +6,7 @@ import EntityManager from "@block/shared/EntityManager";
 
 
 export class ClientActionManager extends shared.ActionManager {
-    queueRawAction(id: number, data: Object) {
+    queueRawAction(id: ActionId, data: Object) {
         switch (id) {
             case ActionId.UnsubscribeTerrainChunks:
                 this.queue.push(new shared.UnsubscribeTerrainChunksAction(data['chunkKeys']));

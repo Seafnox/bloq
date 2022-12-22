@@ -22,10 +22,8 @@ export class AbstractComponent<T extends AbstractComponentData> implements Abstr
         return this.ID;
     }
 
-    update(data: Partial<T>): typeof this {
+    update(data: Partial<T>): void {
         Object.assign(this, data);
-
-        return this;
     }
 
     dispose(entityManager: EntityManager): void {

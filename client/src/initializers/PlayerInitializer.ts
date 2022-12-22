@@ -1,24 +1,22 @@
 import { PlayerComponent } from '@block/shared/components/playerComponent';
-import { ComponentMap } from '@block/shared/interfaces';
 import {
-    Object3D,
     Mesh,
     PerspectiveCamera,
     ShaderMaterial,
     BoxGeometry,
 } from 'three';
-
 import Initializer from "@block/shared/Initializer";
+import AnimatedMesh from '../../lib/AnimatedMesh';
 import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
 import {ComponentId} from "@block/shared/constants";
-import AnimatedMesh from "../../lib/AnimatedMesh";
 import EntityManager from "@block/shared/EntityManager";
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
+import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 import NetworkSystem from "../systems/NetworkSystem";
 import AssetManager from "../../lib/AssetManager";
 
-export default class PlayerInitializer extends Initializer {
+export default class PlayerInitializer extends Initializer<ClientComponentMap> {
     private netSystem: NetworkSystem;
     private camera: PerspectiveCamera;
     private assetManager: AssetManager;
@@ -32,7 +30,7 @@ export default class PlayerInitializer extends Initializer {
         this.selectionMaterial = selectionMaterial;
     }
 
-    initialize(entity: string, componentMap: ComponentMap) {
+    initialize(entity: string, componentMap: ClientComponentMap) {
         // New player just joined. Set and send username.
         if (!componentMap[ComponentId.Player]['name']) {
             let playerComponent = new PlayerComponent();
@@ -48,21 +46,21 @@ export default class PlayerInitializer extends Initializer {
             .forEach(componentIdStr => {
                 let componentId = parseInt(componentIdStr) as ComponentId;
                 let componentData = componentMap[componentId];
-                this.entityManager.addComponentFromObject(entity, componentId, componentData);
+                this.entityManager.addComponentFromData(entity, componentId, componentData);
             });
 
         // Only current player needs a camera attached.
-        let playerMesh;
+        let playerMesh: AnimatedMesh;
         if (ComponentId.CurrentPlayer in componentMap) {
-            playerMesh = new Object3D();
+            playerMesh = new AnimatedMesh();
             this.camera.position.y = 2.5;
             playerMesh.add(this.camera);
         } else {
-            let mesh = this.assetManager.getMesh('player');
-            playerMesh = mesh.clone() as AnimatedMesh
+            let mesh = this.assetManager.getMesh('player') as AnimatedMesh;
+            playerMesh = mesh.clone();
         }
 
-        let animMeshComponent = new AnimatedMeshComponent();
+        const animMeshComponent = new AnimatedMeshComponent();
         animMeshComponent.mesh = playerMesh;
         this.entityManager.addComponent(entity, animMeshComponent);
 

@@ -1,12 +1,13 @@
 import Initializer from "@block/shared/Initializer";
 import EntityManager from "@block/shared/EntityManager";
 import {ComponentId, ChatLogSize, ChatMaxLength} from "@block/shared/constants";
-import { ComponentMap } from '@block/shared/interfaces';
+import { ComponentMap } from '@block/shared/entityMessage';
+import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 
 
 // ChatMessageInitializer doesn't initialize entity in EntityManager, but uses entity data to update DOM.
 // We never need to reference this entity again, so therefore we can ignore it.
-export default class ChatMessageInitializer extends Initializer {
+export default class ChatMessageInitializer extends Initializer<ClientComponentMap> {
     constructor(em: EntityManager) {
         super(em);
     }

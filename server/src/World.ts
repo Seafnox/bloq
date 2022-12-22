@@ -3,6 +3,7 @@ import { UtilsManager } from "@block/shared/UtilsManager";
 import {ServerActionManager} from "./actions";
 import {ComponentId, SystemOrder} from "@block/shared/constants";
 import { registerServerComponents } from './components/registerServerComponents';
+import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import Server from "./Server";
 import {v4} from 'uuid';
 
@@ -36,7 +37,7 @@ export default class World extends BaseWorld {
 
         this.addSystem(new ActionExecutionSystem(this.entityManager, this.actionManager), SystemOrder.ActionExecution); // Always process first
 
-        let initializerSystem = new InitializerSystem(this.entityManager, server.eventEmitter);
+        let initializerSystem = new InitializerSystem<ServerComponentMap>(this.entityManager, server.eventEmitter);
         initializerSystem.addInitializer(ComponentId.Player, new PlayerInitializer(this.entityManager));
         initializerSystem.addInitializer(ComponentId.Input, new PlayerInputInitializer(this.entityManager));
         initializerSystem.addInitializer(ComponentId.Position, new PositionInitializer(this.entityManager, this.actionManager));

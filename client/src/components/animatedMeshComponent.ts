@@ -1,8 +1,8 @@
 import { ComponentId } from '@block/shared/constants';
 import AnimatedMesh from '../../lib/AnimatedMesh';
-import { MeshComponent } from './meshComponent';
+import { MeshComponent, MeshComponentData } from './meshComponent';
 
-export class AnimatedMeshComponent extends MeshComponent {
+export class AnimatedMeshComponent extends MeshComponent<MeshComponentData> {
     static ID = ComponentId.AnimatedMesh;
 
     mesh: AnimatedMesh = null;

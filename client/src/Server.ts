@@ -1,17 +1,18 @@
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
+import { ClientComponentMap } from './emtityManager/clientEntityMessage';
 import PlayState from "./states/PlayState";
 import {MessageType, ComponentId} from "@block/shared/constants";
 import {bufferToObject} from "./helpers";
 import {deserializeTerrainChunk} from "@block/shared/helpers"
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
-import {EntityMessage} from "@block/shared/interfaces";
+import {EntityMessage} from "@block/shared/entityMessage";
 
 
 export class Server {
     url: string;
     ws: WebSocket;
     game: PlayState;
-    eventEmitter: ComponentEventEmitter = new ComponentEventEmitter();
+    eventEmitter = new ComponentEventEmitter<ClientComponentMap>();
 
     constructor(game: PlayState, server: string, connCallback: ((this: WebSocket, ev: Event) => any)) {
         this.game = game;
@@ -64,7 +65,7 @@ export class Server {
     }
 
     private handleEntityMessage(message: ArrayBuffer): void {
-        const entityMessage = bufferToObject<EntityMessage>(message);
+        const entityMessage = bufferToObject<EntityMessage<ClientComponentMap>>(message);
 
         Object.keys(entityMessage.componentMap).forEach(componentId => {
             let key = parseInt(componentId);
@@ -75,7 +76,7 @@ export class Server {
     private handleTerrainMessage(message: ArrayBuffer): void {
         let [entity, component] = deserializeTerrainChunk(message);
 
-        let componentsObj: Partial<Record<ComponentId, TerrainChunkComponent>> = {};
+        let componentsObj: Partial<ClientComponentMap> = {};
         componentsObj[ComponentId.TerrainChunk] = component;
         this.eventEmitter.emit(ComponentId.TerrainChunk, entity, componentsObj);
     }

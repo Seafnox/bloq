@@ -10,13 +10,13 @@ import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { WallCollisionComponent } from '@block/shared/components/wallCollisionComponent';
 import Initializer from "@block/shared/Initializer";
 import {ComponentId, MessageType} from "@block/shared/constants";
-import { ComponentMap } from '@block/shared/interfaces';
 import { NetworkComponent } from '../components/networkComponent';
 import { NewPlayerComponent } from '../components/newPlayerComponent';
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
-export default class PlayerInitializer extends Initializer {
-    initialize(entity: string, componentMap: ComponentMap): void {
+export default class PlayerInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
         // Only process further if name is set. We don't want players without names.
         let playerComponentData = componentMap[ComponentId.Player];
         if(!playerComponentData['name']) return;

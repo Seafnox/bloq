@@ -1,12 +1,12 @@
 import EntityManager from "./EntityManager";
-import { ComponentMap } from './interfaces';
+import { ComponentMap } from './entityMessage';
 
 
-export default class Initializer {
+export default class Initializer<TComponentMap extends ComponentMap> {
     entityManager: EntityManager;
     constructor(em: EntityManager) {
         this.entityManager = em;
     }
 
-    initialize(entity: string, componentMap: ComponentMap): void {}
+    initialize(entity: string, componentMap: TComponentMap): void {}
 }

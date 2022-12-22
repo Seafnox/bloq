@@ -1,7 +1,8 @@
 import { PlayerComponent } from '@block/shared/components/playerComponent';
-import { EntityMessage } from '@block/shared/interfaces';
+import { EntityMessage } from '@block/shared/entityMessage';
 import { WebSocketServer, WebSocket } from 'ws';
 import { NetworkComponent } from './components/networkComponent';
+import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
 import {ComponentId, ActionId, MessageType} from "@block/shared/constants";
 import {Action} from "@block/shared/actions";
@@ -13,7 +14,7 @@ let hrtimeToSeconds = (hrtime: number[]) => hrtime[0] + hrtime[1] / 1000000000;
 export default class Server {
     wss: WebSocketServer;
     world: World;
-    eventEmitter: ComponentEventEmitter = new ComponentEventEmitter();
+    eventEmitter = new ComponentEventEmitter<ServerComponentMap>();
 
     constructor() {
         this.world = new World(this);
@@ -116,7 +117,7 @@ export default class Server {
             let msg = new Uint8Array(buffer.slice(pos, pos + msgLength));
             pos += msgLength;
             let text = textDecoder.decode(msg);
-            let entityMessage: EntityMessage = JSON.parse(text);
+            let entityMessage: EntityMessage<ServerComponentMap> = JSON.parse(text);
 
             // No one should be able to send data on behalf of others.
             // Really "obj" doesn't need an "entity" property, but might need it in the future.

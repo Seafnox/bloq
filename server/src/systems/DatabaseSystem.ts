@@ -33,7 +33,7 @@ export default class DatabaseSystem extends System {
     restore(complete: Function) {
         this.db.each(`SELECT type, entity, data FROM components`, (err: Error | null, row: any) => {
             if (typeof row.data === 'string') {
-                this.entityManager.addComponentFromObject(row.entity, row.type, JSON.parse(row.data));
+                this.entityManager.addComponentFromData(row.entity, row.type, JSON.parse(row.data));
             } else {
                 // Chunk
                 let [_, chunkComponent] = deserializeTerrainChunk(row.data.buffer);
@@ -52,7 +52,9 @@ export default class DatabaseSystem extends System {
         let insertedEntities = new Set<string>();
         this.addedComponents.forEach(arr => {
             let [entity, componentType] = arr;
-            if (this.entityManager.getComponent(entity, ComponentId.Player)) return;
+            if (this.entityManager.getComponent(entity, ComponentId.Player)) {
+                return;
+            }
             let component = this.entityManager.getComponent<SerializableComponent>(entity, componentType);
             if (!component || !component.serialize) return;
 

@@ -7,7 +7,7 @@ export default class AnimatedMesh extends SkinnedMesh<Geometry, MeshBasicMateria
     private animationMap: Record<string, AnimationClip> = {};
     private currentAnimName: string;
 
-    constructor(geometry: Geometry, material: MeshBasicMaterial) {
+    constructor(geometry?: Geometry, material?: MeshBasicMaterial) {
         super(geometry, material);
 
         this.mixer = new AnimationMixer(this);

@@ -3,13 +3,13 @@ import Initializer from "@block/shared/Initializer";
 import {ComponentId, ActionId} from "@block/shared/constants";
 import {MoveEntityAction} from "@block/shared/actions";
 import {globalToChunk} from "@block/shared/helpers";
-import { ComponentMap } from '@block/shared/interfaces';
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 import {broadcastAction} from "../helpers";
 import EntityManager from "@block/shared/EntityManager";
 import {ServerActionManager} from "../actions";
 
 
-export default class PositionInitializer extends Initializer{
+export default class PositionInitializer extends Initializer<ServerComponentMap> {
     private actionManager: ServerActionManager;
 
     constructor(em: EntityManager, am: ServerActionManager) {
@@ -17,7 +17,7 @@ export default class PositionInitializer extends Initializer{
         this.actionManager = am;
     }
 
-    initialize(entity: string, componentMap: ComponentMap): void {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
         let position = componentMap[ComponentId.Position];
         let existingPosition = this.entityManager.getComponent<PositionComponent>(entity, ComponentId.Position);
         let prevPos: [number, number, number] = [existingPosition.x, existingPosition.y, existingPosition.z];

@@ -1,12 +1,12 @@
 import { ComponentId } from "./constants";
-import { ComponentMap } from './interfaces';
+import { ComponentMap } from './entityMessage';
 
-export type ComponentHandler = (entity: string, componentMap: ComponentMap) => void;
+export type ComponentHandler<TComponentMap extends ComponentMap> = (entity: string, componentMap: Partial<TComponentMap>) => void;
 
-export class ComponentEventEmitter {
-    private componentHandlers: Map<ComponentId, ComponentHandler[]> = new Map<ComponentId, ComponentHandler[]>();
+export class ComponentEventEmitter<TComponentMap extends ComponentMap> {
+    private componentHandlers: Map<ComponentId, ComponentHandler<TComponentMap>[]> = new Map<ComponentId, ComponentHandler<TComponentMap>[]>();
 
-    addEventListener(componentId: ComponentId, listener: ComponentHandler) {
+    addEventListener(componentId: ComponentId, listener: ComponentHandler<TComponentMap>) {
         let handlers = this.componentHandlers.get(componentId);
         if (!handlers) {
             handlers = [];
@@ -15,11 +15,11 @@ export class ComponentEventEmitter {
         handlers.push(listener);
     }
 
-    emit(componentId: ComponentId, entity: string, componentMap: ComponentMap) {
+    emit(componentId: ComponentId, entity: string, componentMap: Partial<TComponentMap>) {
         let handlers = this.componentHandlers.get(componentId);
         if (!handlers) return;
 
-        handlers.forEach((callback) => {
+        handlers.forEach((callback: ComponentHandler<TComponentMap>) => {
             callback(entity, componentMap);
         })
     }
