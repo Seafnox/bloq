@@ -2,28 +2,28 @@
   "name": "bloq-server",
   "version": "0.0.2",
   "description": "Server for Bloq",
-  "main": "index.js",
+  "main": "main.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "serve": "nodemon dist/server/src/main.js"
+    "start": "node dist/server/src/main.js",
+    "serve": "ts-node-dev src/main.ts",
+    "test2": "ts-node src/main.ts"
   },
   "author": "Olav Andreas Lindekleiv",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@types/fast-simplex-noise": "3.0.0",
     "@types/node": "18.11.17",
     "@types/sqlite3": "3.1.8",
     "@types/uuid": "9.0.0",
     "@types/ws": "8.5.3",
-    "fast-simplex-noise": "4.0.0",
-    "nodemon": "^2.0.20",
-    "performance-now": "2.1.0",
-    "tiny-worker": "2.3.0",
-    "uuid": "9.0.0"
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.1"
   },
   "dependencies": {
     "sqlite3": "5.1.4",
+    "uuid": "9.0.0",
     "ws": "8.11.0"
   }
 }

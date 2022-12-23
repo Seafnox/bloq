@@ -3,40 +3,39 @@ import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComp
 import { ComponentId } from '@block/shared/constants/componentId';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
-var Worker = require("tiny-worker");
-var now = require('performance-now');
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
+import path from 'path';
 import { NetworkComponent } from '../components/networkComponent';
 import Server from "../Server";
-import TerrainWorker from "../workers/TerrainWorker";
-
+import { Worker } from 'node:worker_threads';
 
 export default class ChunkRequestSystem extends System {
-    worker: Worker = new Worker(TerrainWorker);
-    chunkQueue: Map<string, Set<string>> = new Map<string, Set<string>>();
+    worker = new Worker(path.resolve(__dirname, "../workers/TerrainWorker.js"));
+    chunkQueue = new Map<string, Set<string>>();
 
-    chunksRequested: Set<string> = new Set<string>();
+    chunksRequested = new Set<string>();
 
     constructor(em: EntityManager) {
         super(em);
 
-        this.worker.onmessage = (evt) => {
-            let entity = chunkKey(evt.data.x, evt.data.y, evt.data.z);
-            let chunkComponent = new TerrainChunkComponent(evt.data.x, evt.data.y, evt.data.z);
-            chunkComponent.data = Uint8Array.from(evt.data.data); // Serialized as Array in JSON, but needs to be Uint8.
+        this.worker.addListener("message", event => {
+            console.log(__filename, 'onMessage', event.data)
+            let entity = chunkKey(event.data.x, event.data.y, event.data.z);
+            let chunkComponent = new TerrainChunkComponent(event.data.x, event.data.y, event.data.z);
+            chunkComponent.data = Uint8Array.from(event.data.data); // Serialized as Array in JSON, but needs to be Uint8.
             this.entityManager.addComponent(entity, chunkComponent);
-        }
+        });
     }
 
     update(dt: number) {
-        let startTime = now();
+        let startTime = performance.now();
         this.entityManager.getEntities(ComponentId.ChunkRequest).forEach((component, entity) => {
-            if(now()-startTime > 8) return;
+            if(performance.now()-startTime > 8) return;
             let reqComponent = component as ChunkRequestComponent;
             let netComponent = this.entityManager.getComponent<NetworkComponent>(entity, ComponentId.Network);
             reqComponent.chunks.some(key => {
-                if(now()-startTime > 8) {
+                if(performance.now()-startTime > 8) {
                     return true;
                 }
 

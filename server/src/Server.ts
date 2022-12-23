@@ -10,9 +10,6 @@ import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
 
-// TODO: Use performance.now, like in the client.
-let hrtimeToSeconds = (hrtime: number[]) => hrtime[0] + hrtime[1] / 1000000000;
-
 export default class Server {
     wss: WebSocketServer;
     world: World;
@@ -35,11 +32,11 @@ export default class Server {
     private startGameLoop() {
         const dt = 1.0 / 30.0;
 
-        let currentTime = hrtimeToSeconds(process.hrtime());
+        let currentTime = performance.now();
         let accumulator = 0.0;
 
         setInterval(() => {
-            let newTime = hrtimeToSeconds(process.hrtime());
+            let newTime = performance.now();
             let frameTime = newTime - currentTime;
             currentTime = newTime;
 
