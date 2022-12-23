@@ -12,20 +12,23 @@ import { Worker } from 'node:worker_threads';
 
 export default class ChunkRequestSystem extends System {
     worker = new Worker(path.resolve(__dirname, "../workers/TerrainWorker.js"));
-    chunkQueue = new Map<string, Set<string>>();
-
     chunksRequested = new Set<string>();
 
     constructor(em: EntityManager) {
         super(em);
 
         this.worker.addListener("message", event => {
-            console.log(__filename, 'onMessage', event.data)
+            console.log('TerrainWorker', 'onResolve', event)
             let entity = chunkKey(event.data.x, event.data.y, event.data.z);
             let chunkComponent = new TerrainChunkComponent(event.data.x, event.data.y, event.data.z);
             chunkComponent.data = Uint8Array.from(event.data.data); // Serialized as Array in JSON, but needs to be Uint8.
             this.entityManager.addComponent(entity, chunkComponent);
         });
+
+        this.worker.addListener("error", event => console.log('TerrainWorker', 'onError', event));
+        this.worker.addListener("messageerror", event => console.log('TerrainWorker', 'onMessageError', event));
+        this.worker.addListener("online", () => console.log('TerrainWorker', 'onOnline'));
+        this.worker.addListener("exit", () => console.log('TerrainWorker', 'onExit'));
     }
 
     update(dt: number) {
@@ -49,7 +52,8 @@ export default class ChunkRequestSystem extends System {
                 if (!this.chunksRequested.has(key)) {
                     this.chunksRequested.add(key);
                     let [x, y, z] = key.split('x').map(i => parseInt(i));
-                    this.worker.postMessage({x, y, z});
+                    console.log('TerrainWorker', 'onMessage', {x, y, z});
+                    this.worker.postMessage({x, y, z , terrainChunkSize});
                 }
 
                 return false;

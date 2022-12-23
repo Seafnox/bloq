@@ -1,4 +1,3 @@
-import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { parentPort } from 'node:worker_threads';
 import { FastSimplexNoise } from './FastSimplexNoise';
 
@@ -60,9 +59,8 @@ const sample3d = (x: number, y: number, z: number): number => {
     return 0;
 };
 
-parentPort.on("message", (event: MessageEvent) => {
-    console.log(__filename, 'onMessage', event.data)
-    let {x, y, z} = event.data;
+parentPort.on("message", event => {
+    let {x, y, z, terrainChunkSize} = event.data;
 
     let data = new Uint8Array(terrainChunkSize * terrainChunkSize * terrainChunkSize);
     for (let lz = 0; lz < terrainChunkSize; lz++) {
