@@ -1,12 +1,16 @@
 {
   "extends": "../tsconfig.json",
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "types": [
       "node",
-      "fast-simplex-noise",
       "ws"
     ],
-    "lib": ["es2015", "es2016", "webworker"],
+    "lib": ["es2015", "es2016"],
     "baseUrl": ".",
     "paths": {
       "@block/shared/*": [
