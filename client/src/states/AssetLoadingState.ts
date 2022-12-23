@@ -1,13 +1,13 @@
 import {State} from "./State";
 import MenuState from "./MenuState";
-import HTMLParser from "../../lib/HTMLParser";
-import pickup from '../../assets/sound/pickup.ogg';
-import dig from '../../assets/sound/dig.ogg';
-import walk from '../../assets/sound/walk.ogg';
-import music from '../../assets/sound/music.ogg';
-import player from '../../assets/player.png';
-import textures from '../../assets/textures.png';
-import playerConfig from '../../assets/player.json';
+import HTMLParser from "../three/HTMLParser";
+import pickup from '../assets/sound/pickup.ogg';
+import dig from '../assets/sound/dig.ogg';
+import walk from '../assets/sound/walk.ogg';
+import music from '../assets/sound/music.ogg';
+import player from '../assets/images/player.png';
+import textures from '../assets/images/textures.png';
+import playerConfig from '../assets/player.mesh';
 
 const html = `
     <div id="loader">

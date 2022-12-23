@@ -1,8 +1,8 @@
-import HTMLParser from "../../lib/HTMLParser";
+import HTMLParser from "../three/HTMLParser";
 import {State} from "./State";
 import MenuState from "./MenuState";
 
-import '../../assets/stylesheets/settings.scss';
+import '../assets/stylesheets/settings.scss';
 
 const html = `
     <div class="menu menu-settings">

@@ -2,11 +2,11 @@ import { ChatMessageComponent } from '@block/shared/components/chatMessageCompon
 import { ChatMaxLength } from '@block/shared/constants/chat.constants';
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
-import KeyboardManager from "../../lib/KeyboardManager";
+import KeyboardManager from "../three/KeyboardManager";
 import EntityManager from "@block/shared/EntityManager";
 import NetworkSystem from "./NetworkSystem";
-import HTMLParser from "../../lib/HTMLParser";
-import '../../assets/stylesheets/chat.scss';
+import HTMLParser from "../three/HTMLParser";
+import '../assets/stylesheets/chat.scss';
 
 
 const html = `

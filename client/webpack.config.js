@@ -1,72 +1,112 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 
-module.exports = {
-    resolve: {
-        extensions: ['', '.ts', '.js'],
-        root: [path.resolve(__dirname, 'node_modules')],
-        alias: {
-            modernizr$: path.resolve(__dirname, "./.modernizrrc")
-        }
-    },
+const isProduction = process.env.NODE_ENV == 'production';
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
-    resolveLoader: {
-        root: [path.resolve(__dirname, 'node_modules')]
-    },
-
-
+const config = {
     entry: './src/main.ts',
     output: {
-        path: __dirname + '/dist/',
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: 'game.js'
     },
-
-    devtool: 'source-map',
-
+    devServer: {
+        open: false,
+        host: '0.0.0.0',
+        historyApiFallback: true,
+        hot: true,
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+        alias: {
+            modernizr$: path.resolve(__dirname, "./src/.modernizrrc"),
+        },
+        plugins: [
+            new TsconfigPathsPlugin(),
+        ],
+    },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                loader: 'ts-loader'
+                test: /\.(ts|tsx)$/i,
+                loader: 'ts-loader',
+                exclude: ['/node_modules/'],
             },
             {
-                test: /\.glsl$/,
-                loader: 'raw'
+                test: /\.css$/i,
+                use: [stylesHandler,'css-loader'],
             },
             {
-                test: /\.css$/,
-                loaders: ['style', 'css']
+                test: /\.sass|scss$/i,
+                use: [stylesHandler, 'css-loader', 'sass-loader'],
             },
             {
-                test: /\.scss$/,
-                loaders: ['style', 'css', 'sass']
+                test: /\.(glsl|vs|fs)$/,
+                loader: 'ts-shader-loader',
             },
             {
-                test: /\.(png|jpg|json|svg)$/,
-                loaders: ['file']
+                test: /\.(png|jpeg|jpg|svg)$/,
+                loader: 'file-loader',
+            },
+            {
+                test: /\.(ogg|mp3)$/,
+                loader: 'file-loader',
+            },
+            {
+                test: /\.(mesh)$/,
+                loader: 'file-loader',
             },
             {
                 test: /\.modernizrrc$/,
-                loader: 'modernizr'
-            }
-        ]
-    },
+                loader: 'modernizr-loader'
+            },
+            {
+                test: /\.(eot|ttf|woff|woff2)$/i,
+                type: 'asset',
+            },
+//            {
+//                test: /\.(glsl|vs|fs)$/,
+//                type: 'asset',
+//            },
+//            {
+//                test: /\.(png|jpeg|jpg|svg)$/,
+//                type: 'asset',
+//            },
+//            {
+//                test: /\.(ogg|mp3)$/,
+//                type: 'asset',
+//            },
+//            {
+//                test: /\.(json)$/,
+//                type: 'asset',
+//            },
 
+            // Add your rules for custom modules here https://webpack.js.org/loaders/
+        ],
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Bloq',
             filename: 'index.html',
-            template: './assets/index.html',
+            template: './src/assets/index.html',
             inject: false,
-        })
+        }),
+        // Add your plugins here https://webpack.js.org/configuration/plugins/
     ],
+};
 
-    devServer: {
-        historyApiFallback: true,
-        hot: true,
-        host: '0.0.0.0',
-        contentBase: './dist'
+module.exports = () => {
+    if (isProduction) {
+        config.mode = 'production';
+        config.plugins.push(new MiniCssExtractPlugin());
+        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    } else {
+        config.mode = 'development';
     }
+
+    return config;
 };

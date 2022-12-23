@@ -3,11 +3,12 @@
         "module": "commonjs",
         "target": "ES6",
         "noImplicitAny": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true,
         "outDir": "dist",
         "sourceMap": false,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "skipDefaultLibCheck": true,
         "lib": ["es2015", "es2016"]
     },
     "exclude": [

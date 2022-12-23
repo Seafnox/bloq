@@ -1,12 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "three",
-      "stats"
-    ],
     "lib": ["es2015", "es2016", "dom"],
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@block/shared/*": [
         "../shared/*"
@@ -15,5 +12,13 @@
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "./src/**/*",
+    "dataFiles.d.ts",
+    "pictures.d.ts",
+    "shaders.d.ts",
+    "sounds.d.ts",
+    "../shared/**/*"
   ]
 }

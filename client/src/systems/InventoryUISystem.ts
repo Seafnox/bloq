@@ -3,18 +3,18 @@ import { InventoryComponent } from '@block/shared/components/inventoryComponent'
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
-import HTMLParser from "../../lib/HTMLParser";
-import '../../assets/stylesheets/inventory.scss';
-import block1 from '../../assets/blocks/1.png';
-import block2 from '../../assets/blocks/2.png';
-import block3 from '../../assets/blocks/3.png';
-import block4 from '../../assets/blocks/4.png';
-import block5 from '../../assets/blocks/5.png';
-import block6 from '../../assets/blocks/6.png';
-import block7 from '../../assets/blocks/7.png';
-import block8 from '../../assets/blocks/8.png';
-import block9 from '../../assets/blocks/9.png';
-import block10 from '../../assets/blocks/10.png';
+import HTMLParser from "../three/HTMLParser";
+import '../assets/stylesheets/inventory.scss';
+import block1 from '../assets/blocks/1.png';
+import block2 from '../assets/blocks/2.png';
+import block3 from '../assets/blocks/3.png';
+import block4 from '../assets/blocks/4.png';
+import block5 from '../assets/blocks/5.png';
+import block6 from '../assets/blocks/6.png';
+import block7 from '../assets/blocks/7.png';
+import block8 from '../assets/blocks/8.png';
+import block9 from '../assets/blocks/9.png';
+import block10 from '../assets/blocks/10.png';
 
 const textureImages = [
     null,

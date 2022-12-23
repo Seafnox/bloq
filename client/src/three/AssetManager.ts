@@ -1,4 +1,4 @@
-import { TextureLoader, NearestFilter, Texture, MeshBasicMaterial, SkinnedMesh, Mesh, AnimationLoader } from 'three';
+import { TextureLoader, NearestFilter, Texture, MeshBasicMaterial, SkinnedMesh, Mesh } from 'three';
 import { BufferGeometryLoader } from 'three/src/loaders/BufferGeometryLoader';
 import AnimatedMesh from "./AnimatedMesh";
 import { Geometry } from './Geometry';

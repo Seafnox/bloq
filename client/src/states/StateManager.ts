@@ -1,6 +1,6 @@
 import {WebGLRenderer} from 'three';
 import {State} from "./State";
-import AssetManager from "../../lib/AssetManager";
+import AssetManager from "../three/AssetManager";
 
 
 let settingsProxyHandler: ProxyHandler<any> = {

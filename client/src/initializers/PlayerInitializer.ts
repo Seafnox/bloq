@@ -7,14 +7,14 @@ import {
     BoxGeometry,
 } from 'three';
 import Initializer from "@block/shared/Initializer";
-import AnimatedMesh from '../../lib/AnimatedMesh';
+import AnimatedMesh from '../three/AnimatedMesh';
 import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
 import EntityManager from "@block/shared/EntityManager";
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
 import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 import NetworkSystem from "../systems/NetworkSystem";
-import AssetManager from "../../lib/AssetManager";
+import AssetManager from "../three/AssetManager";
 
 export default class PlayerInitializer extends Initializer<ClientComponentMap> {
     private netSystem: NetworkSystem;

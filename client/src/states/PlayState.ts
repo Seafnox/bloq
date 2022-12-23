@@ -1,9 +1,8 @@
 import {Server} from "../Server";
 import World from "../World";
-import {WebGLRenderer} from 'three';
 import Stats = require('stats.js');
 import {State} from "./State";
-import HTMLParser from "../../lib/HTMLParser";
+import HTMLParser from "../three/HTMLParser";
 import MenuState from "./MenuState";
 import SettingsState from "./SettingsState";
 

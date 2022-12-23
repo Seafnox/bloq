@@ -5,8 +5,8 @@ import { OnGroundComponent } from '@block/shared/components/onGroundComponent';
 import { PhysicsComponent } from '@block/shared/components/physicsComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
-import AssetManager from "../../lib/AssetManager";
-import Sound from "../../lib/Sound";
+import AssetManager from "../three/AssetManager";
+import Sound from "../three/Sound";
 import EntityManager from "@block/shared/EntityManager";
 
 

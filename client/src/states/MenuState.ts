@@ -1,10 +1,10 @@
-import HTMLParser from "../../lib/HTMLParser";
+import HTMLParser from "../three/HTMLParser";
 import {State} from "./State";
 import PlayState from "./PlayState";
 import SettingsState from "./SettingsState";
 import * as Modernizr from 'modernizr';
 
-import '../../assets/stylesheets/menu.scss';
+import '../assets/stylesheets/menu.scss';
 
 const html = `
     <div class="menu">
