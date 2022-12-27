@@ -62,7 +62,7 @@ const config = {
             },
             {
                 test: /\.modernizrrc$/,
-                loader: 'modernizr-loader'
+                use: ['@sect/modernizr-loader'],
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/i,

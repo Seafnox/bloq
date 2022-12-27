@@ -1,20 +1,31 @@
-{
+module.export = {
   "minify": true,
   "options": [
     "setClasses"
   ],
   "feature-detects": [
-    "canvas",
+    "audio/audio",
+    "audio/autoplay",
+    "audio/loop",
+    "audio/preload",
+    "audio/webaudio",
+    "canvas/canvas",
+    "canvas/blending",
     "css/animations",
+    "css/flexbox",
     "css/vwunit",
     "dataview-api",
     "es6/math",
-    "css/flexbox",
+    "es6/rest-parameters",
+    "es6/spread-array",
+    "es6/string-template",
+    "es7/array",
+    "es7/rest-destructuring",
+    "es7/spread-object",
     "fullscreen-api",
     "performance",
     "pointerlock-api",
     "postmessage",
-    "audio",
     "webgl",
     "websockets",
     "workers/webworkers"
