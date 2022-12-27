@@ -66,8 +66,9 @@ export default class World extends BaseWorld {
             dbSystem.registerEntityEvents();
         });
 
-        console.log(this.systems);
-        console.log(this.systemsOrder)
+        console.log('\n\nSystems:');
+        console.log(this.systemsOrder.map((order, index) => [order, this.systems[index]?.constructor.name, order].join('\t: ')).join('\n'));
+        console.log('\n');
     }
 
 
