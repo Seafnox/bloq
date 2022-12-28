@@ -25,6 +25,9 @@ export default class Server {
         });
 
         this.wss.on('connection', this.onConnect.bind(this));
+        this.wss.on('listening', this.onReady.bind(this));
+        this.wss.on('error', this.onError.bind(this));
+        this.wss.on('close', this.onClose.bind(this));
 
         this.startGameLoop();
     }
@@ -87,7 +90,7 @@ export default class Server {
         netComponent.pushBuffer(MessageType.Action, packet);
     }
 
-    private onConnect(ws: WebSocket) {
+    private onConnect(_: WebSocketServer, ws: WebSocket) {
         let playerEntity = this.world.entityManager.createEntity();
 
         let netComponent = new NetworkComponent();
@@ -97,7 +100,22 @@ export default class Server {
         Server.sendEntity(netComponent, this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
         ws.on('message', (data: ArrayBuffer) => this.onMessage(playerEntity, data));
-        ws.on('close', () => this.onClose(playerEntity));
+        ws.on('close', () => this.onPlayerWsClose(playerEntity));
+    }
+
+    private onReady() {
+        console.log('Server ready at:');
+        console.log(this.wss.address());
+    }
+
+    private onError(_: WebSocketServer, error: Error) {
+        console.log('Server error:');
+        console.warn(error);
+    }
+
+    private onClose() {
+        console.log('Server close at:');
+        console.log(this.wss.address());
     }
 
     private onMessage(playerEntity: string, buffer: ArrayBuffer) {
@@ -131,7 +149,7 @@ export default class Server {
         }
     }
 
-    private onClose(playerEntity: string) {
+    private onPlayerWsClose(playerEntity: string) {
         this.world.entityManager.removeEntity(playerEntity)
     }
 }
