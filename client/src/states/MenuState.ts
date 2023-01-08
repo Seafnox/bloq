@@ -9,13 +9,13 @@ import '../assets/stylesheets/menu.scss';
 const html = `
     <div class="menu">
         <div id="mainmenu">
-            <div class="warning" style="display: none">
-                Your browser has poor support for some technologies used in this game.
-                It may still be playable, but please consider upgrading your browser.
-            </div>
             <div class="error" style="display: none">
                 Your browser does not support all the technologies required to play this game,
                 and it will most likely not work. Please upgrade your browser.
+            </div>
+            <div class="warning" style="display: none">
+                Your browser has poor support for some technologies used in this game.
+                It may still be playable, but please consider upgrading your browser.
             </div>
             <ul class="box animated bounceIn">
                 <li>
@@ -80,8 +80,12 @@ export default class MenuState extends State {
 
         if (hasErrors) {
             (this.menuNode.querySelector('.error') as HTMLDivElement).style.display = 'block';
+            console.warn('Your browser does not support all the technologies required to play this game')
+            console.log(Modernizr);
         } else if (hasWarnings) {
             (this.menuNode.querySelector('.warning') as HTMLDivElement).style.display = 'block';
+            console.warn('Your browser has poor support for some technologies used in this game')
+            console.log(Modernizr);
         }
     }
 

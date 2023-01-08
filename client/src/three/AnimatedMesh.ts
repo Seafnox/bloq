@@ -22,6 +22,8 @@ export function getAnimatedMesh<T>(
     const animatedObject = object as AnimatedMesh<T>;
     if (object.animations !== animations) {
         console.warn(`Animation in 'object.animations' is different.`);
+        console.warn(object.animations);
+        console.warn(animations);
         object.animations = object.animations || animations;
     }
 

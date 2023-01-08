@@ -323,12 +323,15 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
     }
 }
 
-self.onmessage = (e: TerrainWorkerRequest) => {
-    let chunkArrays = buildChunkArrays(e.data.data, e.data.neighborData);
+addEventListener('message', (request: TerrainWorkerRequest) => {
+    console.warn('TerrainWorkerRequest', request.data);
+    if (!request.data.data) return; // type = 'webpackOk'
+    let chunkArrays = buildChunkArrays(request.data.data, request.data.neighborData);
     if (!chunkArrays) return;
 
-    self.postMessage({
-        entity: e.data.entity,
-        ...chunkArrays
+    postMessage({
+        entity: request.data.entity,
+        ...chunkArrays,
     } as TerrainWorkerResponse['data']);
-};
+});
+console.warn('TerrainWorker Ready');
