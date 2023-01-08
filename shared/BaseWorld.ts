@@ -18,7 +18,7 @@ export class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    private utilsManager: UtilsManager;
+    private readonly utilsManager: UtilsManager;
 
     constructor(utilsManager: UtilsManager) {
         let em = new EntityManager(utilsManager);
@@ -70,7 +70,7 @@ export class BaseWorld {
             i++;
         });
 
-         if (timePeriod > 0.1) {
+         if (timePeriod > 1) {
              this.utilsManager.logger.log(`TICK (${timePeriod.toFixed(4)}ms)`);
         //     for (var j = 0; j < this.systemTimings.length; j++) {
         //         let avgTime =(this.systemTimings[j]/this.tickNumber).toFixed(4);

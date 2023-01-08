@@ -51,7 +51,7 @@ export default class World extends BaseWorld {
     game: PlayState;
 
     constructor(game: PlayState, guiNode: Element) {
-        super(new UtilsManager(v4, performance.now, console));
+        super(new UtilsManager(v4, () => performance.now(), console));
         this.actionManager = new ClientActionManager();
         this.game = game;
 

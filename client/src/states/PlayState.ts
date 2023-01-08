@@ -1,6 +1,6 @@
 import {Server} from "../Server";
 import World from "../World";
-import Stats = require('stats.js');
+import * as Stats from 'stats.js';
 import {State} from "./State";
 import HTMLParser from "../three/HTMLParser";
 import MenuState from "./MenuState";
