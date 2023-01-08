@@ -28,6 +28,7 @@
     "@sect/modernizr-loader": "~1.0.3",
     "node-sass": "8.0.0",
     "raw-loader": "4.0.2",
+    "json-loader": "0.5.7",
     "sass-loader": "13.2.0",
     "stats.js": "0.17.0",
     "style-loader": "3.3.1",

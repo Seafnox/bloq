@@ -8,11 +8,14 @@ const isProduction = process.env.NODE_ENV == 'production';
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const config = {
-    entry: './src/main.ts',
+    entry: {
+        game: './src/main.ts',
+        'terrain.worker': './src/workers/terrain.worker.ts'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
-        filename: 'game.js'
+        filename: '[name].js'
     },
     devServer: {
         open: false,
@@ -62,7 +65,7 @@ const config = {
             },
             {
                 test: /\.modernizrrc$/,
-                use: ['@sect/modernizr-loader'],
+                use: ['@sect/modernizr-loader', 'json-loader'],
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/i,
@@ -85,7 +88,6 @@ const config = {
 //                type: 'asset',
 //            },
 
-            // Add your rules for custom modules here https://webpack.js.org/loaders/
         ],
     },
     plugins: [
@@ -95,7 +97,6 @@ const config = {
             template: './src/assets/index.html',
             inject: false,
         }),
-        // Add your plugins here https://webpack.js.org/configuration/plugins/
     ],
 };
 

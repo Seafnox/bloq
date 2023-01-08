@@ -1,16 +1,11 @@
-module.export = {
+{
   "minify": true,
   "options": [
     "setClasses"
   ],
   "feature-detects": [
-    "audio/audio",
-    "audio/autoplay",
-    "audio/loop",
-    "audio/preload",
-    "audio/webaudio",
-    "canvas/canvas",
-    "canvas/blending",
+    "audio",
+    "canvas",
     "css/animations",
     "css/flexbox",
     "css/vwunit",
@@ -31,4 +26,3 @@ module.export = {
     "workers/webworkers"
   ]
 }
-
