@@ -3,7 +3,6 @@ import { SerializableComponent } from './components/serializableComponent';
 import { ComponentId } from './constants/componentId';
 import { Logger } from './Logger';
 import { UtilsManager } from './UtilsManager';
-import { UuidGenerator } from './UuidGenerator';
 
 let componentProxyHandler: ProxyHandler<AbstractComponent<any>> = {
     set: (obj: any, prop: keyof AbstractComponentData | 'dirtyFields', value: any) => {
@@ -30,7 +29,7 @@ export default class EntityManager {
         new Map<ComponentId, Map<string, AbstractComponent<any>>>();
     private componentConstructors: Map<ComponentId, Function> = new Map<ComponentId, Function>();
     private removedEntities: Set<string> = new Set<string>();
-    private utilsManager: UtilsManager;
+    private readonly utilsManager: UtilsManager;
 
     private eventHandlers: Function[][] = [];
 
@@ -60,10 +59,6 @@ export default class EntityManager {
         this.components.set(type, new Map<string, T>());
     }
 
-    getRegisteredComponentTypes(): Iterator<ComponentId> {
-        return this.componentConstructors.keys();
-    }
-
     createEntity() {
         let entity = this.utils.uuid();
         this.emit(EntityManagerEvent.EntityCreated, entity);
@@ -82,7 +77,7 @@ export default class EntityManager {
             if (component instanceof SerializableComponent) {
                 components.push(`"${componentId}":${component.serialize()}`);
             } else if (component) {
-                this.logger.warn(`Tried to serialize non-serializeable component: "${component.typeName()}"`)
+                this.logger.warn(`Tried to serialize non-serializable component: "${component.typeName()}"`)
             }
         });
 

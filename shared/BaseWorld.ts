@@ -58,7 +58,7 @@ export class BaseWorld {
     tick(dt: number) {
         const performanceNow = this.utils.performanceNow;
         let i = 0;
-        let sumTime = 0;
+        let timePeriod = 0;
         let frameTimes = new Float32Array(this.systems.length);
         this.systems.forEach(system => {
             let start = performanceNow();
@@ -66,19 +66,19 @@ export class BaseWorld {
             let time = performanceNow() - start;
             frameTimes[i] = time;
             this.systemTimings[i] += time;
-            sumTime += time;
+            timePeriod += time;
             i++;
         });
 
-        // if (this.tickNumber % 60 === 0) {
-        //     console.log(`----\nTICK (${sumTime.toFixed(4)}ms)\n----`);
+         if (timePeriod > 0.1) {
+             this.utilsManager.logger.log(`TICK (${timePeriod.toFixed(4)}ms)`);
         //     for (var j = 0; j < this.systemTimings.length; j++) {
         //         let avgTime =(this.systemTimings[j]/this.tickNumber).toFixed(4);
         //         let currTime = frameTimes[j].toFixed(4);
         //         let sysName = this.systems[j].constructor.name;
         //         console.log(`${avgTime}ms\t ${currTime}ms\t ${sysName}`);
         //     }
-        // }
+         }
         this.tickNumber++;
     }
 }

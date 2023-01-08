@@ -1,7 +1,6 @@
-import {WebGLRenderer} from 'three';
-import {State} from "./State";
-import AssetManager from "../three/AssetManager";
-
+import { WebGLRenderer } from 'three';
+import { State } from './State';
+import AssetManager from '../three/AssetManager';
 
 let settingsProxyHandler: ProxyHandler<any> = {
     set: (obj: any, prop: string | symbol, value: any) => {
@@ -10,7 +9,7 @@ let settingsProxyHandler: ProxyHandler<any> = {
             localStorage.setItem('settings', JSON.stringify(obj));
         }
         return true;
-    }
+    },
 };
 
 class Settings {
@@ -21,16 +20,15 @@ class Settings {
     get soundVolume() {
         return this._soundVolume;
     }
+
     set soundVolume(vol) {
         this._soundVolume = vol;
         this.gain.gain.value = this.soundVolume;
     }
 
-    private audioContext: AudioContext;
     private gain: GainNode;
 
     constructor(audioContext: AudioContext, gain: GainNode) {
-        this.audioContext = audioContext;
         this.gain = gain;
 
         // Parse existing config, and init values.
@@ -39,10 +37,10 @@ class Settings {
 
         // If undefined, will be NaN and default is set, otherwise, set to stored volume.
         let soundVolume = json['soundVolume'];
-        this.soundVolume = soundVolume+1 ? soundVolume : 0.5;
+        this.soundVolume = soundVolume + 1 ? soundVolume : 0.5;
 
         let musicVolume = json['musicVolume'];
-        this.musicVolume = musicVolume+1 ? musicVolume : 0.5;
+        this.musicVolume = musicVolume + 1 ? musicVolume : 0.5;
     }
 }
 
@@ -67,7 +65,7 @@ export default class StateManager {
         this.settings = new Proxy(new Settings(audioContext, gain), settingsProxyHandler);
 
         this.renderer = new WebGLRenderer({
-            antialias: this.settings.antialias
+            antialias: this.settings.antialias,
         });
 
         this.update();
@@ -84,7 +82,7 @@ export default class StateManager {
     }
 
     private update() {
-        if(this.nextState) {
+        if (this.nextState) {
             this.state = this.nextState;
             this.state.onEnter();
             this.nextState = null;
@@ -103,7 +101,7 @@ export default class StateManager {
 
     private registerEvents() {
         window.addEventListener('resize', evt => {
-            if(!this.state) return;
+            if (!this.state) return;
             this.state.onResize(evt);
         }, false);
 
