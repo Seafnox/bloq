@@ -13,6 +13,7 @@ import EntityManager from '@block/shared/EntityManager';
 import { MeshComponent } from '../components/meshComponent';
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import {geometryFromArrays} from "../geometry/terrain";
+import { isMesh } from '../three/isMesh';
 import { TerrainWorkerRequest } from '../workers/TerrainWorkerRequest';
 import { TerrainWorkerResponse } from '../workers/TerrainWorkerResponse';
 
@@ -78,13 +79,19 @@ export default class TerrainChunkSystem extends System {
             let chunkGeom = geometryFromArrays(materials, vertices, shadows);
 
             let meshComponent = this.entityManager.getComponent<MeshComponent>(entity, ComponentId.Mesh);
-            if (!meshComponent) meshComponent = this.entityManager.addComponent(entity, new MeshComponent()) as MeshComponent;
+            if (!meshComponent) meshComponent = this.entityManager.addComponent(entity, new MeshComponent());
             let mesh = meshComponent.mesh;
-            if (meshComponent.mesh) {
+            if (mesh && isMesh(mesh)) {
                 mesh.geometry.dispose();
                 mesh.geometry = chunkGeom;
             }
-            else mesh = new Mesh(chunkGeom, this.material);
+            else {
+                if (!!mesh) {
+                    console.error(new Error('Try to change geometry in no mesh object (see below)'));
+                    console.log(mesh);
+                }
+                mesh = new Mesh(chunkGeom, this.material);
+            }
 
             if (!meshComponent.mesh) {
                 meshComponent.mesh = mesh;

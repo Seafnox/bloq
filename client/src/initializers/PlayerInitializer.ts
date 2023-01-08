@@ -7,20 +7,20 @@ import {
     BoxGeometry,
 } from 'three';
 import Initializer from "@block/shared/Initializer";
-import AnimatedMesh from '../three/AnimatedMesh';
 import { AnimatedMeshComponent } from '../components/animatedMeshComponent';
 import EntityManager from "@block/shared/EntityManager";
 import { PlayerChunkComponent } from '../components/playerChunkComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
 import { ClientComponentMap } from '../emtityManager/clientEntityMessage';
 import NetworkSystem from "../systems/NetworkSystem";
+import { AnimatedMesh, getAnimatedMesh } from '../three/AnimatedMesh';
 import AssetManager from "../three/AssetManager";
 
 export default class PlayerInitializer extends Initializer<ClientComponentMap> {
     private netSystem: NetworkSystem;
-    private camera: PerspectiveCamera;
+    private readonly camera: PerspectiveCamera;
     private assetManager: AssetManager;
-    private selectionMaterial: ShaderMaterial;
+    private readonly selectionMaterial: ShaderMaterial;
 
     constructor(em: EntityManager, am: AssetManager, netSystem: NetworkSystem, camera: PerspectiveCamera, selectionMaterial: ShaderMaterial) {
         super(em);
@@ -50,18 +50,18 @@ export default class PlayerInitializer extends Initializer<ClientComponentMap> {
             });
 
         // Only current player needs a camera attached.
-        let playerMesh: AnimatedMesh;
+        let playerCharacter: AnimatedMesh;
         if (ComponentId.CurrentPlayer in componentMap) {
-            playerMesh = new AnimatedMesh();
+            playerCharacter = getAnimatedMesh(new Mesh());
             this.camera.position.y = 2.5;
-            playerMesh.add(this.camera);
+            playerCharacter.add(this.camera);
         } else {
-            let mesh = this.assetManager.getMesh('player') as AnimatedMesh;
-            playerMesh = mesh.clone();
+            let object = this.assetManager.getObject('player');
+            playerCharacter = object.clone();
         }
 
         const animMeshComponent = new AnimatedMeshComponent();
-        animMeshComponent.mesh = playerMesh;
+        animMeshComponent.mesh = playerCharacter;
         this.entityManager.addComponent(entity, animMeshComponent);
 
         // Only show selection box for current player.

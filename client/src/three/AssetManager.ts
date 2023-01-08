@@ -1,7 +1,6 @@
-import { TextureLoader, NearestFilter, Texture, MeshBasicMaterial, SkinnedMesh, Mesh } from 'three';
-import { BufferGeometryLoader } from 'three/src/loaders/BufferGeometryLoader';
-import AnimatedMesh from "./AnimatedMesh";
-import { Geometry } from './Geometry';
+import { TextureLoader, NearestFilter, Texture } from 'three';
+import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { getAnimatedMesh, AnimatedMesh } from './AnimatedMesh';
 import Sound from "./Sound";
 
 
@@ -12,7 +11,7 @@ export default class AssetManager {
 
     // Type specific loaders
     private textureLoader: TextureLoader = new TextureLoader();
-    private meshLoader: BufferGeometryLoader = new BufferGeometryLoader();
+    private objectLoader: GLTFLoader = new GLTFLoader();
 
     // Where and how to direct sounds to
     private audioContext: AudioContext;
@@ -20,14 +19,14 @@ export default class AssetManager {
 
     private queue: {
         textures: Array<[string, string]>,
-        meshes: Array<[string, string]>,
+        objects: Array<[string, string]>,
         music: Array<[string, string]>,
         sounds: Array<[string, string]>
     };
 
     private assets: {
         textures: Map<string, Texture>,
-        meshes: Map<string, Mesh | AnimatedMesh>,
+        objects: Map<string, AnimatedMesh>,
         music: Map<string, HTMLAudioElement>,
         sounds: Map<string, Sound>
     };
@@ -38,13 +37,13 @@ export default class AssetManager {
 
         this.queue = {
             textures: [],
-            meshes: [],
+            objects: [],
             music: [],
             sounds: [],
         };
         this.assets = {
             textures: new Map<string, Texture>(),
-            meshes: new Map<string, Mesh | SkinnedMesh>(),
+            objects: new Map<string, AnimatedMesh>(),
             music: new Map<string, HTMLAudioElement>(),
             sounds: new Map<string, Sound>()
         };
@@ -55,7 +54,7 @@ export default class AssetManager {
     }
 
     addMesh(name: string, url: string) {
-        this.queue.meshes.push([name, url]);
+        this.queue.objects.push([name, url]);
     }
 
     addMusic(name: string, url: string) {
@@ -67,7 +66,7 @@ export default class AssetManager {
     }
 
     private getQueueLength() {
-        return this.queue.textures.length + this.queue.meshes.length + this.queue.music.length + this.queue.sounds.length;
+        return this.queue.textures.length + this.queue.objects.length + this.queue.music.length + this.queue.sounds.length;
     }
 
     load(callback: Function) {
@@ -79,7 +78,7 @@ export default class AssetManager {
         this.loadTextures(callback, () => {
             this.queue.textures = [];
             this.loadMeshes(callback, () => {
-                this.queue.meshes = [];
+                this.queue.objects = [];
                 this.loadMusic(callback, () => {
                     this.queue.music = [];
                     this.loadSounds(callback, () => {
@@ -114,25 +113,38 @@ export default class AssetManager {
     private loadMeshes(progress: Function, done: Function) {
         let filesDone = 0;
 
-        this.queue.meshes.forEach(pair => {
+        const _done = (name: string) => {
+            filesDone++;
+            this.filesDone++;
+            progress('models', this.filesDone / this.totalFiles);
+            console.log('MeshLoadDone', name, '\t', this.filesDone, '/', this.totalFiles)
+
+            if (filesDone == this.queue.objects.length) done();
+        };
+
+        this.queue.objects.forEach(pair => {
             let [name, url] = pair;
-            this.meshLoader.load(url, (geometry: Geometry) => {
-                let material = new MeshBasicMaterial({
-                    map: this.getTexture(name)
-                });
-                if (geometry.animations) {
-                    this.assets.meshes.set(name, new AnimatedMesh(geometry, material));
-                } else {
-                    this.assets.meshes.set(name, new Mesh(geometry, material));
-                }
-
-                filesDone++;
-                this.filesDone++;
-                progress('models', this.filesDone / this.totalFiles);
-
-                if (filesDone == this.queue.meshes.length) done();
-            });
+            console.log('MeshLoadStart', name, url);
+            this.objectLoader.load(
+                url,
+                this.onMeshLoaded.bind(this, name, _done),
+                this.onMeshProgress.bind(this, name),
+                this.onMeshError.bind(this, name),
+            );
         });
+    }
+
+    private onMeshLoaded(name: string, done: (name: string) => void, imported: GLTF) {
+        // TODO possibly not work
+        this.assets.objects.set(name, getAnimatedMesh(imported.scene, imported.animations, imported));
+        done(name);
+    }
+
+    private onMeshProgress(name: string, request: ProgressEvent) {
+        console.log('MeshLoadProgress', name, request);
+    }
+    private onMeshError(name: string, error: ErrorEvent) {
+        console.log('MeshLoadError', name, error);
     }
 
     private loadMusic(progress: Function, done: Function) {
@@ -189,8 +201,8 @@ export default class AssetManager {
         return this.assets.textures.get(name);
     }
 
-    getMesh(name: string): Mesh | AnimatedMesh {
-        return this.assets.meshes.get(name);
+    getObject(name: string): AnimatedMesh {
+        return this.assets.objects.get(name);
     }
 
     getMusic(name: string): HTMLAudioElement {

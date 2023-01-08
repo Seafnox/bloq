@@ -4,14 +4,14 @@ import { ComponentId } from '@block/shared/constants/componentId';
 import { Direction } from '@block/shared/constants/direction';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';
-import {Scene, Vector3, Raycaster, ShaderMaterial} from 'three';
-
-import {System} from "@block/shared/System";
-import EntityManager from "@block/shared/EntityManager";
+import { Scene, Vector3, Raycaster } from 'three';
+import { System } from '@block/shared/System';
+import EntityManager from '@block/shared/EntityManager';
 import { MeshComponent } from '../components/meshComponent';
 import { PlayerSelectionComponent } from '../components/playerSelectionComponent';
 import { findBlockMaterial } from '../helpers/findBlockMaterial';
-
+import { isMesh } from '../three/isMesh';
+import { isShaderMaterial } from '../three/isShaderMaterial';
 
 export default class PlayerSelectionSystem extends System {
     scene: Scene;
@@ -77,24 +77,24 @@ export default class PlayerSelectionSystem extends System {
                         let cubeOffset = new Vector3(
                             Math.sign(point.x) / 2.0,
                             Math.sign(point.y) / 2.0,
-                            Math.sign(point.z) / 2.0
+                            Math.sign(point.z) / 2.0,
                         );
 
                         let normal = hit.face.normal;
 
                         // Find which side of the cube the player has in focus.
-                        if(normal.x === 0 && normal.y === 1 && normal.z === 0) hitSide = Direction.Top;
-                        else if(normal.x === 0 && normal.y === 0 && normal.z === 1) hitSide = Direction.North;
-                        else if(normal.x === 1 && normal.y === 0 && normal.z === 0) hitSide = Direction.East;
-                        else if(normal.x === 0 && normal.y === 0 && normal.z === -1) hitSide = Direction.South;
-                        else if(normal.x === -1 && normal.y === 0 && normal.z === 0) hitSide = Direction.West;
-                        else if(normal.x === 0 && normal.y === -1 && normal.z === 0) hitSide = Direction.Bottom;
+                        if (normal.x === 0 && normal.y === 1 && normal.z === 0) hitSide = Direction.Top;
+                        else if (normal.x === 0 && normal.y === 0 && normal.z === 1) hitSide = Direction.North;
+                        else if (normal.x === 1 && normal.y === 0 && normal.z === 0) hitSide = Direction.East;
+                        else if (normal.x === 0 && normal.y === 0 && normal.z === -1) hitSide = Direction.South;
+                        else if (normal.x === -1 && normal.y === 0 && normal.z === 0) hitSide = Direction.West;
+                        else if (normal.x === 0 && normal.y === -1 && normal.z === 0) hitSide = Direction.Bottom;
 
                         // Also subtract half of normal value to reach center of cube. Top face has normal
                         // of 1 pointing upwards, so subtracting half of that gets us precisely to the center of the
                         // cube, making the selector work correctly.
                         hitPoint = point.clone().add(cubeOffset).sub(
-                            normal.clone().divideScalar(2)
+                            normal.clone().divideScalar(2),
                         ).roundToZero();
                     }
                 }
@@ -106,8 +106,13 @@ export default class PlayerSelectionSystem extends System {
                     selectionComponent.targetSide = hitSide;
                     selectionComponent.mesh.position.lerp(hitPoint, 0.75); // Lerp because it looks good. :-)
 
-                    // Update uniform so that selector deforms correctly to match terrain deformation.
-                    (selectionComponent.mesh.material as ShaderMaterial).uniforms.globalPosition.value = hitPoint;
+                    if (isMesh(selectionComponent.mesh) && isShaderMaterial(selectionComponent.mesh.material)) {
+                        // Update uniform so that selector deforms correctly to match terrain deformation.
+                        selectionComponent.mesh.material.uniforms.globalPosition.value = hitPoint;
+                    } else {
+                        console.error(new Error('Try to change position in no shader material or no mesh object (see below)'));
+                        console.log(selectionComponent.mesh);
+                    }
 
                     break;
                 }
@@ -118,6 +123,6 @@ export default class PlayerSelectionSystem extends System {
             selectionComponent.mesh.visible = targetValid;
 
             if (!selectionComponent.mesh.parent) this.scene.add(selectionComponent.mesh);
-        })
+        });
     }
 }

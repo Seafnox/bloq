@@ -57,7 +57,7 @@ const config = {
                 loader: 'file-loader',
             },
             {
-                test: /\.(mesh)$/,
+                test: /\.(mesh|obj|glb)$/,
                 loader: 'file-loader',
             },
             {

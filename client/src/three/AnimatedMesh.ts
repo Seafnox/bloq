@@ -1,39 +1,58 @@
-import {SkinnedMesh, MeshBasicMaterial, AnimationMixer} from 'three';
-import { AnimationClip } from 'three/src/Three';
-import { Geometry } from './Geometry';
+import { AnimationMixer } from 'three';
+import { AnimationClip, Object3D } from 'three';
 
-export default class AnimatedMesh extends SkinnedMesh<Geometry, MeshBasicMaterial> {
+export interface AnimatedMesh<T = Object> extends Object3D {
     mixer: AnimationMixer;
-    private animationMap: Record<string, AnimationClip> = {};
-    private currentAnimName: string;
+    userData: {
+        source: T;
+        animationMap: Record<string, AnimationClip>;
+        currentAnimationName: string;
+        [key: string]: any;
+    }
+    playAnimation(name: string):void;
+    getCurrentAnimation():string;
+    getAvailableAnimations():string[];
+}
 
-    constructor(geometry?: Geometry, material?: MeshBasicMaterial) {
-        super(geometry, material);
-
-        this.mixer = new AnimationMixer(this);
-
-        (this.geometry as Geometry).animations.forEach(anim => {
-            this.animationMap[anim.name] = anim;
-        });
-
-        this.playAnimation('walk');
+export function getAnimatedMesh<T>(
+    object: Object3D,
+    animations: AnimationClip[] = [],
+    source: T = undefined
+): AnimatedMesh<T> {
+    const animatedObject = object as AnimatedMesh<T>;
+    if (object.animations !== animations) {
+        console.warn(`Animation in 'object.animations' is different.`);
+        object.animations = object.animations || animations;
     }
 
-    playAnimation(name: string) {
-        this.mixer.stopAllAction();
-        let anim = this.animationMap[name];
-        if (anim) {
-            let action = this.mixer.clipAction(anim, this);
+    const animationMap = (object.animations).reduce((map: Record<string, AnimationClip>, animation: AnimationClip) => {
+            map[animation.name] = animation;
+
+            return map;
+        }, {});
+    const currentAnimationName = Object.keys(animationMap)[0];
+
+    animatedObject.userData = {
+        ...object.userData,
+        source,
+        animationMap,
+        currentAnimationName,
+    };
+
+    animatedObject.mixer = new AnimationMixer(animatedObject);
+    animatedObject.playAnimation = (name: string) => {
+        animatedObject.mixer.stopAllAction();
+        let animation = animatedObject.userData.animationMap[name];
+        if (animation) {
+            let action = animatedObject.mixer.clipAction(animation, object);
             action.play();
-            this.currentAnimName = name;
+            animatedObject.userData.currentAnimationName = name;
         } else {
             console.warn(`Animation ${name} does not exist.`);
         }
     }
+    animatedObject.getAvailableAnimations = () => Object.keys(animatedObject.userData.animationMap);
+    animatedObject.getCurrentAnimation = () => animatedObject.userData.currentAnimationName;
 
-    getCurrentAnimation():string {
-        return this.currentAnimName;
-    }
-
-
+    return animatedObject;
 }

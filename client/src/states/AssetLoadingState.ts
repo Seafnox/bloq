@@ -5,9 +5,8 @@ import pickup from '../assets/sound/pickup.ogg';
 import dig from '../assets/sound/dig.ogg';
 import walk from '../assets/sound/walk.ogg';
 import music from '../assets/sound/music.ogg';
-import player from '../assets/images/player.png';
 import textures from '../assets/images/textures.png';
-import playerConfig from '../assets/player.mesh';
+import playerObj from '../assets/player.glb';
 
 const html = `
     <div id="loader">
@@ -43,6 +42,7 @@ export default class AssetLoadingState extends State {
     }
 
     tick(dt: number) {
+        console.log(this.constructor.name, 'tick()');
         // Update progress bar.
         if (this.progress != this.progressNode.value) {
             this.progressNode.value = this.progress;
@@ -58,10 +58,9 @@ export default class AssetLoadingState extends State {
     private loadAssets() {
         // Textures
         this.assetManager.addTexture('terrain', textures);
-        this.assetManager.addTexture('player', player);
 
         // Meshes
-        this.assetManager.addMesh('player', playerConfig);
+        this.assetManager.addMesh('player', playerObj);
 
         // Music
         this.assetManager.addMusic('music', music);
