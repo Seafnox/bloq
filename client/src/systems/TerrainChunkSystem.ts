@@ -29,7 +29,7 @@ export default class TerrainChunkSystem extends System {
         super(em);
         this.scene = scene;
         this.material = material;
-        this.worker = new Worker(new URL('../workers/terrain.worker.ts'));
+        this.worker = new Worker('/terrain.worker.js', { type: "module" });
 
         // Receive generated geometry arrays from worker:
         this.worker.onmessage = (e: TerrainWorkerResponse) => {

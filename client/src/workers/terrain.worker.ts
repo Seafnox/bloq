@@ -3,7 +3,7 @@ import { TerrainWorkerRequest } from './TerrainWorkerRequest';
 import { TerrainWorkerResponse } from './TerrainWorkerResponse';
 
 // Relative offsets for cube faces. See more details further down.
-const faces = [
+const faces: number[][] = [
     // +z
     [
         -1, -1, 1,
@@ -12,7 +12,7 @@ const faces = [
 
         1, 1, 1,
         -1, 1, 1,
-        -1, -1, 1
+        -1, -1, 1,
     ],
     // -z
     [
@@ -22,7 +22,7 @@ const faces = [
 
         1, 1, -1,
         -1, -1, -1,
-        -1, 1, -1
+        -1, 1, -1,
     ],
     // +y
     [
@@ -32,7 +32,7 @@ const faces = [
 
         1, 1, 1,
         -1, 1, -1,
-        -1, 1, 1
+        -1, 1, 1,
     ],
     // -y
     [
@@ -42,7 +42,7 @@ const faces = [
 
         1, -1, 1,
         -1, -1, 1,
-        -1, -1, -1
+        -1, -1, -1,
     ],
     // +x
     [
@@ -52,7 +52,7 @@ const faces = [
 
         1, 1, 1,
         1, -1, 1,
-        1, -1, -1
+        1, -1, -1,
     ],
     // -x
     [
@@ -62,14 +62,13 @@ const faces = [
 
         -1, 1, 1,
         -1, -1, -1,
-        -1, -1, 1
-    ]
+        -1, -1, 1,
+    ],
 ];
 
-const size = terrainChunkSize; // Save some typing.
+const size: number = terrainChunkSize; // Save some typing.
 
-
-function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Array>>>) {
+function buildChunkArrays(data: Uint8Array, neighbors: Uint8Array[][][]) {
     // Indexes to keep track of how full the buffers are / where to insert / slice.
     let vertIdx = 0;
     let triIdx = 0;
@@ -247,7 +246,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, sideMaterials[material],
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2])
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]),
                             );
                         }
                     }
@@ -259,7 +258,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, sideMaterials[material],
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2])
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]),
                             );
                         }
                     }
@@ -271,7 +270,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, material,
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z)
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z),
                             );
                         }
                     }
@@ -283,7 +282,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, material,
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z)
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x, y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z),
                             );
                         }
                     }
@@ -295,7 +294,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, sideMaterials[material],
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z)
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z),
                             );
                         }
                     }
@@ -307,7 +306,7 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
                         for (let f = 0; f < 18; f += 3) {
                             addVertex(
                                 x + face[f] / 2, y + face[f + 1] / 2, z + face[f + 2] / 2, sideMaterials[material],
-                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z)
+                                !!getPoint(x + face[f], y + face[f + 1], z + face[f + 2]) || !!getPoint(x + face[f], y, z + face[f + 2]) || !!getPoint(x + face[f], y + face[f + 1], z),
                             );
                         }
                     }
@@ -319,8 +318,8 @@ function buildChunkArrays(data: Uint8Array, neighbors: Array<Array<Array<Uint8Ar
     return {
         materials: materials.slice(0, triIdx),
         vertices: vertices.slice(0, vertIdx),
-        shadows: shadows.slice(0, shadowIdx)
-    }
+        shadows: shadows.slice(0, shadowIdx),
+    };
 }
 
 addEventListener('message', (request: TerrainWorkerRequest) => {
