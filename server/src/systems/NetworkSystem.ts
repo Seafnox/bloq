@@ -15,19 +15,17 @@ export default class NetworkSystem extends System {
 
     update(dt: number): void {
         this.entityManager.getEntities(ComponentId.Network).forEach((component, entity) => {
-            let netComponent = component as NetworkComponent;
+            const netComponent = component as NetworkComponent;
+            console.log('Update Socket', entity, netComponent.bufferPos, netComponent.websocket.readyState);
 
             // Player has disconnected. Remove entity and do not attempt to send on socket.
-            if(netComponent.websocket.readyState == netComponent.websocket.CLOSED) {
+            if(netComponent.isClosed()) {
+                console.log('Socket closed', entity);
                 this.entityManager.removeEntity(entity);
                 return;
             }
 
-            // Nothing in buffer to send
-            if(netComponent.bufferPos === 0) return;
-
-            netComponent.websocket.send(netComponent.buffer.slice(0, netComponent.bufferPos));
-            netComponent.bufferPos = 0;
+            netComponent.flush();
         });
     }
 }

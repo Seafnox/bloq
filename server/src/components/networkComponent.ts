@@ -20,7 +20,34 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         return this.buffer.byteLength - this.bufferPos;
     }
 
-    pushBuffer(msgType: MessageType, bufferData: ArrayBuffer) {
+    isClosed(): boolean {
+        return this.websocket.readyState == WebSocket.CLOSED;
+    }
+
+    flush() {
+        // Nothing in buffer to send
+        if(this.bufferPos === 0) return;
+
+        const buffer = this.buffer.slice(0, this.bufferPos);
+        console.log('Socket send', buffer);
+        console.log('Socket', Object.keys(this.websocket));
+        this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
+        this.bufferPos = 0;
+    }
+
+    pushEntity(data: string) {
+        this.pushBuffer(MessageType.Entity, this.encodeString(data));
+    }
+
+    pushTerrainChunk(data: ArrayBuffer) {
+        this.pushBuffer(MessageType.Terrain, data);
+    }
+
+    pushAction(data: ArrayBuffer) {
+        this.pushBuffer(MessageType.Action, data);
+    }
+
+    private pushBuffer(msgType: MessageType, bufferData: ArrayBuffer) {
         if (this.bufferPos + bufferData.byteLength + 2 * Uint16Array.BYTES_PER_ELEMENT > this.buffer.byteLength) {
             console.error('Buffer is too small!');
             return;
@@ -41,18 +68,6 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         for (let i = 0; i < bufferData.byteLength; i++) {
             view.setUint8(this.bufferPos++, bufferArray[i]);
         }
-    }
-
-    pushEntity(data: string) {
-        this.pushBuffer(MessageType.Entity, this.encodeString(data));
-    }
-
-    pushTerrainChunk(data: ArrayBuffer) {
-        this.pushBuffer(MessageType.Terrain, data);
-    }
-
-    pushAction(data: ArrayBuffer) {
-        this.pushBuffer(MessageType.Action, data);
     }
 
     private encodeString(data: string): ArrayBuffer {

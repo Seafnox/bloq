@@ -76,8 +76,8 @@ export default class Server {
         netComponent.pushAction(packet);
     }
 
-    private onConnect(_: WebSocketServer, ws: WebSocket) {
-        console.log('Server onConnect:');
+    private onConnect(ws: WebSocket) {
+        console.log('Server onConnect:', ws.constructor.name);
         let playerEntity = this.world.entityManager.createEntity();
 
         let netComponent = new NetworkComponent();
@@ -95,7 +95,7 @@ export default class Server {
         console.log(this.wss.address());
     }
 
-    private onError(_: WebSocketServer, error: Error) {
+    private onError(error: Error) {
         console.log('Server error:');
         console.warn(error);
     }
