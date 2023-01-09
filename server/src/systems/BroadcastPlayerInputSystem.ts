@@ -3,7 +3,6 @@ import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import { NetworkComponent } from '../components/networkComponent';
-import Server from "../Server";
 
 
 export default class BroadcastPlayerInputSystem extends System {
@@ -29,7 +28,7 @@ export default class BroadcastPlayerInputSystem extends System {
                 let netComponent = component as NetworkComponent;
                 changedInputs.forEach((serializedComponents, changedEntity) => {
                     if (changedEntity === entity) return;
-                    Server.sendEntity(netComponent, serializedComponents);
+                    netComponent.pushEntity(serializedComponents);
                 });
             })
         }
@@ -39,7 +38,7 @@ export default class BroadcastPlayerInputSystem extends System {
                 let netComponent = component as NetworkComponent;
                 changedRots.forEach((serializedRot, changedEntity) => {
                     if (changedEntity === entity) return;
-                    Server.sendEntity(netComponent, serializedRot)
+                    netComponent.pushEntity(serializedRot);
                 })
             })
         }

@@ -2,6 +2,7 @@ import { SerializableComponent } from '@block/shared/components/serializableComp
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import { deserializeTerrainChunk } from '@block/shared/helpers/deserializeTerrainChunk';
+import { isString } from '@block/shared/helpers/isString';
 import {Database} from 'sqlite3';
 
 import {System} from "@block/shared/System";
@@ -32,7 +33,7 @@ export default class DatabaseSystem extends System {
 
     restore(complete: Function) {
         this.db.each(`SELECT type, entity, data FROM components`, (err: Error | null, row: any) => {
-            if (typeof row.data === 'string') {
+            if (isString(row.data)) {
                 this.entityManager.addComponentFromData(row.entity, row.type, JSON.parse(row.data));
             } else {
                 // Chunk

@@ -7,7 +7,6 @@ import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import path from 'path';
 import { NetworkComponent } from '../components/networkComponent';
-import Server from "../Server";
 import { Worker } from 'node:worker_threads';
 
 export default class ChunkRequestSystem extends System {
@@ -44,7 +43,7 @@ export default class ChunkRequestSystem extends System {
 
                 let chunkComponent = this.entityManager.getComponent<TerrainChunkComponent>(key, ComponentId.TerrainChunk);
                 if (chunkComponent) {
-                    Server.sendTerrainChunk(netComponent, chunkComponent.serialize().buffer);
+                    netComponent.pushTerrainChunk(chunkComponent.serialize().buffer);
                     reqComponent.chunks.splice(reqComponent.chunks.indexOf(key), 1);
                     return netComponent.bytesLeft() < Math.pow(terrainChunkSize, 3) + 32
                 }

@@ -1,3 +1,4 @@
+import { isString } from '@block/shared/helpers/isString';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {Server} from "../Server";
@@ -23,7 +24,7 @@ export default class NetworkSystem extends System {
 
     pushBuffer(data: ArrayBuffer | string) {
         let bufferData: ArrayBuffer;
-        if(typeof data === 'string') {
+        if(isString(data)) {
             let encoder = new TextEncoder();
             bufferData = encoder.encode(data).buffer;
         } else {

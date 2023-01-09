@@ -56,19 +56,6 @@ export default class Server {
         this.world.tick(dt);
     }
 
-    // TODO: These three might no longer belong here.
-    static sendEntity(netComponent: NetworkComponent, str: string) {
-        let encoder = new TextEncoder();
-        let bytes = encoder.encode(str);
-
-        netComponent.pushBuffer(MessageType.Entity, bytes.buffer);
-    }
-
-    // Could have been sendBinary or something, but currently only terrain is sent as binary
-    static sendTerrainChunk(netComponent: NetworkComponent, buf: ArrayBuffer) {
-        netComponent.pushBuffer(MessageType.Terrain, buf);
-    }
-
     static sendAction(netComponent: NetworkComponent, actionId: ActionId, action: AbstractAction) {
         const encoder = new TextEncoder();
         let actionString = action.serialize();
@@ -91,13 +78,14 @@ export default class Server {
     }
 
     private onConnect(_: WebSocketServer, ws: WebSocket) {
+        console.log('Server onConnect:');
         let playerEntity = this.world.entityManager.createEntity();
 
         let netComponent = new NetworkComponent();
         netComponent.websocket = ws;
         this.world.entityManager.addComponent(playerEntity, netComponent);
         this.world.entityManager.addComponent(playerEntity, new PlayerComponent());
-        Server.sendEntity(netComponent, this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
+        netComponent.pushEntity(this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
         ws.on('message', (data: ArrayBuffer) => this.onMessage(playerEntity, data));
         ws.on('close', () => this.onPlayerWsClose(playerEntity));

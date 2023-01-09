@@ -2,6 +2,7 @@ import { AbstractComponent, AbstractComponentData } from '@block/shared/componen
 import { ComponentId } from '@block/shared/constants/componentId';
 import { MessageType } from '@block/shared/constants/messageType';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
+import { isString } from '@block/shared/helpers/isString';
 import { WebSocket } from 'ws';
 
 export interface NetworkComponentData extends AbstractComponentData {
@@ -22,7 +23,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
 
     pushBuffer(msgType: MessageType, data: ArrayBuffer | string) {
         let bufferData: ArrayBuffer;
-        if (typeof data === 'string') {
+        if (isString(data)) {
             let encoder = new TextEncoder();
             bufferData = encoder.encode(data).buffer;
         } else {
@@ -49,5 +50,13 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         for (let i = 0; i < bufferData.byteLength; i++) {
             view.setUint8(this.bufferPos++, bufferArray[i]);
         }
+    }
+
+    pushEntity(data: string) {
+        this.pushBuffer(MessageType.Entity, data);
+    }
+
+    pushTerrainChunk(data: ArrayBuffer) {
+        this.pushBuffer(MessageType.Terrain, data);
     }
 }
