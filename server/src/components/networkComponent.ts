@@ -29,7 +29,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         if(this.bufferPos === 0) return;
 
         const buffer = this.buffer.slice(0, this.bufferPos);
-        console.log('Socket send', buffer);
+        console.log('Socket send', buffer.byteLength,  buffer);
         console.log('Socket', Object.keys(this.websocket));
         this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
         this.bufferPos = 0;
