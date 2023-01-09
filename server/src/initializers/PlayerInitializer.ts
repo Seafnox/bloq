@@ -9,7 +9,6 @@ import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { WallCollisionComponent } from '@block/shared/components/wallCollisionComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
 import Initializer from "@block/shared/Initializer";
 import { NetworkComponent } from '../components/networkComponent';
 import { NewPlayerComponent } from '../components/newPlayerComponent';
@@ -58,7 +57,7 @@ export default class PlayerInitializer extends Initializer<ServerComponentMap> {
             em.addComponent(blockEntity, pos);
 
             inventory.slots[i] = blockEntity;
-            netComponent.pushBuffer(MessageType.Entity, em.serializeEntity(blockEntity));
+            netComponent.pushEntity(em.serializeEntity(blockEntity));
         }
         em.addComponent(entity, inventory);
 
@@ -67,7 +66,7 @@ export default class PlayerInitializer extends Initializer<ServerComponentMap> {
         em.addComponent(entity, new ChunkRequestComponent());
         em.addComponent(entity, new InputComponent()); // Keyboard input
 
-        netComponent.pushBuffer(MessageType.Entity, em.serializeEntity(entity));
+        netComponent.pushEntity(em.serializeEntity(entity));
 
         // Deleted as soon as all players have been informed of this new player.
         // Not serializable, and not sent to client, so add it after the rest of the player entity has been serialized,

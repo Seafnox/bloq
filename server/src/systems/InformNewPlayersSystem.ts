@@ -1,5 +1,4 @@
 import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
 import {System} from "@block/shared/System";
 import { NetworkComponent } from '../components/networkComponent';
 
@@ -25,7 +24,7 @@ export default class InformNewPlayersSystem extends System {
             this.entityManager.getEntities(ComponentId.Player).forEach((component, existingEntity) => {
                 if (existingEntity == newEntity) return; // Never send info about the new player to themselves.
                 let netComponent = this.entityManager.getComponent<NetworkComponent>(existingEntity, ComponentId.Network);
-                netComponent.pushBuffer(MessageType.Entity, newPlayerData);
+                netComponent.pushEntity(newPlayerData);
 
                 existingPlayerDatas.push(this.entityManager.serializeEntity(existingEntity, syncComponents));
             });
@@ -33,11 +32,11 @@ export default class InformNewPlayersSystem extends System {
             // Inform new player about existing players.
             let netComponent = this.entityManager.getComponent<NetworkComponent>(newEntity, ComponentId.Network);
             existingPlayerDatas.forEach(data => {
-                netComponent.pushBuffer(MessageType.Entity, data);
+                netComponent.pushEntity(data);
             });
 
             this.entityManager.getEntities(ComponentId.Pickable).forEach((component, pickableEntity) => {
-                netComponent.pushBuffer(MessageType.Entity, this.entityManager.serializeEntity(pickableEntity));
+                netComponent.pushEntity(this.entityManager.serializeEntity(pickableEntity));
             });
 
             console.log('New player informed.');

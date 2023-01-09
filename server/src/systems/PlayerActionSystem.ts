@@ -5,7 +5,6 @@ import { InputComponent } from '@block/shared/components/inputComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import { ActionId } from '@block/shared/constants/actionId';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
 import { Direction } from '@block/shared/constants/direction';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import {System} from "@block/shared/System";
@@ -74,12 +73,12 @@ export default class PlayerActionSystem extends System {
                     block.count--;
 
                     let netComponent = this.entityManager.getComponent<NetworkComponent>(entity, ComponentId.Network);
-                    netComponent.pushBuffer(MessageType.Entity, this.entityManager.serializeEntity(inventoryBlockEntity, [ComponentId.Block]));
+                    netComponent.pushEntity(this.entityManager.serializeEntity(inventoryBlockEntity, [ComponentId.Block]));
 
                     if (block.count <= 0) {
                         this.entityManager.removeEntity(inventoryBlockEntity);
                         inventory.slots[inventory.activeSlot] = null;
-                        netComponent.pushBuffer(MessageType.Entity, this.entityManager.serializeEntity(entity, [ComponentId.Inventory]));
+                        netComponent.pushEntity(this.entityManager.serializeEntity(entity, [ComponentId.Inventory]));
 
                         let action = new RemoveEntitiesAction([inventoryBlockEntity]);
                         Server.sendAction(netComponent, ActionId.RemoveEntities, action);

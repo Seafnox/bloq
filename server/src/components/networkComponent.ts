@@ -2,7 +2,6 @@ import { AbstractComponent, AbstractComponentData } from '@block/shared/componen
 import { ComponentId } from '@block/shared/constants/componentId';
 import { MessageType } from '@block/shared/constants/messageType';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
-import { isString } from '@block/shared/helpers/isString';
 import { WebSocket } from 'ws';
 
 export interface NetworkComponentData extends AbstractComponentData {
@@ -21,21 +20,13 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         return this.buffer.byteLength - this.bufferPos;
     }
 
-    pushBuffer(msgType: MessageType, data: ArrayBuffer | string) {
-        let bufferData: ArrayBuffer;
-        if (isString(data)) {
-            let encoder = new TextEncoder();
-            bufferData = encoder.encode(data).buffer;
-        } else {
-            bufferData = data;
-        }
-
+    pushBuffer(msgType: MessageType, bufferData: ArrayBuffer) {
         if (this.bufferPos + bufferData.byteLength + 2 * Uint16Array.BYTES_PER_ELEMENT > this.buffer.byteLength) {
             console.error('Buffer is too small!');
             return;
         }
 
-        let view = new DataView(this.buffer);
+        const view = new DataView(this.buffer);
 
         // Insert length
         view.setUint16(this.bufferPos, bufferData.byteLength);
@@ -53,10 +44,19 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     }
 
     pushEntity(data: string) {
-        this.pushBuffer(MessageType.Entity, data);
+        this.pushBuffer(MessageType.Entity, this.encodeString(data));
     }
 
     pushTerrainChunk(data: ArrayBuffer) {
         this.pushBuffer(MessageType.Terrain, data);
+    }
+
+    pushAction(data: ArrayBuffer) {
+        this.pushBuffer(MessageType.Action, data);
+    }
+
+    private encodeString(data: string): ArrayBuffer {
+        const encoder = new TextEncoder();
+        return encoder.encode(data).buffer;
     }
 }

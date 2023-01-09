@@ -2,7 +2,6 @@ import { AbstractAction } from '@block/shared/actions/abstractAction';
 import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { ActionId } from '@block/shared/constants/actionId';
 import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
 import { EntityMessage } from '@block/shared/entityMessage';
 import { WebSocketServer, WebSocket } from 'ws';
 import { NetworkComponent } from './components/networkComponent';
@@ -74,7 +73,7 @@ export default class Server {
             packetView.setUint8(i + extraSpace, bytes[i]);
         }
 
-        netComponent.pushBuffer(MessageType.Action, packet);
+        netComponent.pushAction(packet);
     }
 
     private onConnect(_: WebSocketServer, ws: WebSocket) {
