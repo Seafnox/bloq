@@ -2,6 +2,7 @@ uniform sampler2D texture;
 varying vec3 pos;
 varying float mat;
 varying float shd;
+out vec4 fragColor;
 
 vec2 tex_pos(int mat, vec2 pos) {
     mat--;
@@ -32,5 +33,5 @@ void main() {
 
     // Mix fog and color
     vec4 finalColor = vec4(color.rgb * shd, 1.0);
-    gl_FragColor = mix(fogColor, finalColor, fogFactor);
+    fragColor = mix(fogColor, finalColor, fogFactor);
 }

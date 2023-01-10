@@ -4,7 +4,8 @@ import {
     Scene,
     PerspectiveCamera,
     ShaderMaterial,
-    Vector3
+    Vector3,
+    GLSL3
 } from 'three';
 import { BaseWorld } from "@block/shared/BaseWorld";
 import { UtilsManager } from "@block/shared/UtilsManager";
@@ -65,13 +66,14 @@ export default class World extends BaseWorld {
 
         this.terrainMaterial = new ShaderMaterial({
             uniforms: {
-                texture: {
+                pointTexture: {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
             vertexShader: terrainVertShader,
             fragmentShader: terrainFragShader,
-            vertexColors: true
+            vertexColors: true,
+            glslVersion: GLSL3
         });
 
         this.selectionMaterial = new ShaderMaterial({
@@ -81,18 +83,20 @@ export default class World extends BaseWorld {
                 }
             },
             vertexShader: selectionVertShader,
-            fragmentShader: selectionFragShader
+            fragmentShader: selectionFragShader,
+            glslVersion: GLSL3
         });
 
         this.blockMaterial = new ShaderMaterial({
             uniforms: {
-                texture: {
+                pointTexture: {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
             vertexShader: blockVertShader,
             fragmentShader: blockFragShader,
-            vertexColors: true
+            vertexColors: true,
+            glslVersion: GLSL3
         });
 
         this.addSystems(guiNode);

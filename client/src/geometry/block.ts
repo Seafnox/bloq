@@ -10,7 +10,7 @@ export function buildBlockGeometry(material: BlockId) {
         materialData[i] = sideMaterials[material];
     }
 
-    geometry.addAttribute('material', new BufferAttribute(materialData, 1));
+    geometry.setAttribute('material', new BufferAttribute(materialData, 1));
     geometry.computeVertexNormals();
 
     return geometry;

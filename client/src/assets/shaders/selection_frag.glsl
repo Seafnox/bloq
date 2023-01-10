@@ -1,4 +1,5 @@
 varying vec3 pos;
+out vec4 fragColor;
 
 void main() {
     vec3 absPos = abs(pos);
@@ -7,5 +8,5 @@ void main() {
         (fract(absPos.x) < 0.48 && fract(absPos.z) < 0.48) ||
         (fract(absPos.y) < 0.48 && fract(absPos.z) < 0.48)
     ) discard;
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 0.0);
+    fragColor = vec4(1.0, 1.0, 1.0, 0.0);
 }
