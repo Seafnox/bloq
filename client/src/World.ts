@@ -20,6 +20,7 @@ import PlayerInputSyncSystem from "./systems/PlayerInputSyncSystem";
 import MeshSystem from "./systems/MeshSystem";
 import PlayerMeshSystem from "./systems/PlayerMeshSystem";
 import PlayerSelectionSystem from "./systems/PlayerSelectionSystem";
+import { AssetName } from './three/AssetName';
 import MouseManager from "./three/MouseManager";
 import KeyboardManager from "./three/KeyboardManager";
 import InventoryUISystem from "./systems/InventoryUISystem";
@@ -67,7 +68,7 @@ export default class World extends BaseWorld {
         this.terrainMaterial = new ShaderMaterial({
             uniforms: {
                 pointTexture: {
-                    value: this.game.assetManager.getTexture('terrain')
+                    value: this.game.assetManager.getTexture(AssetName.BlockTexture)
                 }
             },
             vertexShader: terrainVertShader,
@@ -90,7 +91,7 @@ export default class World extends BaseWorld {
         this.blockMaterial = new ShaderMaterial({
             uniforms: {
                 pointTexture: {
-                    value: this.game.assetManager.getTexture('terrain')
+                    value: this.game.assetManager.getTexture(AssetName.BlockTexture)
                 }
             },
             vertexShader: blockVertShader,

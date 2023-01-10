@@ -1,3 +1,4 @@
+import { AssetName } from '../three/AssetName';
 import HTMLParser from "../three/HTMLParser";
 import {State} from "./State";
 import MenuState from "./MenuState";
@@ -79,7 +80,7 @@ export default class SettingsState extends State {
         this.guiNode.querySelector('.settings-music').addEventListener('change', (evt) => {
             let musicVolume = parseFloat((evt.target as HTMLInputElement).value);
             this.settings.musicVolume = musicVolume;
-            this.assetManager.getMusic('music').volume = musicVolume;
+            this.assetManager.getMusic(AssetName.BackgroundMusic).volume = musicVolume;
         });
     }
 }

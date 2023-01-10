@@ -6,6 +6,7 @@ import { PhysicsComponent } from '@block/shared/components/physicsComponent';
 import { ComponentId } from '@block/shared/constants/componentId';
 import {System} from "@block/shared/System";
 import AssetManager from "../three/AssetManager";
+import { AssetName } from '../three/AssetName';
 import Sound from "../three/Sound";
 import EntityManager from "@block/shared/EntityManager";
 
@@ -18,9 +19,9 @@ export default class SoundSystem extends System {
     constructor(em: EntityManager, am: AssetManager) {
         super(em);
 
-        this.walkSound = am.getSound('walk');
-        this.digSound = am.getSound('dig');
-        this.pickupSound = am.getSound('pickup');
+        this.walkSound = am.getSound(AssetName.WalkSound);
+        this.digSound = am.getSound(AssetName.DigSound);
+        this.pickupSound = am.getSound(AssetName.PickupSound);
     }
 
     update(dt: number): void {

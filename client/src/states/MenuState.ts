@@ -1,3 +1,4 @@
+import { AssetName } from '../three/AssetName';
 import HTMLParser from "../three/HTMLParser";
 import {State} from "./State";
 import PlayState from "./PlayState";
@@ -64,7 +65,7 @@ export default class MenuState extends State {
             this.transitionTo(new SettingsState());
         });
 
-        let m = this.assetManager.getMusic('music');
+        let m = this.assetManager.getMusic(AssetName.BackgroundMusic);
         m.loop = true;
         m.volume = this.settings.musicVolume;
         m.play();

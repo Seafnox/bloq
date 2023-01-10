@@ -1,3 +1,4 @@
+import { AssetName } from '../three/AssetName';
 import {State} from "./State";
 import MenuState from "./MenuState";
 import HTMLParser from "../three/HTMLParser";
@@ -57,18 +58,18 @@ export default class AssetLoadingState extends State {
 
     private loadAssets() {
         // Textures
-        this.assetManager.addTexture('terrain', textures);
+        this.assetManager.addTexture(AssetName.BlockTexture, textures);
 
         // Meshes
         this.assetManager.addMesh('player', playerObj);
 
         // Music
-        this.assetManager.addMusic('music', music);
+        this.assetManager.addMusic(AssetName.BackgroundMusic, music);
 
         // Sound effects
-        this.assetManager.addSound('walk', walk);
-        this.assetManager.addSound('dig', dig);
-        this.assetManager.addSound('pickup', pickup);
+        this.assetManager.addSound(AssetName.WalkSound, walk);
+        this.assetManager.addSound(AssetName.DigSound, dig);
+        this.assetManager.addSound(AssetName.PickupSound, pickup);
 
         this.assetManager.load((description: string, progress: number) => {
             this.progressDescription = description;

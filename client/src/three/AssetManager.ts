@@ -1,6 +1,7 @@
 import { TextureLoader, NearestFilter, Texture } from 'three';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { getAnimatedMesh, AnimatedMesh } from './AnimatedMesh';
+import { AssetName } from './AssetName';
 import Sound from "./Sound";
 
 
@@ -162,7 +163,7 @@ export default class AssetManager {
 
                 filesDone++;
                 this.filesDone++;
-                progress('music', this.filesDone / this.totalFiles);
+                progress(AssetName.BackgroundMusic, this.filesDone / this.totalFiles);
                 el.removeEventListener('canplaythrough', canPlayThrough, false);
 
                 if (filesDone == this.queue.music.length) done();
