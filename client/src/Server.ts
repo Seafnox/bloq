@@ -78,11 +78,10 @@ export class Server {
     private handleEntityMessage(message: ArrayBuffer): void {
         const entityMessage = bufferToObject<EntityMessage<ClientComponentMap>>(message);
         console.log('handleEntityMessage', entityMessage);
+        console.log('ComponentIds', Object.keys(entityMessage.componentMap).map(key => [key, ComponentId[key as any]].join(' - ')));
 
-        Object.keys(entityMessage.componentMap).forEach(componentId => {
-            let key = parseInt(componentId);
-            this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.componentMap);
-        });
+        Object.keys(entityMessage.componentMap)
+            .forEach(componentId => this.eventEmitter.emit(+componentId as ComponentId, entityMessage.entity, entityMessage.componentMap));
     }
 
     private handleTerrainChunkMessage(message: ArrayBuffer): void {

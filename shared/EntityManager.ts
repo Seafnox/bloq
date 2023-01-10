@@ -116,9 +116,9 @@ export default class EntityManager {
     }
 
     addComponent<T extends AbstractComponent<any>>(entity: string, component: T): typeof component {
-        let event;
-        if (this.components.get(component.ID).has(entity)) event = EntityManagerEvent.ComponentReplaced;
-        else event = EntityManagerEvent.ComponentAdded;
+        const event = this.components.get(component.ID).has(entity)
+            ? EntityManagerEvent.ComponentReplaced
+            : EntityManagerEvent.ComponentAdded;
 
         this.components.get(component.ID).set(entity, new Proxy(component, componentProxyHandler));
 
@@ -176,6 +176,7 @@ export default class EntityManager {
     }
 
     private emit(eventType: EntityManagerEvent, entity: string, data?: any) {
+        this.utils.logger.log('entity emit', eventType, entity, data);
         this.eventHandlers[eventType].forEach((callback) => {
             callback(entity, data);
         })

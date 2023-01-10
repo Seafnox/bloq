@@ -65,6 +65,7 @@ export default class InventoryUISystem extends System {
 
     update(dt: number) {
         this.entityManager.getEntities(ComponentId.Inventory).forEach((component, entity) => {
+            debugger;
             let inventory = this.entityManager.getComponent<InventoryComponent>(entity, ComponentId.Inventory);
             if (inventory.isDirty('activeSlot')) {
                 let currentSlot = this.domNode.querySelector('#inventory .active');

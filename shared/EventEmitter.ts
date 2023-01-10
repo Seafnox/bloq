@@ -16,11 +16,8 @@ export class ComponentEventEmitter<TComponentMap extends ComponentMap> {
     }
 
     emit(componentId: ComponentId, entity: string, componentMap: Partial<TComponentMap>) {
-        let handlers = this.componentHandlers.get(componentId);
-        if (!handlers) return;
+        let handlers = this.componentHandlers.get(componentId) || [];
 
-        handlers.forEach((callback: ComponentHandler<TComponentMap>) => {
-            callback(entity, componentMap);
-        })
+        handlers.forEach((callback: ComponentHandler<TComponentMap>) => callback(entity, componentMap));
     }
 }

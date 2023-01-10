@@ -1,4 +1,4 @@
-export const enum ComponentId {
+export enum ComponentId {
     // Shared
     None,
     Position,
