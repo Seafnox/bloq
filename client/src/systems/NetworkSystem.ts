@@ -17,8 +17,10 @@ export default class NetworkSystem extends System {
     update(dt: number): void {
         if(this.bufferPos === 0) return; // Nothing queued for this tick.
 
+        const buffer = this.buffer.slice(0, this.bufferPos);
+        console.log('Socket send', buffer.byteLength, buffer);
         // Send data and reset buffer.
-        this.server.ws.send(this.buffer.slice(0, this.bufferPos));
+        this.server.ws.send(buffer);
         this.bufferPos = 0;
     }
 

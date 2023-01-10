@@ -40,6 +40,8 @@ export class Server {
             console.error('Not array buffer!', evt.data);
         }
 
+        console.log('receive', evt.data);
+
         let buf: ArrayBuffer = evt.data;
         let bufView = new DataView(buf);
         let bufPos = 0;
@@ -55,9 +57,18 @@ export class Server {
             bufPos += msgLength;
 
             switch (msgType) {
-                case MessageType.Entity: return this.handleEntityMessage(msgData);
-                case MessageType.Terrain: return this.handleTerrainMessage(msgData);
-                case MessageType.Action: return this.handleActionMessage(msgData);
+                case MessageType.Entity:
+                    console.log('parsed', 'Entity', msgLength, msgType, msgData);
+                    console.log('left', buf);
+                    return this.handleEntityMessage(msgData);
+                case MessageType.Terrain:
+                    console.log('parsed', 'Terrain', msgLength, msgType, msgData);
+                    console.log('left', buf);
+                    return this.handleTerrainChunkMessage(msgData);
+                case MessageType.Action:
+                    console.log('parsed', 'Action', msgLength, msgType, msgData);
+                    console.log('left', buf);
+                    return this.handleActionMessage(msgData);
                 default:
                     console.warn('Unknown message type: ', msgType, msgData.byteLength)
             }
@@ -66,6 +77,7 @@ export class Server {
 
     private handleEntityMessage(message: ArrayBuffer): void {
         const entityMessage = bufferToObject<EntityMessage<ClientComponentMap>>(message);
+        console.log('handleEntityMessage', entityMessage);
 
         Object.keys(entityMessage.componentMap).forEach(componentId => {
             let key = parseInt(componentId);
@@ -73,11 +85,13 @@ export class Server {
         });
     }
 
-    private handleTerrainMessage(message: ArrayBuffer): void {
+    private handleTerrainChunkMessage(message: ArrayBuffer): void {
         let [entity, component] = deserializeTerrainChunk(message);
+        console.log('handleTerrainChunkMessage', entity, component);
 
-        let componentsObj: Partial<ClientComponentMap> = {};
-        componentsObj[ComponentId.TerrainChunk] = component;
+        const componentsObj: Partial<ClientComponentMap> = {
+            [ComponentId.TerrainChunk]: component,
+        };
         this.eventEmitter.emit(ComponentId.TerrainChunk, entity, componentsObj);
     }
 
@@ -86,6 +100,7 @@ export class Server {
         let actionBuffer = message.slice(Uint16Array.BYTES_PER_ELEMENT);
 
         const actionData = bufferToObject(actionBuffer);
+        console.log('handleActionMessage', actionId, actionData);
 
         // Queue action directly. No "event" to be emitted.
         this.game.world.actionManager.queueRawAction(actionId, actionData);
