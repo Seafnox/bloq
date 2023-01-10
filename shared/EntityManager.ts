@@ -1,6 +1,7 @@
 import { AbstractComponent, AbstractComponentData } from './components/abstractComponent';
 import { SerializableComponent } from './components/serializableComponent';
 import { ComponentId } from './constants/componentId';
+import { EntityMessage, ComponentMap } from './entityMessage';
 import { Logger } from './Logger';
 import { UtilsManager } from './UtilsManager';
 
@@ -71,17 +72,22 @@ export default class EntityManager {
 
         if (!componentIds) componentIds = Array.from(this.componentConstructors.keys());
 
-        let components: string[] = [];
+        const componentMap: Partial<ComponentMap> = {};
         componentIds.forEach(componentId => {
             let component = this.components.get(componentId).get(entity);
             if (component instanceof SerializableComponent) {
-                components.push(`"${componentId}":${component.serialize()}`);
+                componentMap[componentId] = component.getJSON();
             } else if (component) {
                 this.logger.warn(`Tried to serialize non-serializable component: "${component.typeName()}"`)
             }
         });
 
-        return `{"entity":"${entity}","components":{${components.join(',')}}}`;
+        const message: EntityMessage = {
+            entity,
+            componentMap,
+        };
+
+        return JSON.stringify(message);
     }
 
     // Only schedules for removal.

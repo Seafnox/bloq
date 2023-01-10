@@ -12,4 +12,8 @@ export class SerializableComponent<T extends SerializableComponentData = Seriali
     serialize(): string {
         return JSON.stringify(this, componentReplacer);
     }
+
+    getJSON(): T {
+        return JSON.parse(this.serialize());
+    }
 }

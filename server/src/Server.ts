@@ -3,7 +3,7 @@ import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { ActionId } from '@block/shared/constants/actionId';
 import { ComponentId } from '@block/shared/constants/componentId';
 import { EntityMessage } from '@block/shared/entityMessage';
-import { WebSocketServer, WebSocket } from 'ws';
+import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { NetworkComponent } from './components/networkComponent';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
@@ -86,13 +86,12 @@ export default class Server {
         this.world.entityManager.addComponent(playerEntity, new PlayerComponent());
         netComponent.pushEntity(this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
-        ws.on('message', (data: ArrayBuffer) => this.onMessage(playerEntity, data));
-        ws.on('close', () => this.onPlayerWsClose(playerEntity));
+        ws.on('message', this.onMessage.bind(this, playerEntity));
+        ws.on('close', this.onPlayerWsClose.bind(this, playerEntity));
     }
 
     private onReady() {
-        console.log('Server ready at:');
-        console.log(this.wss.address());
+        console.log('Server ready at:', this.wss.address());
     }
 
     private onError(error: Error) {
@@ -101,11 +100,19 @@ export default class Server {
     }
 
     private onClose() {
-        console.log('Server close at:');
-        console.log(this.wss.address());
+        console.log('Server close at:', this.wss.address());
     }
 
-    private onMessage(playerEntity: string, buffer: ArrayBuffer) {
+    private onMessage(playerEntity: string, buffer: RawData): void {
+        if (Array.isArray(buffer)) {
+            return buffer.forEach(bufferItem => this.onMessage(playerEntity, bufferItem));
+        }
+
+         if (buffer instanceof Buffer) {
+             return this.onMessage(playerEntity, this.toArrayBuffer(buffer));
+         }
+
+        console.log('Socket receive', playerEntity, buffer);
         let pos = 0;
         let view = new DataView(buffer);
         let textDecoder = new TextDecoder();
@@ -134,6 +141,15 @@ export default class Server {
                 this.eventEmitter.emit(parseInt(componentId) as ComponentId, playerEntity, entityMessage.componentMap);
             }
         }
+    }
+
+    private toArrayBuffer(buf: Buffer): ArrayBuffer {
+        const arrayBuffer = new ArrayBuffer(buf.length);
+        const view = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < buf.length; ++i) {
+            view[i] = buf[i];
+        }
+        return arrayBuffer;
     }
 
     private onPlayerWsClose(playerEntity: string) {

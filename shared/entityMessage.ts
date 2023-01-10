@@ -14,7 +14,7 @@ import { TerrainChunkComponentData } from './components/terrainChunkComponent';
 import { WallCollisionComponentData } from './components/wallCollisionComponent';
 import { ComponentId } from './constants/componentId';
 
-export interface EntityMessage<T extends ComponentMap> {
+export interface EntityMessage<T extends Partial<ComponentMap> = Partial<ComponentMap>> {
     entity: string;
     componentMap: T;
 }
