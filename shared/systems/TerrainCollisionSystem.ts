@@ -3,7 +3,7 @@ import { PhysicsComponent } from '../components/physicsComponent';
 import { PositionComponent } from '../components/positionComponent';
 import { TerrainChunkComponent } from '../components/terrainChunkComponent';
 import { WallCollisionComponent } from '../components/wallCollisionComponent';
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { PlayerJumpVelocity } from '../constants/physics.constants';
 import { terrainChunkSize } from '../constants/interaction.constants';
 import { chunkKey } from '../helpers/chunkKey';

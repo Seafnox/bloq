@@ -1,6 +1,6 @@
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
-import { NetworkComponent } from '../components/networkComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
 
 export function broadcastEntity(em: EntityManager, chunk: [number, number, number], entity: string) {
     em.getEntities(ComponentId.Network).forEach((component, playerEntity) => {

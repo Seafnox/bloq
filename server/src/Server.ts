@@ -1,10 +1,10 @@
 import { AbstractAction } from '@block/shared/actions/AbstractAction';
 import { PlayerComponent } from '@block/shared/components/playerComponent';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId, componentNames } from '@block/shared/constants/ComponentId';
 import { EntityMessage } from '@block/shared/EntityMessage';
 import { WebSocketServer, WebSocket, RawData } from 'ws';
-import { NetworkComponent } from './components/networkComponent';
+import { NetworkComponent } from './components/NetworkComponent';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
@@ -14,12 +14,15 @@ export default class Server {
     world: World;
     eventEmitter = new ComponentEventEmitter<ServerComponentMap>();
 
+    private accumulator = 0.0;
+    private expectedDt = 1.0 / 30.0;
+
     constructor() {
         this.world = new World(this);
 
         this.wss = new WebSocketServer({
             host: '0.0.0.0',
-            port: 8082,
+            port: 8081,
             perMessageDeflate: true,
         });
 
@@ -28,27 +31,21 @@ export default class Server {
         this.wss.on('error', this.onError.bind(this));
         this.wss.on('close', this.onClose.bind(this));
 
-        this.startGameLoop();
+        this.startGameTick();
     }
 
-    private startGameLoop() {
-        const dt = 1.0 / 30.0;
+    startGameTick(lastTime: number = performance.now()) {
+        let newTime = performance.now();
+        let frameTime = newTime - lastTime;
 
-        let currentTime = performance.now();
-        let accumulator = 0.0;
+        this.accumulator += frameTime;
 
-        setInterval(() => {
-            let newTime = performance.now();
-            let frameTime = newTime - currentTime;
-            currentTime = newTime;
+        while (this.accumulator >= this.expectedDt) {
+            this.tick(this.expectedDt);
+            this.accumulator -= this.expectedDt;
+        }
 
-            accumulator += frameTime;
-
-            while (accumulator >= dt) {
-                this.tick(dt);
-                accumulator -= dt;
-            }
-        }, 1);
+        setTimeout(() => this.startGameTick(newTime), 1);
     }
 
     tick(dt: number) {
@@ -78,7 +75,7 @@ export default class Server {
 
     private onConnect(ws: WebSocket) {
         console.log('Server onConnect:', ws.constructor.name);
-        let playerEntity = this.world.entityManager.createEntity();
+        let playerEntity = this.world.entityManager.createEntity('player');
 
         let netComponent = new NetworkComponent();
         netComponent.websocket = ws;
@@ -112,7 +109,7 @@ export default class Server {
              return this.onMessage(playerEntity, this.toArrayBuffer(buffer));
          }
 
-        console.log('Socket receive', playerEntity, buffer);
+        console.log('<-- Socket receive', playerEntity, buffer.byteLength, 'byte');
         let pos = 0;
         let view = new DataView(buffer);
         let textDecoder = new TextDecoder();
@@ -129,6 +126,9 @@ export default class Server {
             pos += msgLength;
             let text = textDecoder.decode(msg);
             let entityMessage: EntityMessage<ServerComponentMap> = JSON.parse(text);
+            console.log('\tMessage', text);
+            const usedComponentNames = componentNames.filter((name, id) => id in entityMessage.componentMap);
+            console.log('\tComponents', usedComponentNames);
 
             // No one should be able to send data on behalf of others.
             // Really "obj" doesn't need an "entity" property, but might need it in the future.
@@ -153,6 +153,7 @@ export default class Server {
     }
 
     private onPlayerWsClose(playerEntity: string) {
+        console.log('--> Socket closed', playerEntity);
         this.world.entityManager.removeEntity(playerEntity)
     }
 }

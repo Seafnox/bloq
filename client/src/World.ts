@@ -1,5 +1,5 @@
-import { ComponentId } from '@block/shared/constants/componentId';
-import { SystemOrder } from '@block/shared/constants/systemOrder';
+import { ComponentId } from '@block/shared/constants/ComponentId';
+import { SystemOrder } from '@block/shared/constants/SystemOrder';
 import {
     Scene,
     PerspectiveCamera,

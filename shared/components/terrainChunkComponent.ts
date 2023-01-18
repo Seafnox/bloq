@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { terrainChunkSize } from '../constants/interaction.constants';
 import { Position } from '../Position';
 import { AbstractComponent, AbstractComponentData } from './abstractComponent';

@@ -2,7 +2,7 @@ import { ChatMessageComponent } from '@block/shared/components/chatMessageCompon
 import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { ChatMaxLength } from '@block/shared/constants/chat.constants';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
 import { broadcastEntity } from '../helpers/broadcastEntity';
 
@@ -21,7 +21,7 @@ export default class ChatSystem extends System {
             // Create message as entity, and remove it from player.
             let playerComponent = this.entityManager.getComponent<PlayerComponent>(entity, ComponentId.Player);
             msgComponent.from = playerComponent.name;
-            let msgEntity = this.entityManager.createEntity();
+            let msgEntity = this.entityManager.createEntity('message');
             this.entityManager.removeComponent(entity, msgComponent);
             this.entityManager.addComponent(msgEntity, msgComponent);
 

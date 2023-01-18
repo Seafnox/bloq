@@ -2,7 +2,7 @@ import { CurrentPlayerComponent } from '@block/shared/components/currentPlayerCo
 import { PhysicsComponent } from '@block/shared/components/physicsComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import {Scene} from 'three';

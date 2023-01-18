@@ -1,5 +1,5 @@
 import { ChatMaxLength, ChatLogSize } from '@block/shared/constants/chat.constants';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 
 // ChatMessageInitializer doesn't initialize entity in EntityManager, but uses entity data to update DOM.

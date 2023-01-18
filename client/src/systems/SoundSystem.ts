@@ -3,7 +3,7 @@ import { InputComponent } from '@block/shared/components/inputComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import { OnGroundComponent } from '@block/shared/components/onGroundComponent';
 import { PhysicsComponent } from '@block/shared/components/physicsComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import AssetManager from "../three/AssetManager";

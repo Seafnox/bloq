@@ -1,6 +1,6 @@
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import HTMLParser from "../three/HTMLParser";

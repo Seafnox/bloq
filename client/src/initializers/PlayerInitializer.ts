@@ -1,5 +1,5 @@
 import { PlayerComponent } from '@block/shared/components/playerComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { ComponentMap } from '@block/shared/EntityMessage';
 import Initializer from '@block/shared/Initializer';

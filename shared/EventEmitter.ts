@@ -1,4 +1,4 @@
-import { ComponentId } from './constants/componentId';
+import { ComponentId } from './constants/ComponentId';
 import { ComponentMap } from './EntityMessage';
 
 export type ComponentHandler<TComponentMap extends ComponentMap> = (entity: string, componentMap: Partial<TComponentMap>) => void;

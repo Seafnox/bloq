@@ -1,7 +1,7 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
-import { Direction } from '@block/shared/constants/direction';
+import { ComponentId } from '@block/shared/constants/ComponentId';
+import { Direction } from '@block/shared/constants/Direction';
 import EntityManager from '@block/shared/EntityManager';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';

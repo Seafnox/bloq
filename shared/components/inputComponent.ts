@@ -1,5 +1,5 @@
-import { ComponentId } from '../constants/componentId';
-import { Direction } from '../constants/direction';
+import { ComponentId } from '../constants/ComponentId';
+import { Direction } from '../constants/Direction';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
 export interface InputComponentData extends SerializableComponentData {

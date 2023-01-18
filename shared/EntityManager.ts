@@ -1,6 +1,6 @@
 import { AbstractComponent, AbstractComponentData } from './components/abstractComponent';
 import { SerializableComponent } from './components/serializableComponent';
-import { ComponentId } from './constants/componentId';
+import { ComponentId, componentNames } from './constants/ComponentId';
 import { EntityMessage, ComponentMap } from './EntityMessage';
 import { Logger } from './Logger';
 import { UtilsManager } from './UtilsManager';
@@ -15,7 +15,7 @@ let componentProxyHandler: ProxyHandler<AbstractComponent<any>> = {
     }
 };
 
-export const enum EntityManagerEvent {
+export enum EntityManagerEvent {
     EntityCreated,
     EntityRemoved,
     ComponentAdded,
@@ -24,6 +24,8 @@ export const enum EntityManagerEvent {
 
     NumEvents, // Used to initialize event handler array. Not a real event.
 }
+
+const entityManagerEventMap = Array(5).fill(0).map((_, index) => EntityManagerEvent[index]);
 
 export default class EntityManager {
     private components: Map<ComponentId, Map<string, AbstractComponent<any>>> =
@@ -60,8 +62,8 @@ export default class EntityManager {
         this.components.set(type, new Map<string, T>());
     }
 
-    createEntity() {
-        let entity = this.utils.uuid();
+    createEntity(pre: string = '') {
+        let entity = `${pre}-${this.utils.uuid()}`;
         this.emit(EntityManagerEvent.EntityCreated, entity);
         return entity;
     }
@@ -175,10 +177,11 @@ export default class EntityManager {
         this.eventHandlers[eventType].push(callback);
     }
 
-    private emit(eventType: EntityManagerEvent, entity: string, data?: any) {
-        this.utils.logger.log('entity emit', eventType, entity, data);
-        this.eventHandlers[eventType].forEach((callback) => {
-            callback(entity, data);
-        })
+    private emit(eventType: EntityManagerEvent, entity: string, data?: ComponentId) {
+        const handlers = this.eventHandlers[eventType];
+        if (!!handlers.length) {
+            this.utils.logger.log('EME', entityManagerEventMap[eventType], entity, data && componentNames[data], handlers.length);
+        }
+        handlers.forEach((callback) => callback(entity, data));
     }
 }

@@ -1,5 +1,5 @@
 import { PositionComponent } from '../components/positionComponent';
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import EntityManager from '../EntityManager';
 import { AbstractAction } from './AbstractAction';
 

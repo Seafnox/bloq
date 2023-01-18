@@ -12,7 +12,7 @@ import { RotationComponentData } from './components/rotationComponent';
 import { SerializableComponentData } from './components/serializableComponent';
 import { TerrainChunkComponentData } from './components/terrainChunkComponent';
 import { WallCollisionComponentData } from './components/wallCollisionComponent';
-import { ComponentId } from './constants/componentId';
+import { ComponentId } from './constants/ComponentId';
 
 export interface EntityMessage<T extends Partial<ComponentMap> = Partial<ComponentMap>> {
     entity: string;

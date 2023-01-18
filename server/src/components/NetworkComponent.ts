@@ -1,6 +1,6 @@
 import { AbstractComponent, AbstractComponentData } from '@block/shared/components/abstractComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
+import { ComponentId } from '@block/shared/constants/ComponentId';
+import { MessageType } from '@block/shared/constants/MessageType';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { WebSocket } from 'ws';
 
@@ -14,7 +14,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
 
     websocket: WebSocket;
     bufferPos: number = 0;
-    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 3);
+    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 4) * 4);
 
     bytesLeft(): number {
         return this.buffer.byteLength - this.bufferPos;
@@ -29,7 +29,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         if(this.bufferPos === 0) return;
 
         const buffer = this.buffer.slice(0, this.bufferPos);
-        console.log('Socket send', buffer.byteLength,  buffer);
+        console.log('--> Socket send', buffer.byteLength,  'bytes');
         this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
         this.bufferPos = 0;
     }

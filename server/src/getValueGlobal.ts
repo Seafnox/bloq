@@ -1,5 +1,5 @@
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import EntityManager from "@block/shared/EntityManager";
 import { chunkKey } from '@block/shared/helpers/chunkKey';

@@ -1,13 +1,13 @@
 import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { chunkKey } from '@block/shared/helpers/chunkKey';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import path from 'path';
 import { v4 } from 'uuid';
-import { NetworkComponent } from '../components/networkComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
 import { Worker } from 'node:worker_threads';
 
 export default class ChunkRequestSystem extends System {
@@ -18,7 +18,7 @@ export default class ChunkRequestSystem extends System {
         super(em);
 
         this.worker.addListener("message", event => {
-            console.log('TerrainWorker', 'onResolve', event.id)
+//            console.log('TerrainWorker', 'resolve', event.x, event.y, event.z, event.id);
             let entity = chunkKey(event.x, event.y, event.z);
             let chunkComponent = new TerrainChunkComponent(event.x, event.y, event.z);
             chunkComponent.data = Uint8Array.from(event.data); // Serialized as Array in JSON, but needs to be Uint8.
@@ -52,7 +52,7 @@ export default class ChunkRequestSystem extends System {
                 if (!this.chunksRequested.has(key)) {
                     this.chunksRequested.add(key);
                     let [x, y, z] = key.split('x').map(i => parseInt(i));
-                    console.log('TerrainWorker', 'onMessage', {x, y, z});
+//                    console.log('TerrainWorker', 'onMessage', {x, y, z});
                     this.worker.postMessage({x, y, z , terrainChunkSize, id: v4()});
                 }
 

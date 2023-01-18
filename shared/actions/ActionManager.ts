@@ -1,4 +1,4 @@
-import { ActionId } from '../constants/actionId';
+import { ActionId } from '../constants/ActionId';
 import EntityManager from '../EntityManager';
 import { AbstractAction } from './AbstractAction';
 

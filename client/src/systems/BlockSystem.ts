@@ -1,5 +1,5 @@
 import { RotationComponent } from '@block/shared/components/rotationComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { System } from '@block/shared/System';
 
 export default class BlockSystem extends System {

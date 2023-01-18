@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { globalToChunk } from '../helpers/globalToChunk';
 import { Position } from '../Position';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';

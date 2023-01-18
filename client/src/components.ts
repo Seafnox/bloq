@@ -1,6 +1,6 @@
 import { AbstractComponent } from '@block/shared/components/abstractComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
-import { Direction } from '@block/shared/constants/direction';
+import { ComponentId } from '@block/shared/constants/ComponentId';
+import { Direction } from '@block/shared/constants/Direction';
 import EntityManager from '@block/shared/EntityManager';
 import { Mesh } from 'three';
 import AnimatedMesh from "./three/AnimatedMesh";

@@ -1,6 +1,6 @@
 import { ChatMessageComponent } from '@block/shared/components/chatMessageComponent';
 import { ChatMaxLength } from '@block/shared/constants/chat.constants';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import KeyboardManager from "../three/KeyboardManager";

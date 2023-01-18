@@ -1,8 +1,8 @@
 import { InputComponent } from '@block/shared/components/inputComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
-import { NetworkComponent } from '../components/networkComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
 
 
 export default class BroadcastPlayerInputSystem extends System {

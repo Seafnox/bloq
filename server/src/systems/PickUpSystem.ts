@@ -2,8 +2,8 @@ import { PickUpEntityAction } from '@block/shared/actions/PickUpEntityAction';
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
 import { broadcastAction } from '../helpers/broadcastAction';
 

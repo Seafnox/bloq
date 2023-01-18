@@ -1,7 +1,7 @@
 import { RemoveEntitiesAction } from '@block/shared/actions/RemoveEntitiesAction';
 import { PositionComponent } from '@block/shared/components/positionComponent';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
 import EntityManager from "@block/shared/EntityManager";
 import {EntityManagerEvent} from "@block/shared/EntityManager";

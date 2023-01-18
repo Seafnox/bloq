@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { AbstractComponent, AbstractComponentData } from './abstractComponent';
 
 export interface OnGroundComponentData extends AbstractComponentData {

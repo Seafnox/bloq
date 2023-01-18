@@ -1,4 +1,4 @@
-import { BlockId } from '@block/shared/constants/blockId';
+import { BlockId } from '@block/shared/constants/BlockId';
 import {BoxBufferGeometry, BufferAttribute} from 'three';
 
 export function buildBlockGeometry(material: BlockId) {

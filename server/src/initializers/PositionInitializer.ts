@@ -1,9 +1,10 @@
 import { MoveEntityAction } from '@block/shared/actions/MoveEntityAction';
 import { PositionComponent } from '@block/shared/components/positionComponent';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { globalToChunk } from '@block/shared/helpers/globalToChunk';
 import Initializer from "@block/shared/Initializer";
+import { Position } from '@block/shared/Position';
 import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 import { broadcastAction } from '../helpers/broadcastAction';
 import EntityManager from "@block/shared/EntityManager";
@@ -19,21 +20,21 @@ export default class PositionInitializer extends Initializer<ServerComponentMap>
     }
 
     initialize(entity: string, componentMap: ServerComponentMap): void {
-        let position = componentMap[ComponentId.Position];
+        let position = componentMap[ComponentId.Position] as Position;
         let existingPosition = this.entityManager.getComponent<PositionComponent>(entity, ComponentId.Position);
-        let prevPos: [number, number, number] = [existingPosition.x, existingPosition.y, existingPosition.z];
+        let expectedCoordinates: [number, number, number] = [existingPosition.x, existingPosition.y, existingPosition.z];
         let dist = Math.sqrt(Math.pow(position.x - existingPosition.x, 2) + Math.pow(position.y - existingPosition.y, 2) + Math.pow(position.z - existingPosition.z, 2));
 
+        console.log('Position', entity, dist, position, existingPosition)
         if (dist < 2) {
             existingPosition.update(position);
         } else {
             console.log('Too big difference between client and server!', dist);
-            console.log(entity, prevPos);
-            let action = new MoveEntityAction(entity, prevPos);
+            let action = new MoveEntityAction(entity, expectedCoordinates);
             this.actionManager.queueAction(action); // Queue on server as well.
 
             // Broad cast so it's queued on clients.
-            let [cx, cy, cz] = prevPos.map(globalToChunk);
+            let [cx, cy, cz] = expectedCoordinates.map(globalToChunk);
             broadcastAction(this.entityManager, [cx, cy, cz], ActionId.MoveEntity, action);
         }
 

@@ -8,10 +8,10 @@ import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { WallCollisionComponent } from '@block/shared/components/wallCollisionComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import Initializer from "@block/shared/Initializer";
-import { NetworkComponent } from '../components/networkComponent';
-import { NewPlayerComponent } from '../components/newPlayerComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
+import { NewPlayerComponent } from '../components/NewPlayerComponent';
 import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
@@ -44,7 +44,7 @@ export default class PlayerInitializer extends Initializer<ServerComponentMap> {
         let inventory = new InventoryComponent();
         // This should be done elsewhere:
         for (let i = 0; i < 10; i++) {
-            let blockEntity = em.createEntity();
+            let blockEntity = em.createEntity('block');
             let block = new BlockComponent();
             block.kind = i + 1;
             block.count = 99;

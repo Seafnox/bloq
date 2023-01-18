@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import EntityManager from '../EntityManager';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 

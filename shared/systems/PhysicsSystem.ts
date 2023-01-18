@@ -3,7 +3,7 @@ import { OnGroundComponent } from '../components/onGroundComponent';
 import { PhysicsComponent } from '../components/physicsComponent';
 import { RotationComponent } from '../components/rotationComponent';
 import { WallCollisionComponent } from '../components/wallCollisionComponent';
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { TerminalVelocity, Gravity, PlayerJumpVelocity, PlayerSpeed } from '../constants/physics.constants';
 import {System} from "../System";
 

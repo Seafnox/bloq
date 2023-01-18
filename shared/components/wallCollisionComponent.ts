@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import { SerializableComponent, SerializableComponentData } from './serializableComponent';
 
 export interface WallCollisionComponentData extends SerializableComponentData {

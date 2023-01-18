@@ -1,6 +1,6 @@
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
-import { NetworkComponent } from '../components/networkComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
 import Server from "../Server";
 import EntityManager from "@block/shared/EntityManager";
 

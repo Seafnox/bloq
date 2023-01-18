@@ -1,5 +1,5 @@
-import { ComponentId } from '@block/shared/constants/componentId';
-import { MessageType } from '@block/shared/constants/messageType';
+import { ComponentId } from '@block/shared/constants/ComponentId';
+import { MessageType } from '@block/shared/constants/MessageType';
 import { EntityMessage, ComponentMap } from '@block/shared/EntityMessage';
 import { ComponentEventEmitter } from '@block/shared/EventEmitter';
 import { deserializeTerrainChunk } from '@block/shared/helpers/deserializeTerrainChunk';

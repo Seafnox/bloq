@@ -1,9 +1,9 @@
 import { AbstractAction } from '@block/shared/actions/AbstractAction';
 import { RemoveEntitiesAction } from '@block/shared/actions/RemoveEntitiesAction';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
-import { NetworkComponent } from '../components/networkComponent';
+import { NetworkComponent } from '../components/NetworkComponent';
 import Server from '../Server';
 
 export function broadcastAction(em: EntityManager, chunk: [number, number, number], actionId: ActionId, action: AbstractAction) {

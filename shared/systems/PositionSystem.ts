@@ -1,6 +1,6 @@
 import { PhysicsComponent } from '../components/physicsComponent';
 import { PositionComponent } from '../components/positionComponent';
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import {System} from "../System";
 
 

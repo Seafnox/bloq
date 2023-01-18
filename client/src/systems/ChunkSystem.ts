@@ -1,6 +1,6 @@
 import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
 import { PositionComponent } from '@block/shared/components/positionComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { ViewDistance } from '@block/shared/constants/visual.constants';
 import EntityManager from '@block/shared/EntityManager';
 import { chunkKey } from '@block/shared/helpers/chunkKey';

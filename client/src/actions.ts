@@ -6,8 +6,8 @@ import { UnsubscribeTerrainChunksAction } from '@block/shared/actions/Unsubscrib
 import { PickUpEntityAction } from '@block/shared/actions/PickUpEntityAction';
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
-import { ActionId } from '@block/shared/constants/actionId';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ActionId } from '@block/shared/constants/ActionId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 
 

@@ -1,8 +1,8 @@
 import { AbstractComponentData } from '@block/shared/components/abstractComponent';
 import { SerializableComponentData } from '@block/shared/components/serializableComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { EntityMessage, ComponentMap } from '@block/shared/EntityMessage';
-import { NetworkComponentData } from '../components/networkComponent';
+import { NetworkComponentData } from '../components/NetworkComponent';
 
 export interface ServerEntityMessage extends EntityMessage<ServerComponentMap> {}
 

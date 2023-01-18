@@ -1,6 +1,6 @@
 import { PositionComponent } from '@block/shared/components/positionComponent';
 import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import { ViewDistance } from '@block/shared/constants/visual.constants';
 import EntityManager from '@block/shared/EntityManager';

@@ -1,4 +1,4 @@
-import { ComponentId } from '../constants/componentId';
+import { ComponentId } from '../constants/ComponentId';
 import {System} from "../System";
 import Initializer from "../Initializer";
 import EntityManager from "../EntityManager";

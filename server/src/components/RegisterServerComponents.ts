@@ -1,7 +1,7 @@
 import EntityManager from '@block/shared/EntityManager';
-import { NetworkComponent } from './networkComponent';
-import { NewPlayerComponent } from './newPlayerComponent';
-import { PickableComponent } from './pickableComponent';
+import { NetworkComponent } from './NetworkComponent';
+import { NewPlayerComponent } from './NewPlayerComponent';
+import { PickableComponent } from './PickableComponent';
 
 export function registerServerComponents(manager: EntityManager) {
     manager.registerComponentType(new NetworkComponent());

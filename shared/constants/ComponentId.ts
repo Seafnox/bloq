@@ -26,3 +26,5 @@ export enum ComponentId {
     NewPlayer,
     Pickable,
 }
+
+export const componentNames = Array(20).fill(0).map((_, id) => `${id} - ${ComponentId[id]}`);

@@ -1,6 +1,6 @@
 import { ActionManager } from './actions/ActionManager';
 import { registerSharedComponents } from './components/registerSharedComponents';
-import { SystemOrder } from './constants/systemOrder';
+import { SystemOrder } from './constants/SystemOrder';
 import EntityManager from "./EntityManager";
 import {System} from "./System";
 import PhysicsSystem from "./systems/PhysicsSystem";
@@ -70,7 +70,7 @@ export class BaseWorld {
             i++;
         });
 
-         if (timePeriod > 1) {
+         if (timePeriod > 10) {
              this.utilsManager.logger.log(`TICK (${timePeriod.toFixed(4)}ms)`);
         //     for (var j = 0; j < this.systemTimings.length; j++) {
         //         let avgTime =(this.systemTimings[j]/this.tickNumber).toFixed(4);

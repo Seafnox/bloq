@@ -67,6 +67,7 @@ export default class PlayState extends State {
 
     onEnter() {
         this.server = new Server(this, this.serverAddress, () => {
+            console.log('WS connect');
             this.initRenderer();
             this.world = new World(this, this.guiNode);
             this.isRunning = true;

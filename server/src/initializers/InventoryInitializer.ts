@@ -1,5 +1,5 @@
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import Initializer from "@block/shared/Initializer";
 import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 

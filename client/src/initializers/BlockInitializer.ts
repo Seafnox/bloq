@@ -1,6 +1,6 @@
 import { BlockComponent } from '@block/shared/components/blockComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
-import { ComponentId } from '@block/shared/constants/componentId';
+import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import Initializer from '@block/shared/Initializer';
 import {ShaderMaterial, Mesh} from 'three';
