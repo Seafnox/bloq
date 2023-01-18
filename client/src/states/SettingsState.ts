@@ -1,4 +1,4 @@
-import HTMLParser from "../../lib/HTMLParser";
+import HTMLParser from "../three/HTMLParser";
 import {State} from "./State";
 import MenuState from "./MenuState";
 

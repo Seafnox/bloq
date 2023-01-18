@@ -1,7 +1,13 @@
 import {State} from "./State";
-import AssetManager from "../../lib/AssetManager";
 import MenuState from "./MenuState";
-import HTMLParser from "../../lib/HTMLParser";
+import HTMLParser from "../three/HTMLParser";
+import terrainTexture from '../../assets/textures.png';
+import playerTexture from '../../assets/player.png';
+import playerModel from '../../assets/player.mesh';
+import backgroundMusic from '../../assets/sound/music.ogg';
+import walkSound from '../../assets/sound/walk.ogg';
+import digSound from '../../assets/sound/dig.ogg';
+import pickupSound from '../../assets/sound/pickup.ogg';
 
 const html = `
     <div id="loader">
@@ -51,19 +57,19 @@ export default class AssetLoadingState extends State {
 
     private loadAssets() {
         // Textures
-        this.assetManager.addTexture('terrain', require('../../assets/textures.png'));
-        this.assetManager.addTexture('player', require('../../assets/player.png'));
+        this.assetManager.addTexture('terrain', terrainTexture);
+        this.assetManager.addTexture('player', playerTexture);
 
         // Meshes
-        this.assetManager.addMesh('player', require('../../assets/player.json'));
+        this.assetManager.addMesh('player', playerModel);
 
         // Music
-        this.assetManager.addMusic('music', require('file!../../assets/sound/music.ogg'));
+        this.assetManager.addMusic('music', backgroundMusic);
 
         // Sound effects
-        this.assetManager.addSound('walk', require('file!../../assets/sound/walk.ogg'));
-        this.assetManager.addSound('dig', require('file!../../assets/sound/dig.ogg'));
-        this.assetManager.addSound('pickup', require('file!../../assets/sound/pickup.ogg'));
+        this.assetManager.addSound('walk', walkSound);
+        this.assetManager.addSound('dig', digSound);
+        this.assetManager.addSound('pickup', pickupSound);
 
         this.assetManager.load((description, progress) => {
             this.progressDescription = description;

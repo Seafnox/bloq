@@ -1,6 +1,6 @@
 import {WebGLRenderer} from 'three';
 import {State} from "./State";
-import AssetManager from "../../lib/AssetManager";
+import AssetManager from "../three/AssetManager";
 
 
 let settingsProxyHandler = {
@@ -26,11 +26,9 @@ class Settings {
         this.gain.gain.value = this.soundVolume;
     }
 
-    private audioContext: AudioContext;
     private gain: GainNode;
 
     constructor(audioContext: AudioContext, gain: GainNode) {
-        this.audioContext = audioContext;
         this.gain = gain;
 
         // Parse existing config, and init values.

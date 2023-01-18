@@ -1,6 +1,5 @@
-import {TextEncoder} from "text-encoding";
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
+import EntityManager from '@block/shared/EntityManager';
+import { System } from '@block/shared/System';
 import {Server} from "../Server";
 
 

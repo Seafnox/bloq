@@ -1,23 +1,34 @@
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {InventoryComponent, BlockComponent} from "../../../shared/components";
-import EntityManager from "../../../shared/EntityManager";
-import HTMLParser from "../../lib/HTMLParser";
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import EntityManager from '@block/shared/EntityManager';
+import { System } from '@block/shared/System';
+import HTMLParser from "../three/HTMLParser";
 import '../../assets/stylesheets/inventory.scss';
+import blockTexture1 from '../../assets/blocks/1.png';
+import blockTexture2 from '../../assets/blocks/2.png';
+import blockTexture3 from '../../assets/blocks/3.png';
+import blockTexture4 from '../../assets/blocks/4.png';
+import blockTexture5 from '../../assets/blocks/5.png';
+import blockTexture6 from '../../assets/blocks/6.png';
+import blockTexture7 from '../../assets/blocks/7.png';
+import blockTexture8 from '../../assets/blocks/8.png';
+import blockTexture9 from '../../assets/blocks/9.png';
+import blockTexture10 from '../../assets/blocks/10.png';
 
 
 const textureImages = [
     null,
-    require('../../assets/blocks/1.png'),
-    require('../../assets/blocks/2.png'),
-    require('../../assets/blocks/3.png'),
-    require('../../assets/blocks/4.png'),
-    require('../../assets/blocks/5.png'),
-    require('../../assets/blocks/6.png'),
-    require('../../assets/blocks/7.png'),
-    require('../../assets/blocks/8.png'),
-    require('../../assets/blocks/9.png'),
-    require('../../assets/blocks/10.png')
+    blockTexture1,
+    blockTexture2,
+    blockTexture3,
+    blockTexture4,
+    blockTexture5,
+    blockTexture6,
+    blockTexture7,
+    blockTexture8,
+    blockTexture9,
+    blockTexture10,
 ];
 
 const html = `

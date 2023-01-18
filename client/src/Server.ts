@@ -1,18 +1,19 @@
+import { ComponentId } from '@block/shared/constants/componentId';
+import { MessageType } from '@block/shared/constants/messageType';
+import { EntityMessage, ComponentMap } from '@block/shared/EntityMessage';
+import { ComponentEventEmitter } from '@block/shared/EventEmitter';
+import { deserializeTerrainChunk } from '@block/shared/helpers/deserializeTerrainChunk';
 import PlayState from "./states/PlayState";
-import {MessageType, ComponentId} from "../../shared/constants";
 import {bufferToObject} from "./helpers";
-import {deserializeTerrainChunk} from "../../shared/helpers"
-import {ComponentEventEmitter} from "../../shared/EventEmitter";
-import {EntityMessage} from "../../shared/interfaces";
 
 
 export class Server {
     url: string;
     ws: WebSocket;
     game: PlayState;
-    eventEmitter: ComponentEventEmitter = new ComponentEventEmitter();
+    eventEmitter: ComponentEventEmitter<ComponentMap> = new ComponentEventEmitter();
 
-    constructor(game: PlayState, server: string, connCallback: Function) {
+    constructor(game: PlayState, server: string, connCallback: (this: WebSocket, ev: Event) => any) {
         this.game = game;
 
         this.url = `ws://${server}`;
@@ -52,14 +53,13 @@ export class Server {
             let msgData = buf.slice(bufPos, bufPos + msgLength);
             bufPos += msgLength;
 
-            let obj;
             switch (msgType) {
                 case MessageType.Entity:
-                    obj = bufferToObject(msgData) as EntityMessage;
+                    const entityMessage = bufferToObject(msgData) as EntityMessage;
 
-                    Object.keys(obj.components).forEach(componentId => {
+                    Object.keys(entityMessage.componentMap).forEach(componentId => {
                         let key = parseInt(componentId);
-                        this.eventEmitter.emit(key as ComponentId, obj.entity, obj.components);
+                        this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.componentMap);
                     });
                     break;
 
@@ -75,10 +75,8 @@ export class Server {
                     let actionId = new DataView(msgData).getUint16(0);
                     let data = msgData.slice(Uint16Array.BYTES_PER_ELEMENT);
 
-                    obj = bufferToObject(data);
-
                     // Queue action directly. No "event" to be emitted.
-                    this.game.world.actionManager.queueRawAction(actionId, obj);
+                    this.game.world.actionManager.queueRawAction(actionId, bufferToObject(data));
                     break;
 
                 default:

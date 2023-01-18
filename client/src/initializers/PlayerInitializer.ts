@@ -1,3 +1,8 @@
+import { PlayerComponent } from '@block/shared/components/playerComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import EntityManager from '@block/shared/EntityManager';
+import { ComponentMap } from '@block/shared/EntityMessage';
+import Initializer from '@block/shared/Initializer';
 import {
     BoxBufferGeometry,
     Object3D,
@@ -5,19 +10,14 @@ import {
     PerspectiveCamera,
     ShaderMaterial
 } from 'three';
-
-import Initializer from "../../../shared/Initializer";
 import {
     PlayerSelectionComponent, PlayerChunkComponent, AnimatedMeshComponent
 } from "../components";
-import {ComponentId} from "../../../shared/constants";
-import AnimatedMesh from "../../lib/AnimatedMesh";
-import EntityManager from "../../../shared/EntityManager";
+import AnimatedMesh from "../three/AnimatedMesh";
 import NetworkSystem from "../systems/NetworkSystem";
-import {PlayerComponent} from "../../../shared/components";
-import AssetManager from "../../lib/AssetManager";
+import AssetManager from "../three/AssetManager";
 
-export default class PlayerInitializer extends Initializer {
+export default class PlayerInitializer extends Initializer<ComponentMap> {
     private netSystem: NetworkSystem;
     private camera: PerspectiveCamera;
     private assetManager: AssetManager;
@@ -46,7 +46,7 @@ export default class PlayerInitializer extends Initializer {
         Object.keys(components).forEach((componentTypeStr) => {
             let componentType = parseInt(componentTypeStr) as ComponentId;
             let componentData = components[componentType];
-            this.entityManager.addComponentFromObject(entity, componentType, componentData);
+            this.entityManager.addComponentFromData(entity, componentType, componentData);
         });
 
         // Only current player needs a camera attached.

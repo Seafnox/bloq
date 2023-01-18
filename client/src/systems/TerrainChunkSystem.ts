@@ -1,14 +1,14 @@
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
+import { ViewDistance } from '@block/shared/constants/visual.constants';
+import EntityManager from '@block/shared/EntityManager';
+import { chunkKey } from '@block/shared/helpers/chunkKey';
+import { System } from '@block/shared/System';
 import {Scene, ShaderMaterial, Mesh, Vector3} from 'three';
-
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, TERRAIN_CHUNK_SIZE, ViewDistance} from "../../../shared/constants";
-import {TerrainChunkComponent, PositionComponent} from "../../../shared/components";
-import {chunkKey} from "../../../shared/helpers";
 import {geometryFromArrays} from "../geometry/terrain";
 import {MeshComponent, PlayerChunkComponent} from "../components";
-let TerrainWorker = require('worker?inline!../workers/terrain');
-
 
 export default class TerrainChunkSystem extends System {
     scene: Scene;
@@ -22,7 +22,7 @@ export default class TerrainChunkSystem extends System {
         super(em);
         this.scene = scene;
         this.material = material;
-        this.worker = new TerrainWorker();
+        this.worker = new Worker('/workers/terrain.js');
 
         // Receive generated geometry arrays from worker:
         this.worker.onmessage = (e) => {
@@ -87,9 +87,9 @@ export default class TerrainChunkSystem extends System {
 
             // Set chunk position. Add offsets so displayed mesh corresponds with collision detection and
             // lookups on the underlying data for the terrain chunk.
-            mesh.position.x = chunkComponent.x * TERRAIN_CHUNK_SIZE;
-            mesh.position.y = chunkComponent.y * TERRAIN_CHUNK_SIZE;
-            mesh.position.z = chunkComponent.z * TERRAIN_CHUNK_SIZE;
+            mesh.position.x = chunkComponent.x * terrainChunkSize;
+            mesh.position.y = chunkComponent.y * terrainChunkSize;
+            mesh.position.z = chunkComponent.z * terrainChunkSize;
 
             let endTime = performance.now();
             cumTime += (endTime - startTime);

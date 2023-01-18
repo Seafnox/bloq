@@ -1,3 +1,5 @@
+import { ComponentId } from '@block/shared/constants/componentId';
+import { SystemOrder } from '@block/shared/constants/systemOrder';
 import {
     Scene,
     PerspectiveCamera,
@@ -5,25 +7,23 @@ import {
     VertexColors,
     Vector3
 } from 'three';
-
-import BaseWorld from "../../shared/BaseWorld";
+import {v4} from 'uuid';
+import { BaseWorld } from "@block/shared/BaseWorld";
 import PlayState from "./states/PlayState";
 import {registerClientComponents} from "./components";
 import {ClientActionManager} from "./actions";
-
-import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
+import { UtilsManager } from '@block/shared/UtilsManager';
+import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import TerrainChunkSystem from "./systems/TerrainChunkSystem";
 import PlayerInputSystem from "./systems/PlayerInputSystem";
 import PlayerInputSyncSystem from "./systems/PlayerInputSyncSystem";
 import MeshSystem from "./systems/MeshSystem";
 import PlayerMeshSystem from "./systems/PlayerMeshSystem";
 import PlayerSelectionSystem from "./systems/PlayerSelectionSystem";
-import DebugTextSystem from "./systems/DebugTextSystem";
-import MouseManager from "../lib/MouseManager";
-import KeyboardManager from "../lib/KeyboardManager";
+import MouseManager from "./three/MouseManager";
+import KeyboardManager from "./three/KeyboardManager";
 import InventoryUISystem from "./systems/InventoryUISystem";
 import BlockSystem from "./systems/BlockSystem";
-import {ComponentId, SystemOrder} from "../../shared/constants";
 import BlockInitializer from "./initializers/BlockInitializer";
 import TerrainChunkInitializer from "./initializers/TerrainChunkInitializer";
 import PlayerInitializer from "./initializers/PlayerInitializer";
@@ -31,10 +31,15 @@ import InputInitializer from "./initializers/InputInitializer";
 import NetworkSystem from "./systems/NetworkSystem";
 import ChatSystem from "./systems/ChatSystem";
 import ChatMessageInitializer from "./initializers/ChatMessageInitializer";
-import InitializerSystem from "../../shared/systems/InitializerSystem";
+import InitializerSystem from "@block/shared/systems/InitializerSystem";
 import ChunkSystem from "./systems/ChunkSystem";
 import SoundSystem from "./systems/SoundSystem";
-
+import terrainVertexShader from '../shaders/terrain_vert.glsl';
+import terrainFragmentShader from '../shaders/terrain_frag.glsl';
+import selectionVertexShader from '../shaders/selection_vert.glsl';
+import selectionFragmentShader from '../shaders/selection_frag.glsl';
+import blockVertexShader from '../shaders/block_vert.glsl';
+import blockFragmentShader from '../shaders/block_frag.glsl';
 
 export default class World extends BaseWorld {
     scene: Scene;
@@ -46,7 +51,7 @@ export default class World extends BaseWorld {
     game: PlayState;
 
     constructor(game: PlayState, guiNode: Element) {
-        super();
+        super(new UtilsManager(v4, () => performance.now(), console));
         this.actionManager = new ClientActionManager();
         this.game = game;
 
@@ -58,17 +63,19 @@ export default class World extends BaseWorld {
         this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 10000);
         this.camera.name = 'camera'; // Used to look up camera from e.g. player's Object3D.
 
+        console.log('add', {terrainVertexShader, terrainFragmentShader});
         this.terrainMaterial = new ShaderMaterial({
             uniforms: {
                 texture: {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
-            vertexShader: require('../shaders/terrain_vert.glsl'),
-            fragmentShader: require('../shaders/terrain_frag.glsl'),
-            vertexColors: VertexColors
+            vertexShader: terrainVertexShader,
+            fragmentShader: terrainFragmentShader,
+            vertexColors: VertexColors,
         });
 
+        console.log('add', {selectionVertexShader, selectionFragmentShader});
         this.selectionMaterial = new ShaderMaterial({
             uniforms: {
                 globalPosition: {
@@ -76,18 +83,19 @@ export default class World extends BaseWorld {
                     value: new Vector3(0, 0, 0)
                 }
             },
-            vertexShader: require('../shaders/selection_vert.glsl'),
-            fragmentShader: require('../shaders/selection_frag.glsl')
+            vertexShader: selectionVertexShader,
+            fragmentShader: selectionFragmentShader,
         });
 
+        console.log('add', {blockVertexShader, blockFragmentShader});
         this.blockMaterial = new ShaderMaterial({
             uniforms: {
                 texture: {
                     value: this.game.assetManager.getTexture('terrain')
                 }
             },
-            vertexShader: require('../shaders/block_vert.glsl'),
-            fragmentShader: require('../shaders/block_frag.glsl'),
+            vertexShader: blockVertexShader,
+            fragmentShader: blockFragmentShader,
             vertexColors: VertexColors
         });
 

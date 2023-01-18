@@ -5,20 +5,20 @@ export default class MouseManager {
     private buttonsPressed: [boolean, boolean, boolean] =  [false, false, false];
 
     constructor(target: Element) {
-        target.addEventListener('mousemove', evt => {
-            this.x += (evt as MouseEvent).movementX;
-            this.y += (evt as MouseEvent).movementY;
+        target.addEventListener('mousemove', (evt: MouseEvent) => {
+            this.x += evt.movementX;
+            this.y += evt.movementY;
         }, false);
 
-        target.addEventListener('mousedown', evt => {
+        target.addEventListener('mousedown', (evt: MouseEvent) => {
             this.buttonsPressed[(evt as MouseEvent).button] = true;
         }, false);
 
-        target.addEventListener('mouseup', evt => {
+        target.addEventListener('mouseup', (evt: MouseEvent) => {
             this.buttonsPressed[(evt as MouseEvent).button] = false;
         }, false);
 
-        target.addEventListener('wheel', evt => {
+        target.addEventListener('wheel', (evt: WheelEvent) => {
             if(evt.deltaY < 0) this.scroll = -1;
             else if(evt.deltaY > 0) this.scroll = 1;
         }, false);

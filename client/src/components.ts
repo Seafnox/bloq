@@ -1,11 +1,12 @@
-import {Mesh} from 'three';
+import { AbstractComponent } from '@block/shared/components/abstractComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { Direction } from '@block/shared/constants/direction';
+import EntityManager from '@block/shared/EntityManager';
+import { Mesh } from 'three';
+import AnimatedMesh from "./three/AnimatedMesh";
 
-import {Component} from '../../shared/components';
-import EntityManager from "../../shared/EntityManager";
-import {ComponentId, Side} from "../../shared/constants";
-import AnimatedMesh from "../lib/AnimatedMesh";
-
-export class MeshComponent extends Component {
+// TODO edit any
+export class MeshComponent extends AbstractComponent<any> {
     static ID = ComponentId.Mesh;
 
     mesh: Mesh = null;
@@ -28,12 +29,13 @@ export class PlayerSelectionComponent extends MeshComponent {
     static ID = ComponentId.PlayerSelection;
 
     target: [number, number, number] = [0, 0, 0];
-    targetSide: Side;
+    targetSide: Direction;
     targetValid: boolean = false;
 }
 
 
-export class PlayerChunkComponent extends Component {
+// TODO edit any
+export class PlayerChunkComponent extends AbstractComponent<any> {
     static ID = ComponentId.PlayerChunk;
 
     x: number = 0;

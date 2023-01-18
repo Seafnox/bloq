@@ -1,4 +1,8 @@
 {
+  "extends": "../tsconfig.json",
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
@@ -7,13 +11,13 @@
     "sourceMap": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": [
-      "three",
-      "stats",
-      "node-uuid",
-      "text-encoding"
-    ],
-    "lib": ["es2015", "dom"]
+    "lib": ["es2015", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@block/shared/*": [
+        "../shared/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

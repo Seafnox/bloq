@@ -49,18 +49,22 @@ export default class AssetManager {
     }
 
     addTexture(name: string, url: string) {
+        console.log('addTexture', {name, url});
         this.queue.textures.push([name, url]);
     }
 
     addMesh(name: string, url: string) {
+        console.log('addMesh', {name, url});
         this.queue.meshes.push([name, url]);
     }
 
     addMusic(name: string, url: string) {
+        console.log('addMusic', {name, url});
         this.queue.music.push([name, url]);
     }
 
     addSound(name: string, url: string) {
+        console.log('addSound', {name, url});
         this.queue.sounds.push([name, url]);
     }
 

@@ -1,12 +1,11 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {TerrainChunkComponent} from "../../../shared/components";
+import { ComponentId } from '@block/shared/constants/componentId';
+import Initializer from '@block/shared/Initializer';
 
-
-export default class TerrainChunkInitializer extends Initializer {
+// TODO edit any
+export default class TerrainChunkInitializer extends Initializer<any> {
     initialize(entity: string, components: Object) {
         let component = components[ComponentId.TerrainChunk];
-        let chunkComponent = this.entityManager.addComponentFromObject(entity, ComponentId.TerrainChunk, component) as TerrainChunkComponent;
+        let chunkComponent = this.entityManager.addComponentFromData(entity, ComponentId.TerrainChunk, component);
         chunkComponent.dirtyFields.add('data');
     }
 }

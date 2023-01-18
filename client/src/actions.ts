@@ -1,27 +1,34 @@
-import * as shared from "../../shared/actions";
-import {ActionId, ComponentId} from "../../shared/constants";
-import EntityManager from "../../shared/EntityManager";
-import {InventoryComponent, BlockComponent} from "../../shared/components";
+import { ActionManager } from '@block/shared/actions/ActionManager';
+import { MoveEntityAction } from '@block/shared/actions/MoveEntityAction';
+import { RemoveEntitiesAction } from '@block/shared/actions/RemoveEntitiesAction';
+import { SetBlocksAction } from '@block/shared/actions/SetBlocksAction';
+import { UnsubscribeTerrainChunksAction } from '@block/shared/actions/UnsubscribeTerrainChunksAction';
+import { PickUpEntityAction } from '@block/shared/actions/PickUpEntityAction';
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import EntityManager from '@block/shared/EntityManager';
 
 
-export class ClientActionManager extends shared.ActionManager {
+export class ClientActionManager extends ActionManager {
     queueRawAction(id: number, data: Object) {
         switch (id) {
             case ActionId.UnsubscribeTerrainChunks:
-                this.queue.push(new shared.UnsubscribeTerrainChunksAction(data['chunkKeys']));
+                this.queue.push(new UnsubscribeTerrainChunksAction(data['chunkKeys']));
                 break;
             case ActionId.SetBlocks:
                 let blocks = data['blocks'].map(block => [block[0], block[1], block[2], block[3]]);
-                this.queue.push(new shared.SetBlocksAction(blocks));
+                this.queue.push(new SetBlocksAction(blocks));
                 break;
             case ActionId.RemoveEntities:
-                this.queue.push(new shared.RemoveEntitiesAction(data['entities']));
+                this.queue.push(new RemoveEntitiesAction(data['entities']));
                 break;
             case ActionId.MoveEntity:
-                this.queue.push(new shared.MoveEntityAction(data['entity'], data['position'].map(num => parseFloat(num))));
+                this.queue.push(new MoveEntityAction(data['entity'], data['position'].map(num => parseFloat(num))));
                 break;
             case ActionId.PickUpEntity:
-                this.queue.push(new PickUpEntityAction(data['player'], data['inventorySlot'], data['pickable']));
+                this.queue.push(new ClientPickUpEntityAction(data['player'], data['inventorySlot'], data['pickable']));
                 break;
             default:
                 console.warn('Unknown action ID: ', id);
@@ -30,7 +37,7 @@ export class ClientActionManager extends shared.ActionManager {
     }
 }
 
-class PickUpEntityAction extends shared.PickUpEntityAction {
+class ClientPickUpEntityAction extends PickUpEntityAction {
     constructor(playerEntity: string, inventorySlot: number, pickableEntity: string) {
         super(playerEntity, inventorySlot, pickableEntity);
     }

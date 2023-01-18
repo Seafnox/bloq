@@ -1,11 +1,12 @@
-import MouseManager from '../../lib/MouseManager';
-
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {InputComponent, RotationComponent, InventoryComponent} from "../../../shared/components";
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import EntityManager from '@block/shared/EntityManager';
+import { System } from '@block/shared/System';
 import {PlayerSelectionComponent} from "../components";
-import EntityManager from "../../../shared/EntityManager";
-import KeyboardManager from "../../lib/KeyboardManager";
+import KeyboardManager from '../three/KeyboardManager';
+import MouseManager from '../three/MouseManager';
 
 
 export default class PlayerInputSystem extends System {

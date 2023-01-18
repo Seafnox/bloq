@@ -4,17 +4,17 @@
     "setClasses"
   ],
   "feature-detects": [
+    "audio",
     "canvas",
     "css/animations",
+    "css/flexbox",
     "css/vwunit",
     "dataview-api",
     "es6/math",
-    "css/flexbox",
     "fullscreen-api",
     "performance",
     "pointerlock-api",
     "postmessage",
-    "audio",
     "webgl",
     "websockets",
     "workers/webworkers"

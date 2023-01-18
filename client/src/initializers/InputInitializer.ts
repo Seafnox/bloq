@@ -1,13 +1,13 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
+import { ComponentId } from '@block/shared/constants/componentId';
+import Initializer from '@block/shared/Initializer';
 
-
-export default class InputInitializer extends Initializer {
+// TODO edit any
+export default class InputInitializer extends Initializer<any> {
     initialize(entity: string, components: Object) {
         Object.keys(components).forEach((componentTypeStr) => {
             let componentType = parseInt(componentTypeStr) as ComponentId;
             let componentData = components[componentType];
-            this.entityManager.addComponentFromObject(entity, componentType, componentData);
+            this.entityManager.addComponentFromData(entity, componentType, componentData);
         });
     }
 }
