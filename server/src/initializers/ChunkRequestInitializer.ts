@@ -1,11 +1,12 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {ChunkRequestComponent} from "../../../shared/components";
+import { ChunkRequestComponent } from '@block/shared/components/chunkRequestComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import Initializer from "@block/shared/Initializer";
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
-export default class ChunkRequestInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
-        let requestData = components[ComponentId.ChunkRequest];
+export default class ChunkRequestInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
+        let requestData = componentMap[ComponentId.ChunkRequest];
         let existingRequest = this.entityManager.getComponent<ChunkRequestComponent>(entity, ComponentId.ChunkRequest);
 
         // TODO: Might want to use Set.

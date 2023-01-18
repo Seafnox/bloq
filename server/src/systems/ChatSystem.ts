@@ -1,7 +1,10 @@
-import {System} from "../../../shared/System";
-import {ComponentId, ChatMaxLength} from "../../../shared/constants";
-import {ChatMessageComponent, PositionComponent, PlayerComponent} from "../../../shared/components";
-import {broadcastEntity} from "../helpers";
+import { ChatMessageComponent } from '@block/shared/components/chatMessageComponent';
+import { PlayerComponent } from '@block/shared/components/playerComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { ChatMaxLength } from '@block/shared/constants/chat.constants';
+import { ComponentId } from '@block/shared/constants/componentId';
+import {System} from "@block/shared/System";
+import { broadcastEntity } from '../helpers/broadcastEntity';
 
 
 export default class ChatSystem extends System {

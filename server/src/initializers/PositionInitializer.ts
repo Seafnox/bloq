@@ -1,14 +1,16 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId, ActionId} from "../../../shared/constants";
-import {PositionComponent} from "../../../shared/components";
-import {MoveEntityAction} from "../../../shared/actions";
-import {globalToChunk} from "../../../shared/helpers";
-import {broadcastAction} from "../helpers";
-import EntityManager from "../../../shared/EntityManager";
-import {ServerActionManager} from "../actions";
+import { MoveEntityAction } from '@block/shared/actions/MoveEntityAction';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { globalToChunk } from '@block/shared/helpers/globalToChunk';
+import Initializer from "@block/shared/Initializer";
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
+import { broadcastAction } from '../helpers/broadcastAction';
+import EntityManager from "@block/shared/EntityManager";
+import {ServerActionManager} from "../actions/ServerActionManager";
 
 
-export default class PositionInitializer extends Initializer{
+export default class PositionInitializer extends Initializer<ServerComponentMap> {
     private actionManager: ServerActionManager;
 
     constructor(em: EntityManager, am: ServerActionManager) {
@@ -16,8 +18,8 @@ export default class PositionInitializer extends Initializer{
         this.actionManager = am;
     }
 
-    initialize(entity: string, components: Object): void {
-        let position = components[ComponentId.Position];
+    initialize(entity: string, componentMap: ServerComponentMap): void {
+        let position = componentMap[ComponentId.Position];
         let existingPosition = this.entityManager.getComponent<PositionComponent>(entity, ComponentId.Position);
         let prevPos: [number, number, number] = [existingPosition.x, existingPosition.y, existingPosition.z];
         let dist = Math.sqrt(Math.pow(position.x - existingPosition.x, 2) + Math.pow(position.y - existingPosition.y, 2) + Math.pow(position.z - existingPosition.z, 2));

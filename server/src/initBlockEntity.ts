@@ -1,12 +1,8 @@
-import EntityManager from "../../shared/EntityManager";
-import {
-    PositionComponent,
-    BlockComponent
-} from "../../shared/components";
-import {
-    PickableComponent
-} from "./components";
-import {BlockId} from "../../shared/constants";
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { BlockId } from '@block/shared/constants/blockId';
+import EntityManager from "@block/shared/EntityManager";
+import { PickableComponent } from './components/pickableComponent';
 
 
 export function initBlockEntity(em: EntityManager, x: number, y: number, z: number, kind: BlockId): string {

@@ -1,10 +1,12 @@
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {EntityManagerEvent} from "../../../shared/EntityManager";
-import {ComponentId, ActionId} from "../../../shared/constants";
-import {PositionComponent} from "../../../shared/components";
-import {broadcastEntity, broadcastAction} from "../helpers";
-import {RemoveEntitiesAction} from "../../../shared/actions";
+import { RemoveEntitiesAction } from '@block/shared/actions/RemoveEntitiesAction';
+import { PositionComponent } from '@block/shared/components/positionComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {EntityManagerEvent} from "@block/shared/EntityManager";
+import { broadcastAction } from '../helpers/broadcastAction';
+import { broadcastEntity } from '../helpers/broadcastEntity';
 
 
 export default class BroadcastEntitySystem extends System {

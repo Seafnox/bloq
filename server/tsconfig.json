@@ -1,22 +1,21 @@
 {
+  "extends": "../tsconfig.json",
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "outDir": "dist/",
-    "sourceMap": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "types": [
       "node",
-      "node-uuid",
-      "fast-simplex-noise",
-      "text-encoding",
       "ws"
     ],
-    "lib": ["es2015", "webworker"]
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "lib": ["es2015", "es2016"],
+    "baseUrl": ".",
+    "paths": {
+      "@block/shared/*": [
+        "../shared/*"
+      ]
+    }
+  }
 }

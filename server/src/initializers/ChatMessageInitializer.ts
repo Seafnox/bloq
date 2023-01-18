@@ -1,10 +1,11 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
+import { ComponentId } from '@block/shared/constants/componentId';
+import Initializer from "@block/shared/Initializer";
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
-export default class ChatMessageInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
-        let msg = components[ComponentId.ChatMessage];
-        this.entityManager.addComponentFromObject(entity, ComponentId.ChatMessage, msg);
+export default class ChatMessageInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
+        let msg = componentMap[ComponentId.ChatMessage];
+        this.entityManager.addComponentFromData(entity, ComponentId.ChatMessage, msg);
     }
 }

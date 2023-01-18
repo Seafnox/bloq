@@ -1,14 +1,19 @@
-import {System} from "../../../shared/System";
-import {ServerActionManager} from "../actions";
-import EntityManager from "../../../shared/EntityManager";
-import {ComponentId, Side, ActionId, MessageType} from "../../../shared/constants";
-import {InputComponent, InventoryComponent, BlockComponent} from "../../../shared/components";
-import {SetBlocksAction, RemoveEntitiesAction} from "../../../shared/actions";
-import {globalToChunk} from "../../../shared/helpers";
-import {broadcastAction} from "../helpers";
-import {initBlockEntity} from "../entities";
-import {getValueGlobal} from "../terrain";
-import {NetworkComponent} from "../components";
+import { RemoveEntitiesAction } from '@block/shared/actions/RemoveEntitiesAction';
+import { SetBlocksAction } from '@block/shared/actions/SetBlocksAction';
+import { BlockComponent } from '@block/shared/components/blockComponent';
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { ActionId } from '@block/shared/constants/actionId';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { Direction } from '@block/shared/constants/direction';
+import { globalToChunk } from '@block/shared/helpers/globalToChunk';
+import {System} from "@block/shared/System";
+import {ServerActionManager} from "../actions/ServerActionManager";
+import EntityManager from "@block/shared/EntityManager";
+import { NetworkComponent } from '../components/networkComponent';
+import { broadcastAction } from '../helpers/broadcastAction';
+import {initBlockEntity} from "../initBlockEntity";
+import {getValueGlobal} from "../getValueGlobal";
 import Server from "../Server";
 
 
@@ -24,7 +29,7 @@ export default class PlayerActionSystem extends System {
         this.entityManager.getEntities(ComponentId.Input).forEach((component, entity) => {
             let inputComponent = component as InputComponent;
 
-            let modifiedBlocks = [];
+            let modifiedBlocks: [number, number, number, number][] = [];
             if (inputComponent.isDirty('primaryAction') && inputComponent.primaryAction) {
                 let target = inputComponent.target;
                 modifiedBlocks.push([target[0], target[1], target[2], 0]);
@@ -39,22 +44,22 @@ export default class PlayerActionSystem extends System {
 
                 let add = [0, 0, 0];
                 switch (inputComponent.targetSide) {
-                    case Side.Top:
+                    case Direction.Top:
                         add[1] = 1;
                         break;
-                    case Side.North:
+                    case Direction.North:
                         add[2] = 1;
                         break;
-                    case Side.East:
+                    case Direction.East:
                         add[0] = 1;
                         break;
-                    case Side.South:
+                    case Direction.South:
                         add[2] = -1;
                         break;
-                    case Side.West:
+                    case Direction.West:
                         add[0] = -1;
                         break;
-                    case Side.Bottom:
+                    case Direction.Bottom:
                         add[1] = -1;
                         break;
                 }
@@ -68,12 +73,12 @@ export default class PlayerActionSystem extends System {
                     block.count--;
 
                     let netComponent = this.entityManager.getComponent<NetworkComponent>(entity, ComponentId.Network);
-                    netComponent.pushBuffer(MessageType.Entity, this.entityManager.serializeEntity(inventoryBlockEntity, [ComponentId.Block]));
+                    netComponent.pushEntity(this.entityManager.serializeEntity(inventoryBlockEntity, [ComponentId.Block]));
 
                     if (block.count <= 0) {
                         this.entityManager.removeEntity(inventoryBlockEntity);
                         inventory.slots[inventory.activeSlot] = null;
-                        netComponent.pushBuffer(MessageType.Entity, this.entityManager.serializeEntity(entity, [ComponentId.Inventory]));
+                        netComponent.pushEntity(this.entityManager.serializeEntity(entity, [ComponentId.Inventory]));
 
                         let action = new RemoveEntitiesAction([inventoryBlockEntity]);
                         Server.sendAction(netComponent, ActionId.RemoveEntities, action);

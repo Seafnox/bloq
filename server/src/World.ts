@@ -1,10 +1,14 @@
-import BaseWorld from "../../shared/BaseWorld";
-import {registerServerComponents} from "./components";
-import {ServerActionManager} from "./actions";
-import {ComponentId, SystemOrder} from "../../shared/constants";
+import { BaseWorld } from "@block/shared/BaseWorld";
+import { ComponentId } from '@block/shared/constants/componentId';
+import { SystemOrder } from '@block/shared/constants/systemOrder';
+import { UtilsManager } from "@block/shared/UtilsManager";
+import {ServerActionManager} from "./actions/ServerActionManager";
+import { registerServerComponents } from './components/registerServerComponents';
+import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import Server from "./Server";
+import {v4} from 'uuid';
 
-import ActionExecutionSystem from "../../shared/systems/ActionExecutionSystem";
+import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
 import InformNewPlayersSystem from "./systems/InformNewPlayersSystem";
 import BroadcastPlayerInputSystem from "./systems/BroadcastPlayerInputSystem";
 import PlayerActionSystem from "./systems/PlayerActionSystem";
@@ -13,7 +17,7 @@ import BroadcastEntitySystem from "./systems/BroadcastEntitySystem";
 import DatabaseSystem from "./systems/DatabaseSystem";
 import NetworkSystem from "./systems/NetworkSystem";
 import ChatSystem from "./systems/ChatSystem";
-import InitializerSystem from "../../shared/systems/InitializerSystem";
+import InitializerSystem from "@block/shared/systems/InitializerSystem";
 
 import PlayerInputInitializer from "./initializers/PlayerInputInitializer";
 import PositionInitializer from "./initializers/PositionInitializer";
@@ -26,15 +30,15 @@ import PlayerInitializer from "./initializers/PlayerInitializer";
 
 
 export default class World extends BaseWorld {
+    actionManager = new ServerActionManager();
     constructor(server: Server) {
-        super();
-        this.actionManager = new ServerActionManager();
+        super(new UtilsManager(v4, () => performance.now(), console));
 
         registerServerComponents(this.entityManager);
 
         this.addSystem(new ActionExecutionSystem(this.entityManager, this.actionManager), SystemOrder.ActionExecution); // Always process first
 
-        let initializerSystem = new InitializerSystem(this.entityManager, server.eventEmitter);
+        let initializerSystem = new InitializerSystem<ServerComponentMap>(this.entityManager, server.eventEmitter);
         initializerSystem.addInitializer(ComponentId.Player, new PlayerInitializer(this.entityManager));
         initializerSystem.addInitializer(ComponentId.Input, new PlayerInputInitializer(this.entityManager));
         initializerSystem.addInitializer(ComponentId.Position, new PositionInitializer(this.entityManager, this.actionManager));
@@ -62,12 +66,13 @@ export default class World extends BaseWorld {
             dbSystem.registerEntityEvents();
         });
 
-        console.log(this.systems);
-        console.log(this.systemsOrder)
+        console.log('\n\nSystems:');
+        console.log(this.systemsOrder.map((order, index) => [order, this.systems[index]?.constructor.name, order].join('\t: ')).join('\n'));
+        console.log('\n');
     }
 
 
-    tick(dt) {
+    tick(dt: number) {
         super.tick(dt);
     }
 }

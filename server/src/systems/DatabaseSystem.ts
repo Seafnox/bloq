@@ -1,11 +1,13 @@
+import { SerializableComponent } from '@block/shared/components/serializableComponent';
+import { TerrainChunkComponent } from '@block/shared/components/terrainChunkComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import { deserializeTerrainChunk } from '@block/shared/helpers/deserializeTerrainChunk';
+import { isString } from '@block/shared/helpers/isString';
 import {Database} from 'sqlite3';
 
-import {System} from "../../../shared/System";
-import EntityManager from "../../../shared/EntityManager";
-import {EntityManagerEvent} from "../../../shared/EntityManager";
-import {ComponentId} from "../../../shared/constants";
-import {TerrainChunkComponent, SerializableComponent} from "../../../shared/components";
-import {deserializeTerrainChunk} from "../../../shared/helpers";
+import {System} from "@block/shared/System";
+import EntityManager from "@block/shared/EntityManager";
+import {EntityManagerEvent} from "@block/shared/EntityManager";
 
 
 export default class DatabaseSystem extends System {
@@ -30,9 +32,9 @@ export default class DatabaseSystem extends System {
     }
 
     restore(complete: Function) {
-        this.db.each(`SELECT type, entity, data FROM components`, (err, row) => {
-            if (typeof row.data === 'string') {
-                this.entityManager.addComponentFromObject(row.entity, row.type, JSON.parse(row.data));
+        this.db.each(`SELECT type, entity, data FROM components`, (err: Error | null, row: any) => {
+            if (isString(row.data)) {
+                this.entityManager.addComponentFromData(row.entity, row.type, JSON.parse(row.data));
             } else {
                 // Chunk
                 let [_, chunkComponent] = deserializeTerrainChunk(row.data.buffer);
@@ -51,7 +53,9 @@ export default class DatabaseSystem extends System {
         let insertedEntities = new Set<string>();
         this.addedComponents.forEach(arr => {
             let [entity, componentType] = arr;
-            if (this.entityManager.getComponent(entity, ComponentId.Player)) return;
+            if (this.entityManager.getComponent(entity, ComponentId.Player)) {
+                return;
+            }
             let component = this.entityManager.getComponent<SerializableComponent>(entity, componentType);
             if (!component || !component.serialize) return;
 

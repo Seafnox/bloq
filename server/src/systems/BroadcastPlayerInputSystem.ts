@@ -1,8 +1,8 @@
-import {System} from "../../../shared/System";
-import {ComponentId} from "../../../shared/constants";
-import {InputComponent, RotationComponent} from "../../../shared/components";
-import {NetworkComponent} from "../components";
-import Server from "../Server";
+import { InputComponent } from '@block/shared/components/inputComponent';
+import { RotationComponent } from '@block/shared/components/rotationComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import {System} from "@block/shared/System";
+import { NetworkComponent } from '../components/networkComponent';
 
 
 export default class BroadcastPlayerInputSystem extends System {
@@ -28,7 +28,7 @@ export default class BroadcastPlayerInputSystem extends System {
                 let netComponent = component as NetworkComponent;
                 changedInputs.forEach((serializedComponents, changedEntity) => {
                     if (changedEntity === entity) return;
-                    Server.sendEntity(netComponent, serializedComponents);
+                    netComponent.pushEntity(serializedComponents);
                 });
             })
         }
@@ -38,7 +38,7 @@ export default class BroadcastPlayerInputSystem extends System {
                 let netComponent = component as NetworkComponent;
                 changedRots.forEach((serializedRot, changedEntity) => {
                     if (changedEntity === entity) return;
-                    Server.sendEntity(netComponent, serializedRot)
+                    netComponent.pushEntity(serializedRot);
                 })
             })
         }

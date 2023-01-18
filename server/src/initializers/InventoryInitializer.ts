@@ -1,11 +1,12 @@
-import Initializer from "../../../shared/Initializer";
-import {ComponentId} from "../../../shared/constants";
-import {InventoryComponent} from "../../../shared/components";
+import { InventoryComponent } from '@block/shared/components/inventoryComponent';
+import { ComponentId } from '@block/shared/constants/componentId';
+import Initializer from "@block/shared/Initializer";
+import { ServerComponentMap } from '../entityManager/serverEntityMessage';
 
 
-export default class InventoryInitializer extends Initializer {
-    initialize(entity: string, components: Object): void {
-        let inventoryData = components[ComponentId.Inventory];
+export default class InventoryInitializer extends Initializer<ServerComponentMap> {
+    initialize(entity: string, componentMap: ServerComponentMap): void {
+        let inventoryData = componentMap[ComponentId.Inventory];
         let inventory = this.entityManager.getComponent<InventoryComponent>(entity, ComponentId.Inventory);
 
         // Should only trust activeSlot, so the player can't add arbitrary entities to their inventory, and have
