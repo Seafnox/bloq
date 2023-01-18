@@ -9,6 +9,6 @@ export class System {
     }
 
     update(dt: number): void {
-        console.warn('Please override update.')
+        this.entityManager.logger.warn('Please override update.')
     }
 }

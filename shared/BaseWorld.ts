@@ -1,18 +1,15 @@
-import now = require('performance-now');
-
+import { ActionManager } from './actions/ActionManager';
+import { registerSharedComponents } from './components/registerSharedComponents';
+import { SystemOrder } from './constants/systemOrder';
 import EntityManager from "./EntityManager";
-import {registerSharedComponents} from "./components";
 import {System} from "./System";
-import {ActionManager} from "./actions";
-
 import PhysicsSystem from "./systems/PhysicsSystem";
 import TerrainCollisionSystem from "./systems/TerrainCollisionSystem";
 import PositionSystem from "./systems/PositionSystem";
 import {CleanComponentsSystem} from "./systems/CleanComponentsSystem";
-import {SystemOrder} from "./constants";
+import { UtilsManager } from './UtilsManager';
 
-
-export default class BaseWorld {
+export class BaseWorld {
     entityManager: EntityManager;
     actionManager: ActionManager;
 
@@ -21,11 +18,14 @@ export default class BaseWorld {
     systemTimings: Array<number> = [];
     tickNumber: number = 0;
 
-    constructor() {
-        let em = new EntityManager();
+    private readonly utilsManager: UtilsManager;
+
+    constructor(utilsManager: UtilsManager) {
+        let em = new EntityManager(utilsManager);
         registerSharedComponents(em);
 
         this.entityManager = em;
+        this.utilsManager = utilsManager;
 
         this.addSystem(new PhysicsSystem(em), SystemOrder.Physics);
         this.addSystem(new TerrainCollisionSystem(em), SystemOrder.TerrainCollision);
@@ -33,6 +33,10 @@ export default class BaseWorld {
 
         // Cleaning is the last thing we do in each tick.
         this.addSystem(new CleanComponentsSystem(em), SystemOrder.CleanComponents);
+    }
+
+    get utils(): UtilsManager {
+        return this.utilsManager;
     }
 
     addSystem(system: System, order: number = 0.0) {
@@ -51,29 +55,30 @@ export default class BaseWorld {
         this.systemTimings.push(0);
     }
 
-    tick(dt) {
+    tick(dt: number) {
+        const performanceNow = this.utils.performanceNow;
         let i = 0;
-        let sumTime = 0;
+        let timePeriod = 0;
         let frameTimes = new Float32Array(this.systems.length);
         this.systems.forEach(system => {
-            let start = now();
+            let start = performanceNow();
             system.update(dt);
-            let time = now() - start;
+            let time = performanceNow() - start;
             frameTimes[i] = time;
             this.systemTimings[i] += time;
-            sumTime += time;
+            timePeriod += time;
             i++;
         });
 
-        // if (this.tickNumber % 60 === 0) {
-        //     console.log(`----\nTICK (${sumTime.toFixed(4)}ms)\n----`);
+         if (timePeriod > 1) {
+             this.utilsManager.logger.log(`TICK (${timePeriod.toFixed(4)}ms)`);
         //     for (var j = 0; j < this.systemTimings.length; j++) {
         //         let avgTime =(this.systemTimings[j]/this.tickNumber).toFixed(4);
         //         let currTime = frameTimes[j].toFixed(4);
         //         let sysName = this.systems[j].constructor.name;
         //         console.log(`${avgTime}ms\t ${currTime}ms\t ${sysName}`);
         //     }
-        // }
+         }
         this.tickNumber++;
     }
 }

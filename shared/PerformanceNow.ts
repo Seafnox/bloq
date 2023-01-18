@@ -1,0 +1,1 @@
+export type PerformanceNow = () => number;

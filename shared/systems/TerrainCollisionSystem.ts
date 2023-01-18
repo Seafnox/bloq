@@ -1,10 +1,15 @@
+import { OnGroundComponent } from '../components/onGroundComponent';
+import { PhysicsComponent } from '../components/physicsComponent';
+import { PositionComponent } from '../components/positionComponent';
+import { TerrainChunkComponent } from '../components/terrainChunkComponent';
+import { WallCollisionComponent } from '../components/wallCollisionComponent';
+import { ComponentId } from '../constants/componentId';
+import { PlayerJumpVelocity } from '../constants/physics.constants';
+import { terrainChunkSize } from '../constants/interaction.constants';
+import { chunkKey } from '../helpers/chunkKey';
+import { globalToChunk } from '../helpers/globalToChunk';
+import { mod } from '../helpers/mod';
 import {System} from "../System";
-import {ComponentId, TERRAIN_CHUNK_SIZE, PlayerJumpVelocity} from "../constants";
-import {
-    PositionComponent, PhysicsComponent, TerrainChunkComponent, OnGroundComponent,
-    WallCollisionComponent
-} from "../components";
-import {chunkKey, mod, globalToChunk} from "../helpers";
 
 
 export default class TerrainCollisionSystem extends System {
@@ -17,7 +22,7 @@ export default class TerrainCollisionSystem extends System {
             let [cx, cy, cz] = posComponent.toChunk();
 
             // Build a list of all neighbor chunks. These are the only ones we can possibly collide with.
-            let chunks = {};
+            let chunks: Record<string, TerrainChunkComponent> = {};
             for (let nz = -1; nz <= 1; nz++) {
                 for (let ny = -1; ny <= 1; ny++) {
                     for (let nx = -1; nx <= 1; nx++) {
@@ -29,12 +34,12 @@ export default class TerrainCollisionSystem extends System {
             }
 
             // Helper function for collision checks below.
-            let checkCollisionAt = (nx, ny, nz) => {
+            let checkCollisionAt = (nx: number, ny: number, nz: number) => {
                 let [gx, gy, gz] = [posComponent.x + nx, posComponent.y + ny, posComponent.z + nz].map(c => Math.round(Math.abs(c)) * Math.sign(c));
                 let [lx, ly, lz] = [
-                    mod(gx, TERRAIN_CHUNK_SIZE),
-                    mod(gy, TERRAIN_CHUNK_SIZE),
-                    mod(gz, TERRAIN_CHUNK_SIZE)
+                    mod(gx, terrainChunkSize),
+                    mod(gy, terrainChunkSize),
+                    mod(gz, terrainChunkSize)
                 ];
 
                 let cx = globalToChunk(gx);
