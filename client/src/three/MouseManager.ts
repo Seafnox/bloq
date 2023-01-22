@@ -6,8 +6,8 @@ export default class MouseManager {
 
     constructor(target: Element) {
         target.addEventListener('mousemove', (evt: MouseEvent) => {
-            this.x += evt.movementX;
-            this.y += evt.movementY;
+            this.x += evt.movementX > 50 ? evt.movementX % 50 : evt.movementX; // Google Chrome bug
+            this.y += evt.movementY > 50 ? evt.movementY % 50 : evt.movementY; // Google Chrome bug
         }, false);
 
         target.addEventListener('mousedown', (evt: MouseEvent) => {

@@ -38,9 +38,9 @@ export class PlayerSelectionComponent extends MeshComponent {
 export class PlayerChunkComponent extends AbstractComponent<any> {
     static ID = ComponentId.PlayerChunk;
 
-    x: number = 0;
-    y: number = 0;
-    z: number = 0;
+    x: number;
+    y: number;
+    z: number;
 }
 
 export function registerClientComponents(manager: EntityManager) {

@@ -1,3 +1,4 @@
+import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import {Server} from "../Server";
@@ -6,7 +7,7 @@ import {Server} from "../Server";
 export default class NetworkSystem extends System {
     server: Server;
     bufferPos: number = 0;
-    buffer: ArrayBuffer = new ArrayBuffer(1<<18);
+    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 100);
 
     constructor(em: EntityManager, server: Server) {
         super(em);
@@ -16,8 +17,11 @@ export default class NetworkSystem extends System {
     update(dt: number): void {
         if(this.bufferPos === 0) return; // Nothing queued for this tick.
 
+        const currentTime = Date.now();
+        const buffer = this.buffer.slice(0, this.bufferPos);
         // Send data and reset buffer.
-        this.server.ws.send(this.buffer.slice(0, this.bufferPos));
+        console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
+        this.server.ws.send(buffer);
         this.bufferPos = 0;
     }
 

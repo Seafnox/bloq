@@ -1,4 +1,4 @@
-import { ComponentId } from '@block/shared/constants/ComponentId';
+import { ComponentId, componentNames } from '@block/shared/constants/ComponentId';
 import { MessageType } from '@block/shared/constants/MessageType';
 import { EntityMessage, ComponentMap } from '@block/shared/EntityMessage';
 import { ComponentEventEmitter } from '@block/shared/EventEmitter';
@@ -31,10 +31,11 @@ export class Server {
     }
 
     private onClose(evt: MessageEvent) {
-        console.log('close');
+        console.log('Socket close', evt);
     }
 
     private onMessage(evt: MessageEvent) {
+        console.log('Socket receive');
         if (!(evt.data instanceof ArrayBuffer)) {
             console.error('Not array buffer!', evt.data);
         }
@@ -56,6 +57,9 @@ export class Server {
             switch (msgType) {
                 case MessageType.Entity:
                     const entityMessage = bufferToObject(msgData) as EntityMessage;
+                    const usedComponentNames = componentNames.filter((name, id) => id in entityMessage.componentMap);
+                    console.log('\tEntity', msgLength, entityMessage.entity, entityMessage.componentMap);
+                    console.log('\tComponents', usedComponentNames);
 
                     Object.keys(entityMessage.componentMap).forEach(componentId => {
                         let key = parseInt(componentId);
@@ -64,7 +68,10 @@ export class Server {
                     break;
 
                 case MessageType.Terrain:
-                    let [entity, component] = deserializeTerrainChunk(msgData);
+                    const [entity, component] = deserializeTerrainChunk(msgData);
+                    const {x,y,z} = component;
+                    console.log('\tTerrain', msgLength, entity, {x,y,z});
+                    console.log('\tComponents', ComponentId[ComponentId.TerrainChunk]);
 
                     let componentsObj = {};
                     componentsObj[ComponentId.TerrainChunk] = component;
@@ -74,9 +81,12 @@ export class Server {
                 case MessageType.Action:
                     let actionId = new DataView(msgData).getUint16(0);
                     let data = msgData.slice(Uint16Array.BYTES_PER_ELEMENT);
+                    const actionData = bufferToObject(data);
+                    console.log('\tAction', msgLength, actionId, actionData);
+
 
                     // Queue action directly. No "event" to be emitted.
-                    this.game.world.actionManager.queueRawAction(actionId, bufferToObject(data));
+                    this.game.world.actionManager.queueRawAction(actionId, actionData);
                     break;
 
                 default:
@@ -86,6 +96,6 @@ export class Server {
     }
 
     private onError(evt: MessageEvent) {
-        console.log('error');
+        console.log('Socket error', evt);
     }
 }

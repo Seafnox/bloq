@@ -15,11 +15,13 @@ import {System} from "../System";
 export default class TerrainCollisionSystem extends System {
     update(dt: number): any {
         this.entityManager.getEntities(ComponentId.Physics).forEach((component, entity) => {
-            let posComponent = this.entityManager.getComponent<PositionComponent>(entity, ComponentId.Position);
-            let physComponent = component as PhysicsComponent;
+            const posComponent = this.entityManager.getComponent<PositionComponent>(entity, ComponentId.Position);
+            const onGroundComponent = this.entityManager.getComponent<OnGroundComponent>(entity, ComponentId.OnGround);
+            const physComponent = component as PhysicsComponent;
 
             // Find the chunk coordinates based on current global position (16 -> 0 etc.)
             let [cx, cy, cz] = posComponent.toChunk();
+//            const entityChunkKey = chunkKey(cx, cy, cz);
 
             // Build a list of all neighbor chunks. These are the only ones we can possibly collide with.
             let chunks: Record<string, TerrainChunkComponent> = {};
@@ -34,7 +36,7 @@ export default class TerrainCollisionSystem extends System {
             }
 
             // Helper function for collision checks below.
-            let checkCollisionAt = (nx: number, ny: number, nz: number) => {
+            let checkCollisionAt = (nx: number, ny: number, nz: number): boolean => {
                 let [gx, gy, gz] = [posComponent.x + nx, posComponent.y + ny, posComponent.z + nz].map(c => Math.round(Math.abs(c)) * Math.sign(c));
                 let [lx, ly, lz] = [
                     mod(gx, terrainChunkSize),
@@ -49,14 +51,15 @@ export default class TerrainCollisionSystem extends System {
 
                 let key = chunkKey(cx, cy, cz);
                 let chunk = chunks[key];
-                if (!chunk) return false;
+                if (!chunk) return true;
 
-                return chunk.getValue(lx, ly, lz)
+                return !!chunk.getValue(lx, ly, lz)
             };
 
             // Check and handle ground collisions. If player velY === PlayerJumpVelocity it means player jumped this
             // frame, and should not be anchored to ground again (have new OnGroundComponent assigned).
             let yOffsetFromBlock = mod(posComponent.y, 1); // Player position offset compared to real ground level / block level.
+
             if (physComponent.velY !== PlayerJumpVelocity && checkCollisionAt(0, -yOffsetFromBlock, 0)) {
                 // Clamp to ground, so player doesn't hover.
                 if(physComponent.velY < 0) {
@@ -64,9 +67,9 @@ export default class TerrainCollisionSystem extends System {
                     physComponent.velY = 0.0;
                 }
 
-                let onGround = new OnGroundComponent();
+                let onGround = onGroundComponent || new OnGroundComponent();
+                !onGroundComponent && this.entityManager.addComponent(entity, onGround);
                 onGround.canJump = !checkCollisionAt(0, 3.1, 0); // Only able to jump unless there is a block overhead
-                this.entityManager.addComponent(entity, onGround);
             } else {
                 this.entityManager.removeComponentType(entity, ComponentId.OnGround);
             }

@@ -53,7 +53,13 @@ export default class PlayerInputSystem extends System {
 
             // Rotation
             let rot = this.entityManager.getComponent<RotationComponent>(entity, ComponentId.Rotation);
+            if (Math.abs(rot.y) > 1000) {
+                console.error(rot.y);
+            }
             let [dx, dy, scrollDirection] = this.mouseManager.delta();
+            if (dx > 1000) {
+                debugger;
+            }
             if (dx !== 0) {
                 rot.y -= dx / 5.0 * dt;
             }

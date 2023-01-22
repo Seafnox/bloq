@@ -1,4 +1,4 @@
 
 
 // Other
-export const ViewDistance = 5;
+export const ViewDistance = 2;

@@ -2,6 +2,7 @@ import { InputComponent } from '@block/shared/components/inputComponent';
 import { InventoryComponent } from '@block/shared/components/inventoryComponent';
 import { RotationComponent } from '@block/shared/components/rotationComponent';
 import { ComponentId } from '@block/shared/constants/ComponentId';
+import { positionSyncTime } from '@block/shared/constants/interaction.constants';
 import EntityManager from '@block/shared/EntityManager';
 import { System } from '@block/shared/System';
 import NetworkSystem from "./NetworkSystem";
@@ -43,9 +44,8 @@ export default class PlayerInputSyncSystem extends System {
                 ]))
             }
 
-            // Sync position if it was last done >250ms ago.
             if(!positionSync) {
-                if(this.timeSincePositionSync > 0.25) {
+                if(this.timeSincePositionSync > positionSyncTime) {
                     this.netSystem.pushBuffer(this.entityManager.serializeEntity(entity, [
                         ComponentId.Position
                     ]));

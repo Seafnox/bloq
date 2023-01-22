@@ -14,7 +14,9 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
 
     websocket: WebSocket;
     bufferPos: number = 0;
-    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 4) * 4);
+    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 100); // volume * (count + 1)
+
+    lastMessageTime = 0;
 
     bytesLeft(): number {
         return this.buffer.byteLength - this.bufferPos;
@@ -28,10 +30,15 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         // Nothing in buffer to send
         if(this.bufferPos === 0) return;
 
+        const currentTime = Date.now();
+
+        if (currentTime - this.lastMessageTime <= 10) return;
+
         const buffer = this.buffer.slice(0, this.bufferPos);
-        console.log('--> Socket send', buffer.byteLength,  'bytes');
+        console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
         this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
         this.bufferPos = 0;
+        this.lastMessageTime = currentTime;
     }
 
     pushEntity(data: string) {
