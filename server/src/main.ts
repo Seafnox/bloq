@@ -1,3 +1,3 @@
-import Server from "./Server";
+import BloqServer from "./BloqServer";
 
-new Server();
+new BloqServer();

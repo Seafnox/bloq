@@ -9,7 +9,7 @@ import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
 
-export default class Server {
+export default class BloqServer {
     wss: WebSocketServer;
     world: World;
     eventEmitter = new ComponentEventEmitter<ServerComponentMap>();

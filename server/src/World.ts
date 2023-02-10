@@ -5,7 +5,7 @@ import { UtilsManager } from "@block/shared/UtilsManager";
 import {ServerActionManager} from "./actions/ServerActionManager";
 import { registerServerComponents } from './components/RegisterServerComponents';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
-import Server from "./Server";
+import BloqServer from "./BloqServer";
 import {v4} from 'uuid';
 
 import ActionExecutionSystem from "@block/shared/systems/ActionExecutionSystem";
@@ -31,7 +31,7 @@ import PlayerInitializer from "./initializers/PlayerInitializer";
 
 export default class World extends BaseWorld {
     actionManager = new ServerActionManager();
-    constructor(server: Server) {
+    constructor(server: BloqServer) {
         super(new UtilsManager(v4, () => performance.now(), console));
 
         registerServerComponents(this.entityManager);

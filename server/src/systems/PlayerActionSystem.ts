@@ -14,7 +14,7 @@ import { NetworkComponent } from '../components/NetworkComponent';
 import { broadcastAction } from '../helpers/broadcastAction';
 import {initBlockEntity} from "../initBlockEntity";
 import {getValueGlobal} from "../getValueGlobal";
-import Server from "../Server";
+import BloqServer from "../BloqServer";
 
 
 export default class PlayerActionSystem extends System {
@@ -81,7 +81,7 @@ export default class PlayerActionSystem extends System {
                         netComponent.pushEntity(this.entityManager.serializeEntity(entity, [ComponentId.Inventory]));
 
                         let action = new RemoveEntitiesAction([inventoryBlockEntity]);
-                        Server.sendAction(netComponent, ActionId.RemoveEntities, action);
+                        BloqServer.sendAction(netComponent, ActionId.RemoveEntities, action);
                         this.actionManager.queueAction(action); // Queue on server as well.
                     }
                 }

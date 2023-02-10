@@ -4,7 +4,7 @@ import { ActionId } from '@block/shared/constants/ActionId';
 import { ComponentId } from '@block/shared/constants/ComponentId';
 import EntityManager from '@block/shared/EntityManager';
 import { NetworkComponent } from '../components/NetworkComponent';
-import Server from '../Server';
+import BloqServer from '../BloqServer';
 
 export function broadcastAction(em: EntityManager, chunk: [number, number, number], actionId: ActionId, action: AbstractAction) {
     em.getEntities(ComponentId.Network).forEach((component, playerEntity) => {
@@ -13,6 +13,6 @@ export function broadcastAction(em: EntityManager, chunk: [number, number, numbe
         if (actionId === ActionId.RemoveEntities && (action as RemoveEntitiesAction).entities.indexOf(playerEntity) !== -1) return;
 
         let netComponent = component as NetworkComponent;
-        Server.sendAction(netComponent, actionId, action);
+        BloqServer.sendAction(netComponent, actionId, action);
     });
 }

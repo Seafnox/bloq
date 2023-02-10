@@ -1,14 +1,14 @@
 import { ComponentId } from '@block/shared/constants/ComponentId';
 import {System} from "@block/shared/System";
 import { NetworkComponent } from '../components/NetworkComponent';
-import Server from "../Server";
+import BloqServer from "../BloqServer";
 import EntityManager from "@block/shared/EntityManager";
 
 
 export default class NetworkSystem extends System {
-    server: Server;
+    server: BloqServer;
 
-    constructor(em: EntityManager, server: Server) {
+    constructor(em: EntityManager, server: BloqServer) {
         super(em);
         this.server = server;
     }
