@@ -11,6 +11,7 @@ import NetworkSystem from "./NetworkSystem";
 export default class PlayerInputSyncSystem extends System {
     private netSystem: NetworkSystem;
     private timeSincePositionSync: number = 0.0;
+    private timeSinceRotationSync: number = 0.0;
 
     constructor(em: EntityManager, netSystem: NetworkSystem) {
         super(em);
@@ -32,9 +33,13 @@ export default class PlayerInputSyncSystem extends System {
 
             let rot = this.entityManager.getComponent<RotationComponent>(entity, ComponentId.Rotation);
             if (rot.isDirty()) {
-                this.netSystem.pushBuffer(this.entityManager.serializeEntity(entity, [
-                    ComponentId.Rotation
-                ]))
+                if(this.timeSinceRotationSync > positionSyncTime) {
+                    this.netSystem.pushBuffer(this.entityManager.serializeEntity(entity, [
+                        ComponentId.Rotation
+                    ]))
+                    this.timeSinceRotationSync = 0;
+                }
+                this.timeSinceRotationSync += dt;
             }
 
             let inventory = this.entityManager.getComponent<InventoryComponent>(entity, ComponentId.Inventory);

@@ -145,8 +145,4 @@ export default class World extends BaseWorld {
         // this.addSystem(new DebugTextSystem(this.entityManager, this.game.renderer), SystemOrder.DebugText);
         this.addSystem(netSystem, SystemOrder.Network);
     }
-
-    tick(dt) {
-        super.tick(dt);
-    }
 }

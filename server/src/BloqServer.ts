@@ -3,27 +3,31 @@ import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { ActionId } from '@block/shared/constants/ActionId';
 import { ComponentId, componentNames } from '@block/shared/constants/ComponentId';
 import { EntityMessage } from '@block/shared/EntityMessage';
-import { WebSocketServer, WebSocket, RawData } from 'ws';
+import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { Server, Socket } from 'socket.io';
+//import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { NetworkComponent } from './components/NetworkComponent';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
 import World from "./World";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
 
 export default class BloqServer {
-    wss: WebSocketServer;
+    wss: Server;
     world: World;
     eventEmitter = new ComponentEventEmitter<ServerComponentMap>();
 
     private accumulator = 0.0;
     private expectedDt = 1.0 / 30.0;
+    private httpServer = createServer(this.handleRequest);
 
     constructor() {
         this.world = new World(this);
-
-        this.wss = new WebSocketServer({
-            host: '0.0.0.0',
-            port: 8081,
-            perMessageDeflate: true,
+        this.wss = new Server(this.httpServer, {
+            cors: {
+                origin: "*",
+                methods: ["OPTIONS", "GET", "POST"],
+                credentials: true
+            }
         });
 
         this.wss.on('connection', this.onConnect.bind(this));
@@ -31,7 +35,13 @@ export default class BloqServer {
         this.wss.on('error', this.onError.bind(this));
         this.wss.on('close', this.onClose.bind(this));
 
+        this.httpServer.listen(8081, '0.0.0.0')
+
         this.startGameTick();
+    }
+
+    handleRequest(req: InstanceType<typeof IncomingMessage>, res: InstanceType<typeof ServerResponse>) {
+        console.log(this.constructor.name, 'handle request', req.method, req.url);
     }
 
     startGameTick(lastTime: number = performance.now()) {
@@ -73,7 +83,7 @@ export default class BloqServer {
         netComponent.pushAction(packet);
     }
 
-    private onConnect(ws: WebSocket) {
+    private onConnect(ws: Socket) {
         console.log('Server onConnect:', ws.constructor.name);
         let playerEntity = this.world.entityManager.createEntity('player');
 
@@ -84,11 +94,12 @@ export default class BloqServer {
         netComponent.pushEntity(this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
         ws.on('message', this.onMessage.bind(this, playerEntity));
-        ws.on('close', this.onPlayerWsClose.bind(this, playerEntity));
+        ws.on('close', this.onPlayerWsClose.bind(this, playerEntity, 'close'));
+        ws.on('disconnect', this.onPlayerWsClose.bind(this, playerEntity, 'disconnect'));
     }
 
     private onReady() {
-        console.log('Server ready at:', this.wss.address());
+        console.log('Server ready at:', this.httpServer.address());
     }
 
     private onError(error: Error) {
@@ -97,10 +108,10 @@ export default class BloqServer {
     }
 
     private onClose() {
-        console.log('Server close at:', this.wss.address());
+        console.log('Server close at:', this.httpServer.address());
     }
 
-    private onMessage(playerEntity: string, buffer: RawData): void {
+    private onMessage(playerEntity: string, buffer: ArrayBufferLike | Buffer): void {
         if (Array.isArray(buffer)) {
             return buffer.forEach(bufferItem => this.onMessage(playerEntity, bufferItem));
         }
@@ -152,8 +163,8 @@ export default class BloqServer {
         return arrayBuffer;
     }
 
-    private onPlayerWsClose(playerEntity: string) {
-        console.log('--> Socket closed', playerEntity);
+    private onPlayerWsClose(playerEntity: string, action: string, reason: unknown) {
+        console.log('--> Socket closed', playerEntity, action, reason);
         this.world.entityManager.removeEntity(playerEntity)
     }
 }

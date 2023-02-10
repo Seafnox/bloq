@@ -5,42 +5,47 @@ import { ComponentEventEmitter } from '@block/shared/EventEmitter';
 import { deserializeTerrainChunk } from '@block/shared/helpers/deserializeTerrainChunk';
 import PlayState from "./states/PlayState";
 import {bufferToObject} from "./helpers";
-
+import { Socket, io } from "socket.io-client";
 
 export class Server {
     url: string;
-    ws: WebSocket;
+    ws: Socket;
     game: PlayState;
     eventEmitter: ComponentEventEmitter<ComponentMap> = new ComponentEventEmitter();
 
-    constructor(game: PlayState, server: string, connCallback: (this: WebSocket, ev: Event) => any) {
+    constructor(game: PlayState, server: string, connCallback: () => any) {
         this.game = game;
 
         this.url = `ws://${server}`;
 
-        this.ws = new WebSocket(this.url);
-        this.ws.binaryType = 'arraybuffer';
-        this.ws.onopen = connCallback;
-        this.ws.onclose = this.onClose.bind(this);
-        this.ws.onmessage = this.onMessage.bind(this);
-        this.ws.onerror = this.onError.bind(this);
+        this.ws = io(this.url);
+//        this.ws.binaryType = 'arraybuffer';
+        this.ws.on('connect', connCallback);
+//        this.ws.onopen = connCallback;
+        this.ws.on('close', this.onClose.bind(this));
+        this.ws.on('disconnect', this.onClose.bind(this));
+//        this.ws.onclose = this.onClose.bind(this);
+        this.ws.on('message', this.onMessage.bind(this));
+//        this.ws.onmessage = this.onMessage.bind(this);
+        this.ws.on('connect_error', this.onError.bind(this));
+//        this.ws.onerror = this.onError.bind(this);
     }
 
     close() {
         this.ws.close();
     }
 
-    private onClose(evt: MessageEvent) {
+    private onClose(evt: unknown) {
         console.log('Socket close', evt);
     }
 
-    private onMessage(evt: MessageEvent) {
+    private onMessage(eventData: ArrayBuffer) {
         console.log('Socket receive');
-        if (!(evt.data instanceof ArrayBuffer)) {
-            console.error('Not array buffer!', evt.data);
+        if (!(eventData instanceof ArrayBuffer)) {
+            console.error('Not array buffer!', eventData);
         }
 
-        let buf = evt.data;
+        let buf = eventData;
         let bufView = new DataView(buf);
         let bufPos = 0;
 
@@ -95,7 +100,7 @@ export class Server {
         }
     }
 
-    private onError(evt: MessageEvent) {
+    private onError(evt: unknown) {
         console.log('Socket error', evt);
     }
 }

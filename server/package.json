@@ -21,6 +21,7 @@
     "tsconfig-paths": "^4.1.1"
   },
   "dependencies": {
+    "socket.io": "^4.6.0",
     "sqlite3": "5.1.4",
     "uuid": "9.0.0",
     "ws": "~8.12.0"

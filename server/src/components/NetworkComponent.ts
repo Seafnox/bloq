@@ -2,6 +2,7 @@ import { AbstractComponent, AbstractComponentData } from '@block/shared/componen
 import { ComponentId } from '@block/shared/constants/ComponentId';
 import { MessageType } from '@block/shared/constants/MessageType';
 import { terrainChunkSize } from '@block/shared/constants/interaction.constants';
+import { Socket } from 'socket.io';
 import { WebSocket } from 'ws';
 
 export interface NetworkComponentData extends AbstractComponentData {
@@ -12,7 +13,7 @@ export interface NetworkComponentData extends AbstractComponentData {
 export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     static ID = ComponentId.Network;
 
-    websocket: WebSocket;
+    websocket: Socket;
     bufferPos: number = 0;
     buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 100); // volume * (count + 1)
 
@@ -23,7 +24,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     }
 
     isClosed(): boolean {
-        return this.websocket.readyState == WebSocket.CLOSED;
+        return !this.websocket.connected;
     }
 
     flush() {
@@ -36,7 +37,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
 
         const buffer = this.buffer.slice(0, this.bufferPos);
         console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
-        this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
+        this.websocket.send(buffer, (error: any) => error && console.log('Socket failure or not', error.message));
         this.bufferPos = 0;
         this.lastMessageTime = currentTime;
     }
