@@ -18,7 +18,7 @@ export function findBlockMaterial(em: EntityManager, x: number, y: number, z: nu
     return chunkComponent.getValue(lx, ly, lz);
 }
 
-export function bufferToObject(data: ArrayBufferView): Object {
+export function bufferToObject(data: ArrayBufferLike): Object {
     // Bytes -> JSON string -> Object.
     let decoder = new TextDecoder();
     let jsonStr = decoder.decode(data);
