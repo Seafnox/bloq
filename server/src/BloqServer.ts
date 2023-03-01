@@ -3,6 +3,8 @@ import { PlayerComponent } from '@block/shared/components/playerComponent';
 import { ActionId } from '@block/shared/constants/ActionId';
 import { ComponentId, componentNames } from '@block/shared/constants/ComponentId';
 import { EntityMessage } from '@block/shared/EntityMessage';
+import { createServer } from 'http';
+import { parse } from 'url';
 import { WebSocketServer, WebSocket, RawData } from 'ws';
 import { NetworkComponent } from './components/NetworkComponent';
 import { ServerComponentMap } from './entityManager/serverEntityMessage';
@@ -10,7 +12,8 @@ import World from "./World";
 import {ComponentEventEmitter} from "@block/shared/EventEmitter";
 
 export default class BloqServer {
-    wss: WebSocketServer;
+    wssIn = new WebSocketServer({ noServer: true });
+    wssOut = new WebSocketServer({ noServer: true });
     world: World;
     eventEmitter = new ComponentEventEmitter<ServerComponentMap>();
 
@@ -20,16 +23,33 @@ export default class BloqServer {
     constructor() {
         this.world = new World(this);
 
-        this.wss = new WebSocketServer({
-            host: '0.0.0.0',
-            port: 8081,
-            perMessageDeflate: true,
+        const server = createServer();
+
+        server.on('listening', this.onReady.bind(this));
+        server.on('upgrade', (request, socket, head) => {
+            const { pathname } = parse(request.url);
+
+            if (pathname === '/in') {
+                this.wssIn.handleUpgrade(request, socket, head, (ws: WebSocket) => {
+                    this.wssIn.emit('connection', ws, request);
+                });
+            } else if (pathname === '/out') {
+                this.wssOut.handleUpgrade(request, socket, head, (ws: WebSocket) => {
+                    this.wssOut.emit('connection', ws, request);
+                });
+            } else {
+                socket.destroy();
+            }
         });
 
-        this.wss.on('connection', this.onConnect.bind(this));
-        this.wss.on('listening', this.onReady.bind(this));
-        this.wss.on('error', this.onError.bind(this));
-        this.wss.on('close', this.onClose.bind(this));
+        server.listen(8081, '0.0.0.0');
+
+        this.wssIn.on('connection', this.onInConnect.bind(this));
+        this.wssOut.on('connection', this.onOutConnect.bind(this));
+        this.wssIn.on('error', this.onError.bind(this));
+        this.wssOut.on('error', this.onError.bind(this));
+        this.wssIn.on('close', this.onClose.bind(this));
+        this.wssOut.on('close', this.onClose.bind(this));
 
         this.startGameTick();
     }
@@ -73,22 +93,48 @@ export default class BloqServer {
         netComponent.pushAction(packet);
     }
 
-    private onConnect(ws: WebSocket) {
-        console.log('Server onConnect:', ws.constructor.name);
+    private onInConnect(ws: WebSocket) {
+        console.log('Server onInConnect:', ws.constructor.name);
+
+        ws.on('message', (buffer: RawData) => {
+            if (Array.isArray(buffer)) {
+                //@ts-ignore
+                return buffer.forEach(bufferItem => this.onInMessage(bufferItem, ws['bloqEntity'] as string));
+            }
+
+            if (buffer instanceof Buffer) {
+                buffer = this.toArrayBuffer(buffer);
+            }
+
+            const dataStr = Buffer.from(buffer).toString();
+            console.log('<-- Incoming receive', dataStr);
+
+            if (dataStr.includes('register')) {
+                const message = JSON.parse(dataStr);
+                //@ts-ignore
+                ws['bloqEntity'] = message.register;
+                return;
+            }
+
+            //@ts-ignore
+            this.onInMessage(buffer, ws['bloqEntity'] as string)
+        });
+    }
+    private onOutConnect(ws: WebSocket) {
+        console.log('Server onOutConnect:', ws.constructor.name);
         let playerEntity = this.world.entityManager.createEntity('player');
 
-        let netComponent = new NetworkComponent();
-        netComponent.websocket = ws;
+        let netComponent = new NetworkComponent(playerEntity);
+        netComponent.setWsOut(ws);
         this.world.entityManager.addComponent(playerEntity, netComponent);
         this.world.entityManager.addComponent(playerEntity, new PlayerComponent());
         netComponent.pushEntity(this.world.entityManager.serializeEntity(playerEntity, [ComponentId.Player]));
 
-        ws.on('message', this.onMessage.bind(this, playerEntity));
-        ws.on('close', this.onPlayerWsClose.bind(this, playerEntity));
+        ws.on('message', this.onOutMessage.bind(this, playerEntity));
     }
 
     private onReady() {
-        console.log('Server ready at:', this.wss.address());
+        console.log('Server ready');
     }
 
     private onError(error: Error) {
@@ -97,19 +143,25 @@ export default class BloqServer {
     }
 
     private onClose() {
-        console.log('Server close at:', this.wss.address());
+        console.log('Server close');
     }
 
-    private onMessage(playerEntity: string, buffer: RawData): void {
+    private onOutMessage(buffer: RawData): void {
         if (Array.isArray(buffer)) {
-            return buffer.forEach(bufferItem => this.onMessage(playerEntity, bufferItem));
+            return buffer.forEach(bufferItem => this.onOutMessage(bufferItem));
         }
 
-         if (buffer instanceof Buffer) {
-             return this.onMessage(playerEntity, this.toArrayBuffer(buffer));
-         }
+        if (buffer instanceof Buffer) {
+            return this.onOutMessage(this.toArrayBuffer(buffer));
+        }
 
-        console.log('<-- Socket receive', playerEntity, buffer.byteLength, 'byte');
+        console.log('<-- Outcoming receive', Buffer.from(buffer).toString())
+    }
+
+    private onInMessage(buffer: ArrayBuffer, entity?: string): void {
+        if (!entity) {
+            console.log(`No entity (${entity}) receive for buffer`);
+        }
         let pos = 0;
         let view = new DataView(buffer);
         let textDecoder = new TextDecoder();
@@ -133,12 +185,12 @@ export default class BloqServer {
             // No one should be able to send data on behalf of others.
             // Really "obj" doesn't need an "entity" property, but might need it in the future.
             // Also, keeps interface between server and client in line.
-            if (entityMessage.entity != playerEntity) continue;
+            if (entityMessage.entity != entity) continue;
 
             // Loop over all components received in packet, and emit events for them.
             // These events are used by the initializers to be processed further.
             for (let componentId in entityMessage.componentMap) {
-                this.eventEmitter.emit(parseInt(componentId) as ComponentId, playerEntity, entityMessage.componentMap);
+                this.eventEmitter.emit(parseInt(componentId) as ComponentId, entity, entityMessage.componentMap);
             }
         }
     }
@@ -150,10 +202,5 @@ export default class BloqServer {
             view[i] = buf[i];
         }
         return arrayBuffer;
-    }
-
-    private onPlayerWsClose(playerEntity: string) {
-        console.log('--> Socket closed', playerEntity);
-        this.world.entityManager.removeEntity(playerEntity)
     }
 }

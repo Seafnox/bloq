@@ -9,7 +9,9 @@ import {bufferToObject} from "./helpers";
 
 export class Server {
     url: string;
-    ws: WebSocket;
+    wsIn: WebSocket;
+    wsOut: WebSocket;
+    isRegistered = false;
     game: PlayState;
     eventEmitter: ComponentEventEmitter<ComponentMap> = new ComponentEventEmitter();
 
@@ -18,27 +20,49 @@ export class Server {
 
         this.url = `ws://${server}`;
 
-        this.ws = new WebSocket(this.url);
-        this.ws.binaryType = 'arraybuffer';
-        this.ws.onopen = connCallback;
-        this.ws.onclose = this.onClose.bind(this);
-        this.ws.onmessage = this.onMessage.bind(this);
-        this.ws.onerror = this.onError.bind(this);
+        this.wsOut = new WebSocket(`${this.url}/in`);
+        this.wsOut.binaryType = 'arraybuffer';
+        this.wsOut.onopen = connCallback;
+        this.wsOut.onclose = this.onClose.bind(this);
+        this.wsOut.onmessage = this.onOutMessage.bind(this);
+        this.wsOut.onerror = this.onError.bind(this);
+
+        this.wsIn = new WebSocket(`${this.url}/out`);
+        this.wsIn.binaryType = 'arraybuffer';
+        this.wsIn.onopen = connCallback;
+        this.wsIn.onclose = this.onClose.bind(this);
+        this.wsIn.onmessage = this.onInMessage.bind(this);
+        this.wsIn.onerror = this.onError.bind(this);
     }
 
     close() {
-        this.ws.close();
+        this.wsIn.close();
+        this.wsOut.close();
+    }
+
+    send(message: ArrayBuffer) {
+        const currentTime = Date.now();
+        let decoder = new TextDecoder();
+        console.log('--> Socket send', currentTime, decoder.decode(message));
+        this.wsOut.send(message);
     }
 
     private onClose(evt: MessageEvent) {
         console.log('Socket close', evt);
     }
 
-    private onMessage(evt: MessageEvent) {
-        console.log('Socket receive');
+    private onOutMessage(evt: MessageEvent) {
+        console.log('Out-coming receive');
+        let decoder = new TextDecoder();
+        console.log(decoder.decode(evt.data));
+    }
+    private onInMessage(evt: MessageEvent) {
+        console.log('Incoming receive');
         if (!(evt.data instanceof ArrayBuffer)) {
             console.error('Not array buffer!', evt.data);
         }
+        let decoder = new TextDecoder();
+        console.log(decoder.decode(evt.data));
 
         let buf = evt.data;
         let bufView = new DataView(buf);
@@ -63,6 +87,12 @@ export class Server {
 
                     Object.keys(entityMessage.componentMap).forEach(componentId => {
                         let key = parseInt(componentId);
+                        if (!this.isRegistered && key === ComponentId.Player) {
+                            let encoder = new TextEncoder();
+                            console.log(decoder.decode(evt.data));
+                            this.send(encoder.encode(JSON.stringify({register: entityMessage.entity})));
+                            this.isRegistered = true;
+                        }
                         this.eventEmitter.emit(key as ComponentId, entityMessage.entity, entityMessage.componentMap);
                     });
                     break;

@@ -18,7 +18,7 @@ export default class NetworkSystem extends System {
             const netComponent = component as NetworkComponent;
 
             // Player has disconnected. Remove entity and do not attempt to send on socket.
-            if(netComponent.isClosed()) {
+            if(netComponent.isClosed) {
                 console.log('Socket closed', entity);
                 this.entityManager.removeEntity(entity);
                 return;

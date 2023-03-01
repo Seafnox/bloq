@@ -12,18 +12,37 @@ export interface NetworkComponentData extends AbstractComponentData {
 export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     static ID = ComponentId.Network;
 
-    websocket: WebSocket;
+    private wsOut: WebSocket;
+
+    isClosed = false;
+
     bufferPos: number = 0;
     buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 100); // volume * (count + 1)
 
     lastMessageTime = 0;
 
-    bytesLeft(): number {
-        return this.buffer.byteLength - this.bufferPos;
+    constructor(
+        private entity: string,
+    ) {
+        super();
     }
 
-    isClosed(): boolean {
-        return this.websocket.readyState == WebSocket.CLOSED;
+//    setWsIn(ws: WebSocket) {
+//        ws.on('close', this.onPlayerWsInClose.bind(this, 'in'));
+//    }
+
+    setWsOut(ws: WebSocket) {
+        this.wsOut = ws;
+        ws.on('close', this.onPlayerWsInClose.bind(this, 'out'));
+    }
+
+    private onPlayerWsInClose(type: string) {
+        console.log('--> Socket closed', type, this.entity);
+        this.isClosed = true;
+    }
+
+    bytesLeft(): number {
+        return this.buffer.byteLength - this.bufferPos;
     }
 
     flush() {
@@ -35,8 +54,8 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         if (currentTime - this.lastMessageTime <= 10) return;
 
         const buffer = this.buffer.slice(0, this.bufferPos);
-        console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
-        this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
+        console.log('--> Socket send', currentTime, Buffer.from(buffer).toString());
+        this.wsOut.send(buffer, error => error && console.log('Socket falure', error.message));
         this.bufferPos = 0;
         this.lastMessageTime = currentTime;
     }
