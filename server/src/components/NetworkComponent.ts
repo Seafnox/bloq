@@ -17,7 +17,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
     isClosed = false;
 
     bufferPos: number = 0;
-    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 100); // volume * (count + 1)
+    buffer: ArrayBuffer = new ArrayBuffer(Math.pow(terrainChunkSize, 3) * 3); // volume * (count + 1)
 
     lastMessageTime = 0;
 

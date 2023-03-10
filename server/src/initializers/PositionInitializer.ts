@@ -25,11 +25,13 @@ export default class PositionInitializer extends Initializer<ServerComponentMap>
         let expectedCoordinates: [number, number, number] = [existingPosition.x, existingPosition.y, existingPosition.z];
         let dist = Math.sqrt(Math.pow(position.x - existingPosition.x, 2) + Math.pow(position.y - existingPosition.y, 2) + Math.pow(position.z - existingPosition.z, 2));
 
-        console.log('Position', entity, dist, position, existingPosition)
+        console.log('Position', entity, dist)
+        console.log('\t', JSON.stringify(position))
+        console.log('\t', existingPosition.serialize())
         if (dist < 2) {
             existingPosition.update(position);
         } else {
-            console.log('Too big difference between client and server!', dist);
+            console.log('\tToo big difference between client and server!', dist);
             let action = new MoveEntityAction(entity, expectedCoordinates);
             this.actionManager.queueAction(action); // Queue on server as well.
 
