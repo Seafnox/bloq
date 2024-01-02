@@ -35,7 +35,7 @@ export class Server {
     }
 
     private onMessage(evt: MessageEvent) {
-        console.log('Socket receive');
+        console.log('Socket receive', new Date().toISOString());
         if (!(evt.data instanceof ArrayBuffer)) {
             console.error('Not array buffer!', evt.data);
         }

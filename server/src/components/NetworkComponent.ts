@@ -35,7 +35,7 @@ export class NetworkComponent extends AbstractComponent<NetworkComponentData> {
         if (currentTime - this.lastMessageTime <= 10) return;
 
         const buffer = this.buffer.slice(0, this.bufferPos);
-        console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
+        console.log('--> Socket send', new Date().toISOString(), buffer.byteLength,  'bytes');
         this.websocket.send(buffer, error => error && console.log('Socket falure', error.message));
         this.bufferPos = 0;
         this.lastMessageTime = currentTime;

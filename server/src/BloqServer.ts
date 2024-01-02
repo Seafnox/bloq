@@ -109,7 +109,7 @@ export default class BloqServer {
              return this.onMessage(playerEntity, this.toArrayBuffer(buffer));
          }
 
-        console.log('<-- Socket receive', playerEntity, buffer.byteLength, 'byte');
+        console.log('<-- Socket receive', new Date().toISOString(), playerEntity, buffer.byteLength, 'byte');
         let pos = 0;
         let view = new DataView(buffer);
         let textDecoder = new TextDecoder();

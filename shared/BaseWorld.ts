@@ -71,7 +71,7 @@ export class BaseWorld {
         });
 
          if (timePeriod > 10) {
-             this.utilsManager.logger.log(`TICK (${timePeriod.toFixed(4)}ms)`);
+             this.utilsManager.logger.log(`${new Date().toISOString()} TICK (${timePeriod.toFixed(4)}ms)`);
         //     for (var j = 0; j < this.systemTimings.length; j++) {
         //         let avgTime =(this.systemTimings[j]/this.tickNumber).toFixed(4);
         //         let currTime = frameTimes[j].toFixed(4);

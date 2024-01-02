@@ -17,10 +17,9 @@ export default class NetworkSystem extends System {
     update(dt: number): void {
         if(this.bufferPos === 0) return; // Nothing queued for this tick.
 
-        const currentTime = Date.now();
         const buffer = this.buffer.slice(0, this.bufferPos);
         // Send data and reset buffer.
-        console.log('--> Socket send', currentTime, buffer.byteLength,  'bytes');
+        console.log('--> Socket send', new Date().toISOString(), buffer.byteLength,  'bytes');
         this.server.ws.send(buffer);
         this.bufferPos = 0;
     }
